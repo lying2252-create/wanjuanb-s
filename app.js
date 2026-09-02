@@ -1328,7 +1328,7 @@ function render() {
   document.title = `${page.title} - 万卷`;
   if (page.kind === "frontChat") {
     app.innerHTML = renderFrontChatPage();
-    portal.innerHTML = state.drawer ? renderDrawer() : "";
+    portal.innerHTML = (state.drawer ? renderDrawer() : "") + (opsState._auditModal ? renderOpsAuditModal() : "");
     requestAnimationFrame(() => restoreScrollState(scrollState));
     return;
   }
@@ -1340,7 +1340,7 @@ function render() {
       <main class="main">${renderPage(page)}</main>
     </div>
   `;
-  portal.innerHTML = state.drawer ? renderDrawer() : "";
+  portal.innerHTML = (state.drawer ? renderDrawer() : "") + (opsState._auditModal ? renderOpsAuditModal() : "");
   if (page.kind && page.kind.indexOf("ops") === 0) {
     requestAnimationFrame(renderOpsCharts);
   }
@@ -1592,7 +1592,26 @@ const OPS_APP_STAT = {
   deltas: { experts: 3.2, autoTasks: 18.6, calls: 12.4, doneRate: 0.6, tokens: 9.8, cost: 11.2 }, // 较上周对比（%）
 };
 
-const opsState = { rangeKey: "14d", customStart: "2026-07-01", customEnd: "2026-07-14", tab: "资源总览", _detailName: null, _detailTab: "chat", agentQuery: "", _agentSort: { col: "tokens", dir: "desc" }, _drillDept: null, _rankDept: null, _userDrillDept: null, _trendDim: "dept", _resDeptPage: 0 };
+const opsState = {
+  rangeKey: "14d",
+  customStart: "2026-07-01",
+  customEnd: "2026-07-14",
+  tab: "资源总览",
+  _detailName: null,
+  _detailTab: "chat",
+  agentQuery: "",
+  _agentSort: { col: "tokens", dir: "desc" },
+  _drillDept: null,
+  _rankDept: null,
+  _userDrillDept: null,
+  _trendDim: "dept",
+  _resDeptPage: 0,
+  auditFilter: { time: "7d", operator: "", type: "all", result: "all" },
+  auditApplied: { time: "7d", operator: "", type: "all", result: "all" },
+  auditPage: 1,
+  retentionDays: 365,
+  _auditModal: "",
+};
 const opsCharts = new Map();
 
 // ---- 组织树辅助（仅取一级部门用于对比图）----
@@ -1903,14 +1922,196 @@ function opsResourceOverview() {
   `;
 }
 
+// ==================== 操作审计 ====================
+const OPS_AUDIT_LOGS = [
+  { time: "2026-09-02 15:42:18", user: "杨明", account: "yangming", type: "系统配置变更", object: "参数设置", content: "修改审计日志保留期限：365 天 → 730 天", ip: "10.18.32.46", result: "成功", id: "AUD-20260902-001286", before: "365 天", after: "730 天" },
+  { time: "2026-09-02 15:36:05", user: "陈晨", account: "chenchen", type: "知识库/智能体资源变更", object: "知识库", content: "发布知识库「集团制度知识库」V12", ip: "10.18.31.17", result: "成功", id: "AUD-20260902-001285", before: "V11 / 草稿", after: "V12 / 已发布" },
+  { time: "2026-09-02 15:28:51", user: "李哲", account: "lizhe", type: "告警处理", object: "安全告警", content: "关闭告警「模型接口异常调用」并填写处理说明", ip: "10.18.24.91", result: "成功", id: "AUD-20260902-001284", before: "待处理", after: "已关闭" },
+  { time: "2026-09-02 15:21:36", user: "王宁", account: "wangning", type: "对话发起", object: "智能体", content: "发起与智能体「企业制度助手」的对话", ip: "10.18.45.30", result: "成功", id: "AUD-20260902-001283", before: "—", after: "会话已创建" },
+  { time: "2026-09-02 15:13:22", user: "赵敏", account: "zhaomin", type: "账号与席位管理", object: "用户账号", content: "为用户 zhangwei 分配专业版席位", ip: "10.18.30.12", result: "成功", id: "AUD-20260902-001282", before: "无席位", after: "专业版席位" },
+  { time: "2026-09-02 15:08:10", user: "admin", account: "admin", type: "登录登出", object: "管理后台", content: "账号登录失败：密码校验未通过", ip: "172.16.4.82", result: "失败", id: "AUD-20260902-001281", before: "—", after: "登录失败" },
+  { time: "2026-09-02 14:56:47", user: "周晓", account: "zhouxiao", type: "知识库/智能体资源变更", object: "智能体", content: "修改智能体「采购风险助手」系统提示词", ip: "10.18.41.76", result: "成功", id: "AUD-20260902-001280", before: "提示词版本 8", after: "提示词版本 9" },
+  { time: "2026-09-02 14:48:03", user: "审计管理员", account: "auditor", type: "审计导出", object: "审计日志", content: "导出近 7 天全部操作日志，共 8,521 条", ip: "10.18.20.8", result: "成功", id: "AUD-20260902-001279", before: "—", after: "XLSX / 8,521 条" },
+];
+
+function opsAuditTypeTone(type) {
+  if (type.includes("配置")) return "config";
+  if (type.includes("资源")) return "resource";
+  if (type.includes("告警")) return "alert";
+  if (type.includes("账号")) return "account";
+  if (type.includes("登录")) return "login";
+  if (type.includes("对话")) return "chat";
+  return "export";
+}
+function opsAuditShortType(type) {
+  return type === "知识库/智能体资源变更" ? "资源变更" : type;
+}
+function opsAuditRows() {
+  const f = opsState.auditApplied;
+  const q = (f.operator || "").trim().toLowerCase();
+  return OPS_AUDIT_LOGS.filter((row) => {
+    const matchOperator = !q || `${row.user}${row.account}`.toLowerCase().includes(q);
+    const matchType = f.type === "all" || (f.type === "资源变更" ? row.type.includes("资源变更") : row.type === f.type);
+    const matchResult = f.result === "all" || row.result === f.result;
+    return matchOperator && matchType && matchResult;
+  });
+}
+function opsAuditSelectOptions(items, current) {
+  return items.map(([value, label]) => `<option value="${value}" ${value === current ? "selected" : ""}>${label}</option>`).join("");
+}
+function opsAuditFilterBar() {
+  const f = opsState.auditFilter;
+  return `
+    <div class="res-filters ops-audit-filters">
+      <label class="ops-audit-filter-field">
+        <span class="sr-only">操作时间</span>
+        <select class="ops-audit-control" data-ops-audit-filter="time" aria-label="操作时间">
+          ${opsAuditSelectOptions([["7d", "操作时间：近 7 天"], ["today", "操作时间：今日"], ["30d", "操作时间：近 30 天"], ["custom", "操作时间：自定义时间"]], f.time)}
+        </select>
+      </label>
+      <label class="ops-audit-filter-field operator">
+        <span class="sr-only">操作人</span>
+        <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="操作人：姓名 / 账号" value="${escapeHtml(f.operator)}" />
+      </label>
+      <label class="ops-audit-filter-field type">
+        <span class="sr-only">操作类型</span>
+        <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
+          ${opsAuditSelectOptions([["all", "全部操作类型"], ["登录登出", "登录登出"], ["账号与席位管理", "账号与席位管理"], ["系统配置变更", "系统配置变更"], ["资源变更", "知识库/智能体资源变更"], ["对话发起", "对话发起"], ["告警处理", "告警处理"], ["审计导出", "审计导出"]], f.type)}
+        </select>
+      </label>
+      <label class="ops-audit-filter-field result">
+        <span class="sr-only">操作结果</span>
+        <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
+          ${opsAuditSelectOptions([["all", "全部操作结果"], ["成功", "成功"], ["失败", "失败"]], f.result)}
+        </select>
+      </label>
+      <button class="btn res-reset ops-audit-reset" data-handler="${registerHandler({ type: "opsAuditReset" })}">重 置</button>
+      <button class="btn primary ops-audit-query" data-handler="${registerHandler({ type: "opsAuditQuery" })}">${icon("search", "wj-icon")}<span>查 询</span></button>
+    </div>
+  `;
+}
+function opsAuditSummaryCard(label, value, unit, iconKey, tone) {
+  return `
+    <div class="ops-audit-summary-card">
+      <div><span>${label}</span><strong>${value}<em>${unit}</em></strong></div>
+      <span class="ops-audit-summary-icon ${tone || ""}">${icon(iconKey, "wj-icon")}</span>
+    </div>
+  `;
+}
+function opsAuditTable() {
+  const rows = opsAuditRows();
+  const body = rows.length ? rows.map((row) => `
+    <tr>
+      <td class="ops-audit-time" title="${row.time}">${row.time}</td>
+      <td title="${row.account}">${row.user}</td>
+      <td><span class="ops-audit-tag ${opsAuditTypeTone(row.type)}">${opsAuditShortType(row.type)}</span></td>
+      <td>${row.object}</td>
+      <td class="ops-audit-content" title="${row.content}">${row.content}</td>
+      <td class="ops-audit-ip">${row.ip}</td>
+      <td><span class="ops-audit-status ${row.result === "失败" ? "fail" : ""}">${row.result}</span></td>
+      <td>${opsLink("详情", { type: "opsAuditDetail", id: row.id })}</td>
+    </tr>
+  `).join("") : `<tr><td colspan="8"><div class="ops-audit-empty">未查询到符合条件的审计日志</div></td></tr>`;
+  return `
+    <section class="ops-audit-table-card">
+      <div class="ops-audit-table-head">
+        <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 ${rows.length} 条</span></div>
+        <div class="ops-audit-table-tools">
+          <button class="btn" data-handler="${registerHandler({ type: "opsAuditModal", modal: "retention" })}">${icon("batchConfig", "wj-icon")}<span>保留策略</span></button>
+          <button class="btn primary" data-handler="${registerHandler({ type: "opsAuditModal", modal: "export" })}">${icon("frontDownload", "wj-icon")}<span>导出日志</span></button>
+          <button class="icon-btn" data-handler="${registerHandler({ type: "opsAuditRefresh" })}" aria-label="刷新">${icon("frontActionRefresh", "wj-icon")}</button>
+          <button class="icon-btn" data-handler="${registerHandler({ type: "noop" })}" aria-label="列设置">${icon("filter", "wj-icon")}</button>
+        </div>
+      </div>
+      <div class="ops-audit-table-wrap">
+        <table class="ops-table ops-audit-table">
+          <thead><tr><th>操作时间</th><th>操作人</th><th>操作类型</th><th>操作对象</th><th>操作内容</th><th>来源 IP</th><th>结果</th><th>操作</th></tr></thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>
+      <div class="ops-audit-pagination"><span>共 ${rows.length} 条</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>…</button><button>161</button><button>›</button></div>
+    </section>
+  `;
+}
+function opsAuditOverview() {
+  return `
+    <div class="ops-audit-page">
+      ${opsAuditFilterBar()}
+      <div class="ops-audit-summary-grid">
+        ${opsAuditSummaryCard("今日日志量", "1,286", "条", "file", "primary")}
+        ${opsAuditSummaryCard("今日操作人数", "47", "人", "user", "primary")}
+        ${opsAuditSummaryCard("失败操作", "18", "条", "info", "danger")}
+      </div>
+      <div class="ops-audit-notice">${icon("check", "wj-icon")}<span><strong>日志完整性保护已启用</strong>所有审计记录均为仅追加写入，管理员也无法编辑或删除；导出行为本身也会产生审计记录。</span></div>
+      ${opsAuditTable()}
+      <div class="ops-audit-toast" role="status">${icon("check", "wj-icon")}<span></span></div>
+    </div>
+  `;
+}
+function opsAuditToast(message) {
+  requestAnimationFrame(() => {
+    const toast = document.querySelector(".ops-audit-toast");
+    if (!toast) return;
+    toast.querySelector("span").textContent = message;
+    toast.classList.add("show");
+    clearTimeout(opsAuditToast.timer);
+    opsAuditToast.timer = setTimeout(() => toast.classList.remove("show"), 2200);
+  });
+}
+function opsAuditDetailHtml(id) {
+  const row = OPS_AUDIT_LOGS.find((item) => item.id === id) || OPS_AUDIT_LOGS[0];
+  const fields = [
+    ["日志编号", row.id], ["操作时间", row.time], ["操作人", `${row.user}（${row.account}）`], ["来源 IP", row.ip],
+    ["操作类型", row.type], ["操作结果", row.result], ["操作对象", row.object], ["客户端", "Chrome / macOS"],
+  ];
+  return `
+    <div class="ops-audit-detail">
+      <section><h3>基本信息</h3><div class="ops-audit-detail-grid">${fields.map(([key, value]) => `<div><span>${key}</span><strong>${value}</strong></div>`).join("")}</div></section>
+      <section><h3>操作内容</h3><div class="ops-audit-diff"><div><span>操作说明</span><strong>${row.content}</strong></div><div><span>变更前</span><strong>${row.before}</strong></div><div><span>变更后</span><strong>${row.after}</strong></div></div></section>
+      <section><h3>完整性校验</h3><div class="ops-audit-integrity">${icon("check", "wj-icon")}<span><strong>校验通过</strong><em>该记录已采用仅追加方式写入，记录编号与内容摘要一致。</em></span></div></section>
+    </div>
+  `;
+}
+function renderOpsAuditModal() {
+  const modal = opsState._auditModal;
+  if (!modal) return "";
+  if (modal === "retention") {
+    return `
+      <div class="modal-mask" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}"></div>
+      <section class="modal ops-audit-modal">
+        <div class="modal-head"><span>审计日志保留策略</span><button class="icon-btn" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}">${icon("close")}</button></div>
+        <div class="modal-body">
+          <div class="ops-audit-modal-notice">${icon("info", "wj-icon")}<span>系统默认保留 1 年。到期日志由系统按照合规策略自动处理，任何用户均不可手动删除。</span></div>
+          <label class="ops-audit-retention"><span>保留期限</span><div><input type="number" min="30" max="3650" value="${opsState.retentionDays}" data-audit-retention /><em>天</em></div><small>可设置 30～3650 天。策略变更将记录到审计日志中。</small></label>
+        </div>
+        <div class="modal-foot"><button class="btn" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}">取 消</button><button class="btn primary" data-handler="${registerHandler({ type: "opsAuditSaveRetention" })}">保存配置</button></div>
+      </section>
+    `;
+  }
+  return `
+    <div class="modal-mask" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}"></div>
+    <section class="modal ops-audit-modal">
+      <div class="modal-head"><span>导出审计日志</span><button class="icon-btn" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}">${icon("close")}</button></div>
+      <div class="modal-body">
+        <label class="ops-audit-radio"><input type="radio" name="audit-scope" checked /><span><strong>导出当前查询结果</strong><em>将应用页面中已设置的时间、操作人、类型与结果筛选条件</em></span></label>
+        <label class="ops-audit-radio"><input type="radio" name="audit-scope" /><span><strong>导出当前页</strong><em>仅导出当前页面展示的审计日志</em></span></label>
+        <label class="ops-audit-format"><span>文件格式</span><select><option>Excel（.xlsx）</option><option>CSV（.csv）</option></select></label>
+        <p class="ops-audit-form-hint">为避免超大文件，单次最多导出 100,000 条。导出操作将自动写入审计日志。</p>
+      </div>
+      <div class="modal-foot"><button class="btn" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}">取 消</button><button class="btn primary" data-handler="${registerHandler({ type: "opsAuditConfirmExport" })}">确认导出</button></div>
+    </section>
+  `;
+}
+
 // ==================== 运营监控页 ====================
 function renderOpsOverview() {
-  const tabs = ["资源总览", "用户消耗", "应用运营总览"].map((t) =>
+  const tabs = ["资源总览", "用户消耗", "应用运营总览", "操作审计"].map((t) =>
     `<button class="subtab ${t === opsState.tab ? "active" : ""}" data-handler="${registerHandler({ type: "opsSetTab", tab: t })}">${t}</button>`
   ).join("");
   let body;
   if (opsState.tab === "用户消耗") body = opsRangeBar() + opsUserDataSection();
   else if (opsState.tab === "应用运营总览") body = opsRangeBar() + opsAgentDataSection();
+  else if (opsState.tab === "操作审计") body = opsAuditOverview();
   else body = opsResourceOverview();
   return `
     <div class="ops-page">
@@ -5305,10 +5506,12 @@ function renderDrawer() {
   const drawer = state.drawer;
   let customHtml = "";
   if (drawer.opsKind === "agentDetail") customHtml = opsAgentDetailHtml(drawer.name);
+  if (drawer.opsKind === "auditDetail") customHtml = opsAuditDetailHtml(drawer.id);
   const hasCustomHtml = Boolean(customHtml);
+  const drawerClass = drawer.opsKind === "auditDetail" ? " audit-drawer" : (hasCustomHtml ? " ops-drawer" : "");
   return `
     <div class="drawer-mask" data-handler="${registerHandler({ type: "closeDrawer" })}"></div>
-    <aside class="drawer${hasCustomHtml ? " ops-drawer" : ""}">
+    <aside class="drawer${drawerClass}">
       <div class="drawer-head">
         <span>${drawer.title}</span>
         <button class="icon-btn" data-handler="${registerHandler({ type: "closeDrawer" })}">${icon("close")}</button>
@@ -5662,6 +5865,52 @@ document.addEventListener("click", (event) => {
   if (meta.type === "opsSetTab") { opsState.tab = meta.tab; render(); }
   if (meta.type === "opsSetRange") { opsState.rangeKey = meta.range; render(); }
   if (meta.type === "opsAgentDetail") { state.drawer = { title: meta.name + " · 专家详情", opsKind: "agentDetail", name: meta.name }; render(); }
+  if (meta.type === "opsAuditDetail") { state.drawer = { title: "审计日志详情", opsKind: "auditDetail", id: meta.id }; render(); }
+  if (meta.type === "opsAuditModal") { opsState._auditModal = meta.modal; render(); }
+  if (meta.type === "opsAuditCloseModal") { opsState._auditModal = ""; render(); }
+  if (meta.type === "opsAuditQuery") {
+    opsState.auditApplied = { ...opsState.auditFilter };
+    opsState.auditPage = 1;
+    render();
+    opsAuditToast(`已查询到 ${opsAuditRows().length} 条日志`);
+  }
+  if (meta.type === "opsAuditReset") {
+    opsState.auditFilter = { time: "7d", operator: "", type: "all", result: "all" };
+    opsState.auditApplied = { ...opsState.auditFilter };
+    opsState.auditPage = 1;
+    render();
+    opsAuditToast("筛选条件已重置");
+  }
+  if (meta.type === "opsAuditRefresh") {
+    render();
+    opsAuditToast("日志列表已刷新");
+  }
+  if (meta.type === "opsAuditConfirmExport") {
+    const rows = opsAuditRows();
+    opsExportCsv("审计日志.csv", ["操作时间", "操作人", "操作类型", "操作对象", "操作内容", "来源 IP", "结果"], rows.map((row) => [row.time, row.user, row.type, row.object, row.content, row.ip, row.result]));
+    opsState._auditModal = "";
+    render();
+    opsAuditToast("导出任务已创建，请稍后查看下载文件");
+  }
+  if (meta.type === "opsAuditSaveRetention") {
+    const input = document.querySelector("[data-audit-retention]");
+    const days = Number(input?.value || opsState.retentionDays);
+    if (!Number.isFinite(days) || days < 30 || days > 3650) {
+      opsAuditToast("请输入 30～3650 天");
+    } else {
+      const before = opsState.retentionDays;
+      opsState.retentionDays = Math.round(days);
+      OPS_AUDIT_LOGS.unshift({
+        time: "2026-09-02 16:02:11", user: "杨明", account: "yangming", type: "系统配置变更", object: "参数设置",
+        content: `修改审计日志保留期限：${before} 天 → ${opsState.retentionDays} 天`, ip: "10.18.32.46", result: "成功",
+        id: `AUD-20260902-${String(OPS_AUDIT_LOGS.length + 1279).padStart(6, "0")}`, before: `${before} 天`, after: `${opsState.retentionDays} 天`,
+      });
+      opsState.auditApplied = { ...opsState.auditFilter };
+      opsState._auditModal = "";
+      render();
+      opsAuditToast("保留策略已保存，并写入审计日志");
+    }
+  }
   if (meta.type === "opsExport") {
     if (meta.which === "users") {
       const rows = OPS_USER_LIST.slice().sort((a, b) => b.tokens - a.tokens).slice(0, 10).map((u, i) => [
@@ -5980,6 +6229,11 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("input", (event) => {
+  const auditInput = event.target.closest("[data-ops-audit-filter]");
+  if (auditInput) {
+    opsState.auditFilter[auditInput.dataset.opsAuditFilter] = auditInput.value;
+    return;
+  }
   const opsAgentSearch = event.target.closest("[data-ops-agent-search]");
   if (opsAgentSearch) {
     opsState.agentQuery = opsAgentSearch.value;
@@ -6019,6 +6273,15 @@ document.addEventListener("input", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
+  const auditInput = event.target.closest("[data-ops-audit-filter='operator']");
+  if (auditInput && event.key === "Enter") {
+    event.preventDefault();
+    opsState.auditApplied = { ...opsState.auditFilter };
+    opsState.auditPage = 1;
+    render();
+    opsAuditToast(`已查询到 ${opsAuditRows().length} 条日志`);
+    return;
+  }
   const frontInput = event.target.closest("[data-front-input]");
   if (!frontInput) return;
   if (event.key === "Enter" && !event.shiftKey) {
@@ -6029,6 +6292,11 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("change", (event) => {
+  const auditSelect = event.target.closest("[data-ops-audit-filter]");
+  if (auditSelect) {
+    opsState.auditFilter[auditSelect.dataset.opsAuditFilter] = auditSelect.value;
+    return;
+  }
   const fileInput = event.target.closest("#upload-file-input");
   if (!fileInput || !state.docManagement.uploadView) return;
   appendUploadedFiles(Array.from(fileInput.files || []));
