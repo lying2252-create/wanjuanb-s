@@ -1582,6 +1582,16 @@ const OPS_USER_LIST = [
   { user: "周雨彤", dept: "集团领导",   calls: 118, tokens: 7.4,  last: "2026-07-14 10:55" },
   { user: "吴皓宇", dept: "数字智能部", calls: 86,  tokens: 5.2,  last: "2026-07-13 16:20" },
   { user: "郑可欣", dept: "科技创新部", calls: 104, tokens: 6.8,  last: "2026-07-13 15:02" },
+  { user: "许知远", dept: "综合规划部", calls: 82,  tokens: 4.9,  last: "2026-07-13 14:26" },
+  { user: "顾明哲", dept: "研发管理部", calls: 76,  tokens: 4.6,  last: "2026-07-13 13:18" },
+  { user: "宋佳宁", dept: "生产运营部", calls: 71,  tokens: 4.2,  last: "2026-07-13 11:42" },
+  { user: "叶清扬", dept: "数字智能部", calls: 68,  tokens: 3.9,  last: "2026-07-12 18:54" },
+  { user: "唐雨欣", dept: "科技创新部", calls: 63,  tokens: 3.6,  last: "2026-07-12 17:31" },
+  { user: "韩思齐", dept: "综合监督部", calls: 58,  tokens: 3.2,  last: "2026-07-12 16:09" },
+  { user: "罗文博", dept: "集团领导",   calls: 52,  tokens: 2.9,  last: "2026-07-12 14:48" },
+  { user: "沈星河", dept: "数字智能部", calls: 47,  tokens: 2.6,  last: "2026-07-12 10:36" },
+  { user: "程若溪", dept: "研发管理部", calls: 43,  tokens: 2.3,  last: "2026-07-11 17:22" },
+  { user: "陆子安", dept: "生产运营部", calls: 39,  tokens: 2.0,  last: "2026-07-11 15:47" },
 ];
 
 // 应用运营概览：总览卡片（14 天基准；专家数为存量指标，不随统计周期缩放）
@@ -1593,9 +1603,12 @@ const OPS_APP_STAT = {
 };
 
 const opsState = {
-  rangeKey: "14d",
+  rangeKey: "today",
   customStart: "2026-07-01",
   customEnd: "2026-07-14",
+  userStart: "",
+  userEnd: "",
+  userPage: 1,
   tab: "资源总览",
   _detailName: null,
   _detailTab: "chat",
@@ -1745,6 +1758,24 @@ function opsRangeBar() {
     </div>
   ` : "";
   return `<div class="ops-rangebar"><span class="ops-range-label">统计周期</span><div class="subtabs ops-pills">${pills}</div>${customInputs}</div>`;
+}
+function opsUserFilterBar() {
+  const options = OPS_RANGES.map((r) => `<option value="${r.key}" ${r.key === opsState.rangeKey ? "selected" : ""}>${r.label}</option>`).join("");
+  return `
+    <div class="res-filters ops-user-filters">
+      <label class="res-select res-select-sm ops-user-period">
+        <select aria-label="统计周期" data-ops-user-range>${options}</select>
+        ${RES_ICONS.chevron}
+      </label>
+      <div class="res-select res-daterange ops-user-daterange">
+        <input type="text" inputmode="numeric" aria-label="创建开始日期" placeholder="创建开始日期" value="${escapeHtml(opsState.userStart)}" data-ops-user-date="start" />
+        <span class="res-arrow">→</span>
+        <input type="text" inputmode="numeric" aria-label="创建结束日期" placeholder="创建结束日期" value="${escapeHtml(opsState.userEnd)}" data-ops-user-date="end" />
+        ${RES_ICONS.calendar}
+      </div>
+      <button class="btn res-reset" data-handler="${registerHandler({ type: "opsUserResetRange" })}">重 置</button>
+    </div>
+  `;
 }
 function opsPresetDates(key) {
   const end = new Date(2026, 6, 14);
@@ -2109,7 +2140,7 @@ function renderOpsOverview() {
     `<button class="subtab ${t === opsState.tab ? "active" : ""}" data-handler="${registerHandler({ type: "opsSetTab", tab: t })}">${t}</button>`
   ).join("");
   let body;
-  if (opsState.tab === "用户消耗") body = opsRangeBar() + opsUserDataSection();
+  if (opsState.tab === "用户消耗") body = opsUserFilterBar() + opsUserDataSection();
   else if (opsState.tab === "应用运营总览") body = opsRangeBar() + opsAgentDataSection();
   else if (opsState.tab === "操作审计") body = opsAuditOverview();
   else body = opsResourceOverview();
@@ -2160,19 +2191,75 @@ function opsUserDataSection() {
       ${opsPanel("各模型 Token 消耗", opsChartEl("ops-model-token", 300), "", "GLM / deepseek / doubao 六个模型的 Token 消耗对比")}
       ${opsPanel("各模型费用消耗", opsChartEl("ops-model-cost", 300), "", "六个模型按各自单价核算的费用消耗对比")}
     </div>
-    ${opsPanel("用户列表（Top 10）", opsUserTable(), opsExportBtn("users"), "全集团 Token 消耗最高的 10 个用户")}
+    ${opsPanel("用户列表", opsUserTable(), opsExportBtn("users"), "全集团用户 Token 与费用消耗明细")}
   `;
 }
 
 function opsUserTable() {
-  const rows = OPS_USER_LIST.slice().sort((a, b) => b.tokens - a.tokens).slice(0, 10).map((u, i) => [
-    (i + 1).toString(),
+  const sorted = OPS_USER_LIST.slice().sort((a, b) => b.tokens - a.tokens);
+  const pageSize = 10;
+  const pageCount = Math.max(1, Math.ceil(sorted.length / pageSize));
+  const page = Math.min(pageCount, Math.max(1, opsState.userPage || 1));
+  const rows = sorted.slice((page - 1) * pageSize, page * pageSize).map((u, i) => [
+    ((page - 1) * pageSize + i + 1).toString(),
     u.user,
     u.dept,
     (u.tokens * opsRangeMult()).toFixed(1) + " 亿",
     opsCost(u.tokens * opsRangeMult()).toLocaleString() + " 元",
+    opsLink("安全分析", { type: "opsUserSecurity", user: u.user }),
   ]);
-  return opsTable(["排名", "用户", "所属部门", "Token 消耗", "费用消耗"], rows);
+  const pageButtons = Array.from({ length: pageCount }, (_, i) => i + 1).map((n) =>
+    `<button class="${n === page ? "active" : ""}" data-handler="${registerHandler({ type: "opsUserPage", page: n })}">${n}</button>`
+  ).join("");
+  return `
+    ${opsTable(["排名", "用户", "所属部门", "Token 消耗", "费用消耗", "操作"], rows)}
+    <div class="ops-user-pagination">
+      <span>共 ${sorted.length} 条</span>
+      <button data-handler="${registerHandler({ type: "opsUserPage", page: page - 1 })}" ${page === 1 ? "disabled" : ""}>‹</button>
+      ${pageButtons}
+      <button data-handler="${registerHandler({ type: "opsUserPage", page: page + 1 })}" ${page === pageCount ? "disabled" : ""}>›</button>
+    </div>
+  `;
+}
+
+function opsUserSecurityHtml(name) {
+  const u = OPS_USER_LIST.find((item) => item.user === name) || OPS_USER_LIST[0];
+  const tokenValue = +(u.tokens * opsRangeMult()).toFixed(1);
+  const costValue = opsCost(u.tokens * opsRangeMult()).toLocaleString();
+  const score = u.tokens >= 15 ? 42 : u.tokens >= 10 ? 28 : 16;
+  const level = score >= 40 ? "需关注" : "低风险";
+  const tone = score >= 40 ? "warning" : "success";
+  return `
+    <div class="ops-security-summary">
+      <div>
+        <span class="ops-security-label">综合风险</span>
+        <strong>${level}</strong>
+        <small>风险评分 ${score} / 100</small>
+      </div>
+      ${opsTag(level, tone)}
+    </div>
+    <section class="ops-security-section">
+      <h3>用户概况</h3>
+      <div class="ops-security-grid">
+        <div><span>用户</span><strong>${u.user}</strong></div>
+        <div><span>所属部门</span><strong>${u.dept}</strong></div>
+        <div><span>Token 消耗</span><strong>${tokenValue} 亿</strong></div>
+        <div><span>费用消耗</span><strong>${costValue} 元</strong></div>
+        <div><span>调用次数</span><strong>${Math.round(u.calls * opsRangeMult())} 次</strong></div>
+        <div><span>最近活跃</span><strong>${u.last}</strong></div>
+      </div>
+    </section>
+    <section class="ops-security-section">
+      <h3>安全检测</h3>
+      <div class="ops-security-checks">
+        <div><span>高频调用检测</span>${opsTag(u.tokens >= 15 ? "轻度异常" : "正常", u.tokens >= 15 ? "warning" : "success")}</div>
+        <div><span>非工作时段访问</span>${opsTag("正常", "success")}</div>
+        <div><span>费用突增检测</span>${opsTag("正常", "success")}</div>
+        <div><span>敏感资源访问</span>${opsTag("未发现", "success")}</div>
+      </div>
+      <p>分析结果基于当前统计周期内的调用频率、资源消耗和访问行为，仅用于原型演示。</p>
+    </section>
+  `;
 }
 
 // ---- 应用运营概览 tab ----
@@ -5507,6 +5594,7 @@ function renderDrawer() {
   let customHtml = "";
   if (drawer.opsKind === "agentDetail") customHtml = opsAgentDetailHtml(drawer.name);
   if (drawer.opsKind === "auditDetail") customHtml = opsAuditDetailHtml(drawer.id);
+  if (drawer.opsKind === "userSecurity") customHtml = opsUserSecurityHtml(drawer.name);
   const hasCustomHtml = Boolean(customHtml);
   const drawerClass = drawer.opsKind === "auditDetail" ? " audit-drawer" : (hasCustomHtml ? " ops-drawer" : "");
   return `
@@ -5864,6 +5952,22 @@ document.addEventListener("click", (event) => {
   if (meta.type === "opsSetAgentDetailTab") { opsState._detailTab = meta.tab === "auto" ? "auto" : "chat"; render(); }
   if (meta.type === "opsSetTab") { opsState.tab = meta.tab; render(); }
   if (meta.type === "opsSetRange") { opsState.rangeKey = meta.range; render(); }
+  if (meta.type === "opsUserResetRange") {
+    opsState.rangeKey = "today";
+    opsState.userStart = "";
+    opsState.userEnd = "";
+    opsState.userPage = 1;
+    render();
+  }
+  if (meta.type === "opsUserPage") {
+    const pageCount = Math.max(1, Math.ceil(OPS_USER_LIST.length / 10));
+    opsState.userPage = Math.min(pageCount, Math.max(1, meta.page));
+    render();
+  }
+  if (meta.type === "opsUserSecurity") {
+    state.drawer = { title: `${meta.user} · 安全分析`, opsKind: "userSecurity", name: meta.user };
+    render();
+  }
   if (meta.type === "opsAgentDetail") { state.drawer = { title: meta.name + " · 专家详情", opsKind: "agentDetail", name: meta.name }; render(); }
   if (meta.type === "opsAuditDetail") { state.drawer = { title: "审计日志详情", opsKind: "auditDetail", id: meta.id }; render(); }
   if (meta.type === "opsAuditModal") { opsState._auditModal = meta.modal; render(); }
@@ -5913,10 +6017,10 @@ document.addEventListener("click", (event) => {
   }
   if (meta.type === "opsExport") {
     if (meta.which === "users") {
-      const rows = OPS_USER_LIST.slice().sort((a, b) => b.tokens - a.tokens).slice(0, 10).map((u, i) => [
+      const rows = OPS_USER_LIST.slice().sort((a, b) => b.tokens - a.tokens).map((u, i) => [
         i + 1, u.user, u.dept, (u.tokens * opsRangeMult()).toFixed(1) + " 亿", opsCost(u.tokens * opsRangeMult()) + " 元",
       ]);
-      opsExportCsv("用户Token消耗Top10.csv", ["排名", "用户", "所属部门", "Token消耗", "费用消耗"], rows);
+      opsExportCsv("用户Token消耗.csv", ["排名", "用户", "所属部门", "Token消耗", "费用消耗"], rows);
     } else if (meta.which === "agents") {
       const rows = OPS_AGENT_LIST.slice().sort((a, b) => b.tokens - a.tokens).map((a) => [
         a.name, a.type, a.dept, Math.round(a.calls * opsRangeMult()) + " 次", (a.tokens * opsRangeMult()).toFixed(1) + " 亿", opsCost(a.tokens * opsRangeMult()) + " 元", a.success.toFixed(1) + "%", a.latency.toFixed(2) + " s",
@@ -6229,6 +6333,14 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("input", (event) => {
+  const opsUserDate = event.target.closest("[data-ops-user-date]");
+  if (opsUserDate) {
+    if (opsUserDate.dataset.opsUserDate === "start") opsState.userStart = opsUserDate.value;
+    if (opsUserDate.dataset.opsUserDate === "end") opsState.userEnd = opsUserDate.value;
+    if (opsState.userStart || opsState.userEnd) opsState.rangeKey = "custom";
+    opsState.userPage = 1;
+    return;
+  }
   const auditInput = event.target.closest("[data-ops-audit-filter]");
   if (auditInput) {
     opsState.auditFilter[auditInput.dataset.opsAuditFilter] = auditInput.value;
@@ -6292,6 +6404,24 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("change", (event) => {
+  const opsUserDate = event.target.closest("[data-ops-user-date]");
+  if (opsUserDate) {
+    opsState.rangeKey = "custom";
+    opsState.userPage = 1;
+    render();
+    return;
+  }
+  const opsUserRange = event.target.closest("[data-ops-user-range]");
+  if (opsUserRange) {
+    opsState.rangeKey = opsUserRange.value;
+    opsState.userPage = 1;
+    if (opsState.rangeKey !== "custom") {
+      opsState.userStart = "";
+      opsState.userEnd = "";
+    }
+    render();
+    return;
+  }
   const auditSelect = event.target.closest("[data-ops-audit-filter]");
   if (auditSelect) {
     opsState.auditFilter[auditSelect.dataset.opsAuditFilter] = auditSelect.value;
