@@ -1,0 +1,117 @@
+<svg width="960" height="650" viewBox="0 0 960 650" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="60" y1="90" x2="160" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BFFBFF"/>
+      <stop offset="1" stop-color="#79F2E4"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="180" y1="90" x2="470" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E1DCFF"/>
+      <stop offset="1" stop-color="#AFA4FF"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="525" y1="98" x2="682" y2="548" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE4BC"/>
+      <stop offset="1" stop-color="#FFBE71"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="760" y1="82" x2="898" y2="586" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D4FFE7"/>
+      <stop offset="1" stop-color="#A7F3C6"/>
+    </linearGradient>
+    <linearGradient id="g5" x1="322" y1="320" x2="602" y2="540" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#61F4E4"/>
+      <stop offset="1" stop-color="#47E4D5"/>
+    </linearGradient>
+    <radialGradient id="coreGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(484 334) rotate(90) scale(122 122)">
+      <stop stop-color="#6A57F6"/>
+      <stop offset="1" stop-color="#4E42E9"/>
+    </radialGradient>
+    <filter id="softShadow" x="0" y="0" width="960" height="650" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#715EEE" flood-opacity="0.12"/>
+    </filter>
+    <filter id="nodeShadow" x="0" y="0" width="960" height="650" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#6F5EEA" flood-opacity="0.15"/>
+    </filter>
+    <style>
+      .label{font: 500 18px -apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif; fill:#5E6679}
+      .iconStroke{stroke:#6F63F6;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;fill:none}
+      .iconFill{fill:#6F63F6}
+    </style>
+  </defs>
+
+  <g filter="url(#softShadow)">
+    <path d="M88 76C54 132 40 214 52 320C60 391 76 445 106 518" stroke="url(#g1)" stroke-width="36" stroke-linecap="round"/>
+    <path d="M270 110C336 42 472 40 594 126" stroke="url(#g2)" stroke-width="36" stroke-linecap="round"/>
+    <path d="M687 108C742 176 760 270 730 394" stroke="url(#g3)" stroke-width="36" stroke-linecap="round"/>
+    <path d="M862 86C906 166 918 280 900 430C892 494 878 540 852 592" stroke="url(#g4)" stroke-width="36" stroke-linecap="round"/>
+    <path d="M292 324C330 254 406 214 490 220" stroke="url(#g5)" stroke-width="36" stroke-linecap="round"/>
+    <path d="M322 522C382 584 476 612 558 592" stroke="url(#g5)" stroke-width="36" stroke-linecap="round"/>
+
+    <path d="M218 173C258 128 310 97 368 84" stroke="#C6BEFF" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+    <path d="M717 130C745 186 758 250 754 322" stroke="#FFD39E" stroke-width="5" stroke-linecap="round" opacity="0.82"/>
+    <path d="M34 206C20 292 28 378 48 450" stroke="#AEFFF6" stroke-width="4" stroke-linecap="round" opacity="0.74"/>
+  </g>
+
+  <g filter="url(#nodeShadow)">
+    <circle cx="94" cy="86" r="44" fill="white"/>
+    <circle cx="94" cy="86" r="49" stroke="#4E42E9" stroke-opacity="0.18" stroke-width="8"/>
+    <text x="94" y="168" text-anchor="middle" class="label">用户管理</text>
+    <circle cx="94" cy="86" r="9" fill="#55D9D6"/>
+    <rect x="74" y="100" width="40" height="20" rx="6" fill="#55D9D6"/>
+    <rect x="84" y="106" width="20" height="4" rx="2" fill="white"/>
+
+    <circle cx="286" cy="178" r="44" fill="white"/>
+    <circle cx="286" cy="178" r="49" stroke="#4E42E9" stroke-opacity="0.18" stroke-width="8"/>
+    <text x="286" y="260" text-anchor="middle" class="label">图谱管理</text>
+    <path d="M268 164H285C293 164 299 170 299 178V197C299 189 293 183 285 183H268V164Z" fill="#7A6AF4"/>
+    <path d="M304 164H287C279 164 273 170 273 178V197C273 189 279 183 287 183H304V164Z" fill="#7A6AF4" opacity="0.9"/>
+
+    <circle cx="666" cy="88" r="44" fill="white"/>
+    <circle cx="666" cy="88" r="49" stroke="#4E42E9" stroke-opacity="0.18" stroke-width="8"/>
+    <text x="666" y="170" text-anchor="middle" class="label">评测</text>
+    <rect x="648" y="66" width="36" height="42" rx="6" fill="#FFB253"/>
+    <path d="M657 83L666 78L675 83" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="900" cy="184" r="44" fill="white"/>
+    <circle cx="900" cy="184" r="49" stroke="#4E42E9" stroke-opacity="0.18" stroke-width="8"/>
+    <text x="900" y="266" text-anchor="middle" class="label">知识库</text>
+    <path d="M882 160H918V209C918 214 914 218 909 218H891C886 218 882 214 882 209V160Z" fill="#47C774"/>
+    <path d="M886 173H914" stroke="white" stroke-width="4" stroke-linecap="round"/>
+
+    <circle cx="706" cy="444" r="44" fill="white"/>
+    <circle cx="706" cy="444" r="49" stroke="#4E42E9" stroke-opacity="0.18" stroke-width="8"/>
+    <text x="706" y="526" text-anchor="middle" class="label">模型管理</text>
+    <path d="M706 418L688 428V449L706 459L724 449V428L706 418Z" fill="#FFB253"/>
+    <path d="M706 418V438M688 428L706 438L724 428" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="96" cy="520" r="44" fill="white"/>
+    <circle cx="96" cy="520" r="49" stroke="#4E42E9" stroke-opacity="0.18" stroke-width="8"/>
+    <text x="96" y="602" text-anchor="middle" class="label">参数设置</text>
+    <path d="M84 531L106 509" stroke="#47C774" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="82" cy="533" r="8" fill="#47C774"/>
+    <circle cx="108" cy="507" r="8" fill="#47C774"/>
+
+    <circle cx="136" cy="356" r="44" fill="white"/>
+    <circle cx="136" cy="356" r="49" stroke="#4E42E9" stroke-opacity="0.18" stroke-width="8"/>
+    <text x="136" y="438" text-anchor="middle" class="label">工作流</text>
+    <rect x="113" y="347" width="12" height="12" rx="3" fill="#8E82FF"/>
+    <rect x="136" y="347" width="12" height="12" rx="3" fill="#8E82FF"/>
+    <rect x="124.5" y="370" width="12" height="12" rx="3" fill="#8E82FF"/>
+    <path d="M125 353H136M130 359V370" stroke="#8E82FF" stroke-width="3" stroke-linecap="round"/>
+
+    <circle cx="624" cy="278" r="44" fill="white"/>
+    <circle cx="624" cy="278" r="49" stroke="#4E42E9" stroke-opacity="0.18" stroke-width="8"/>
+    <text x="624" y="360" text-anchor="middle" class="label">智能体管理</text>
+    <rect x="603" y="256" width="17" height="17" rx="4" fill="#8E82FF"/>
+    <rect x="628" y="256" width="17" height="17" rx="4" fill="#8E82FF"/>
+    <rect x="603" y="281" width="17" height="17" rx="4" fill="#8E82FF"/>
+    <rect x="628" y="281" width="17" height="17" rx="4" fill="#8E82FF"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <circle cx="482" cy="332" r="128" fill="url(#coreGlow)"/>
+    <circle cx="482" cy="332" r="104" fill="#F4F2FF"/>
+    <circle cx="482" cy="332" r="76" fill="white"/>
+    <path d="M456 292C444 292 434 302 434 314V350C434 360 442 368 452 368H490C498 368 504 362 504 354V292H456Z" fill="#4E42E9" opacity="0.98"/>
+    <path d="M504 354C504 362 498 368 490 368C482 368 476 362 476 354C476 346 482 340 490 340C498 340 504 346 504 354Z" fill="white"/>
+    <path d="M450 320C450 311 456 304 464 304C468 304 472 306 475 309L490 324L478 336C474 340 468 342 463 342C456 342 450 334 450 326V320Z" fill="white"/>
+  </g>
+</svg>
