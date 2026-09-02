@@ -4,13 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>万卷</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      window.__wanjuanAssetVersion = Date.now();
+      document.write(
+        '<link rel="stylesheet" href="./styles.css?v=' +
+          window.__wanjuanAssetVersion +
+          '" />',
+      );
+    </script>
   </head>
   <body>
     <div id="app"></div>
     <div id="portal"></div>
     <script src="./reference/iconpark-41579.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    <script src="./app.js"></script>
+    <script>
+      document.write(
+        '<script src="./app.js?v=' + window.__wanjuanAssetVersion + '"><\/script>',
+      );
+    </script>
   </body>
 </html>
