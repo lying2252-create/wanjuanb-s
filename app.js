@@ -2243,7 +2243,6 @@ function renderOpsAuditModal() {
       <section class="modal ops-audit-modal ops-audit-range-modal">
         <div class="modal-head"><span>审计期限配置</span><button class="icon-btn" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}">${icon("close")}</button></div>
         <div class="modal-body">
-          <div class="ops-audit-modal-notice">${icon("filterCalendar", "wj-icon")}<span>配置导出与查询默认作用的审计时间范围。选择预设可快速切换；自定义模式下请填写开始与结束日期。</span></div>
           <div class="ops-audit-range-presets" role="radiogroup" aria-label="审计期限预设">
             ${presets.map(([k, label]) => `
               <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="${k}" ${r.preset === k ? "checked" : ""} data-audit-range-preset="${k}" /><span>${label}</span></label>

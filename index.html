@@ -10,7 +10,7 @@
           window.__wanjuanAssetVersion +
           '" />',
       );
-    </script><link rel="stylesheet" href="./styles.css?v=1788427737893"><link rel="stylesheet" href="./styles.css?v=1788420268951"><link rel="stylesheet" href="./styles.css?v=1788418351080"><link rel="stylesheet" href="./styles.css?v=1788417811357"><link rel="stylesheet" href="./styles.css?v=1788415024617">
+    </script><link rel="stylesheet" href="./styles.css?v=1788429629614"><link rel="stylesheet" href="./styles.css?v=1788429283192"><link rel="stylesheet" href="./styles.css?v=1788427737893"><link rel="stylesheet" href="./styles.css?v=1788420268951"><link rel="stylesheet" href="./styles.css?v=1788418351080"><link rel="stylesheet" href="./styles.css?v=1788417811357"><link rel="stylesheet" href="./styles.css?v=1788415024617">
   </head>
   <body>
     <div id="app">
@@ -213,167 +213,237 @@
               <span class="tab-close" data-handler="h35"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></span>
             </div>
           
-            <div class="tab ">
-              <button class="tab-title" data-handler="h36">参数设置</button>
+            <div class="tab active">
+              <button class="tab-title" data-handler="h36">数据监控</button>
               <span class="tab-close" data-handler="h37"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></span>
             </div>
           
-            <div class="tab active">
-              <button class="tab-title" data-handler="h38">数据监控</button>
-              <span class="tab-close" data-handler="h39"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></span>
-            </div>
-          
       </div>
-      <button class="icon-btn" data-handler="h40"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></button>
+      <button class="icon-btn" data-handler="h38"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></button>
     </div>
   
       <main class="main">
     <div class="ops-page">
-      <div class="subtabs ops-pills"><button class="subtab " data-handler="h41">资源总览</button><button class="subtab active" data-handler="h42">用户消耗</button><button class="subtab " data-handler="h43">应用运营总览</button><button class="subtab " data-handler="h44">操作审计</button></div>
+      <div class="subtabs ops-pills"><button class="subtab " data-handler="h39">资源总览</button><button class="subtab " data-handler="h40">用户消耗</button><button class="subtab " data-handler="h41">应用运营总览</button><button class="subtab active" data-handler="h42">操作审计</button></div>
+      
+    <div class="ops-audit-page">
       
     <div class="res-filters ops-user-filters">
       <label class="res-select res-select-sm ops-user-period">
-        <select aria-label="统计周期" data-ops-user-range=""><option value="today">至今</option><option value="7d">近 7 天</option><option value="14d">近 14 天</option><option value="30d">近 30 天</option><option value="custom" selected="">自定义</option></select>
+        <select aria-label="统计周期" data-ops-user-range=""><option value="today" selected="">至今</option><option value="7d">近 7 天</option><option value="14d">近 14 天</option><option value="30d">近 30 天</option></select>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
       </label>
       <div class="res-select res-daterange ops-user-daterange">
-        <input type="text" inputmode="numeric" aria-label="创建开始日期" placeholder="创建开始日期" value="" data-ops-user-date="start">
+        <input type="date" aria-label="创建开始日期" value="" data-ops-user-date="start">
         <span class="res-arrow">→</span>
-        <input type="text" inputmode="numeric" aria-label="创建结束日期" placeholder="创建结束日期" value="" data-ops-user-date="end">
+        <input type="date" aria-label="创建结束日期" value="" data-ops-user-date="end">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M8 3v4M16 3v4M3 10h18"></path></svg>
       </div>
-      <button class="btn res-reset" data-handler="h45">重 置</button>
+      
+      <label class="ops-audit-filter-field operator">
+        <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="关键词搜索" value="">
+      </label>
+      <label class="ops-audit-filter-field type">
+        <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
+          <option value="all" selected="">操作类型</option><option value="登录登出">登录登出</option><option value="账号与席位管理">账号与席位管理</option><option value="系统配置变更">系统配置变更</option><option value="资源变更">知识库/智能体资源变更</option><option value="对话发起">对话发起</option><option value="告警处理">告警处理</option><option value="审计导出">审计导出</option>
+        </select>
+      </label>
+      <label class="ops-audit-filter-field result">
+        <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
+          <option value="all" selected="">操作结果</option><option value="成功">成功</option><option value="失败">失败</option>
+        </select>
+      </label>
+      <button class="btn res-reset ops-audit-reset" data-handler="h43">重 置</button>
     </div>
   
-    <div class="ops-kpi-grid cols-5">
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">Token 消耗<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全集团在统计周期内消耗的 Token 总量（输入+输出）</span></span></div>
-      <div class="ops-kpi-value">68.4<span class="ops-kpi-unit">亿</span></div>
-    </div>
-  
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">费用消耗<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全集团在统计周期内按各模型单价核算的费用总额</span></span></div>
-      <div class="ops-kpi-value">580,000<span class="ops-kpi-unit">元</span></div>
-    </div>
-  
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">活跃用户数<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全集团在统计周期内去重的活跃用户数</span></span></div>
-      <div class="ops-kpi-value">732<span class="ops-kpi-unit">人</span></div>
-    </div>
-  
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">新增用户数<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全集团在统计周期内新增的账号数</span></span></div>
-      <div class="ops-kpi-value">88<span class="ops-kpi-unit">人</span></div>
-    </div>
-  
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">累计用户数<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全集团累计注册 / 开通的账号总数</span></span></div>
-      <div class="ops-kpi-value">12,810<span class="ops-kpi-unit">人</span></div>
-    </div>
-  
-    </div>
-    <div class="ops-grid-2">
-      
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">Token 消耗趋势<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全集团在统计周期内每日 Token 消耗趋势</span></span></div>
+      <div class="ops-audit-summary-grid">
         
-      </div>
-      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="ops-token" style="height: 280px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788427738599"><div style="position: relative; width: 601px; height: 280px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="1202" height="560" style="position: absolute; left: 0px; top: 0px; width: 601px; height: 280px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div></div>
-    </section>
-  
-      
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">费用消耗趋势<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全集团在统计周期内每日费用消耗趋势（按各模型单价核算）</span></span></div>
-        
-      </div>
-      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="ops-cost-trend" style="height: 280px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788427738600"><div style="position: relative; width: 601px; height: 280px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="1202" height="560" style="position: absolute; left: 0px; top: 0px; width: 601px; height: 280px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div></div>
-    </section>
-  
+    <div class="ops-audit-summary-card">
+      <div><span>日质量</span><strong>1,286<em>条</em></strong></div>
+      <span class="ops-audit-summary-icon primary"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="4"><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M10 38v6h28v-6m0-18v-6L30 4H10v16"></path><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M28 4v10h10"></path><path fill="currentColor" stroke-linecap="round" d="M16 12h4"></path><rect fill="currentColor" width="40" height="18" x="4" y="20" stroke-linejoin="round" rx="2"></rect><path fill="currentColor" stroke-linecap="round" d="M10 25v8"></path><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M10 25h2a4 4 0 0 1 4 4v0a4 4 0 0 1-4 4h-2"></path><ellipse fill="currentColor" cx="24" cy="29" stroke-linecap="round" stroke-linejoin="round" rx="3" ry="4"></ellipse><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M38 25h-2a4 4 0 0 0-4 4v0a4 4 0 0 0 4 4h2"></path></g></svg></span>
     </div>
-    <div class="ops-grid-2">
-          
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">部门 Token 占比<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">各一级部门 Token 消耗占全集团总量的比例；点击父部门扇区可查看其子部门细分</span></span></div>
-        
-      </div>
-      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="ops-dept-pie" style="height: 280px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788427738601"><div style="position: relative; width: 601px; height: 280px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="1202" height="560" style="position: absolute; left: 0px; top: 0px; width: 601px; height: 280px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div></div>
-    </section>
   
-          
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">部门花费占比<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">各一级部门费用消耗占全集团总量的比例；点击父部门扇区可查看其子部门细分</span></span></div>
         
-      </div>
-      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="ops-dept-cost-pie" style="height: 280px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788427738602"><div style="position: relative; width: 601px; height: 280px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="1202" height="560" style="position: absolute; left: 0px; top: 0px; width: 601px; height: 280px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div></div>
-    </section>
+    <div class="ops-audit-summary-card">
+      <div><span>操作人数</span><strong>47<em>人</em></strong></div>
+      <span class="ops-audit-summary-icon primary"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><circle fill="currentColor" cx="24" cy="12" r="8"></circle><path fill="currentColor" d="M42 44c0-9.941-8.059-18-18-18S6 34.059 6 44"></path></g></svg></span>
+    </div>
   
+        
+    <div class="ops-audit-summary-card">
+      <div><span>失败操作</span><strong>18<em>条</em></strong></div>
+      <span class="ops-audit-summary-icon danger"><iconpark-icon name="help" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+    </div>
+  
+      </div>
+      <div class="ops-audit-notice"><iconpark-icon name="yes" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span><strong>日志完整性保护已启用</strong>所有审计记录均为仅追加写入，管理员也无法编辑或删除；导出行为本身也会产生审计记录。</span></div>
+      
+    <section class="ops-audit-table-card">
+      <div class="ops-audit-table-head ops-audit-table-head-row">
+        <div class="ops-audit-table-left">
+          <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 8 条</span></div>
         </div>
-    <div class="ops-grid-2">
-      
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">各模型 Token 消耗<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">GLM / deepseek / doubao 六个模型的 Token 消耗对比</span></span></div>
-        
+        <div class="ops-audit-table-tools">
+          <button class="btn" data-handler="h52"><iconpark-icon name="history" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>审计期限配置</span></button>
+          <button class="btn primary" data-handler="h53"><iconpark-icon name="down" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>导出</span></button>
+          <button class="icon-btn" data-handler="h54" aria-label="刷新"><iconpark-icon name="refresh" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></button>
+        </div>
       </div>
-      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="ops-model-token" style="height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788427738603"><div style="position: relative; width: 601px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="1202" height="600" style="position: absolute; left: 0px; top: 0px; width: 601px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div></div>
+      <div class="ops-audit-table-wrap">
+        <table class="ops-table ops-audit-table">
+          <thead><tr><th>操作时间</th><th>操作人</th><th>操作类型</th><th>操作对象</th><th>操作内容</th><th>来源 IP</th><th>结果</th><th>操作</th></tr></thead>
+          <tbody>
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:42:18">2026-09-02 15:42:18</td>
+      <td title="yangming">杨明</td>
+      <td><span class="ops-audit-tag config">系统配置变更</span></td>
+      <td>参数设置</td>
+      <td class="ops-audit-content" title="修改审计日志保留期限：365 天 → 730 天">修改审计日志保留期限：365 天 → 730 天</td>
+      <td class="ops-audit-ip">10.18.32.46</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h44">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:36:05">2026-09-02 15:36:05</td>
+      <td title="chenchen">陈晨</td>
+      <td><span class="ops-audit-tag resource">资源变更</span></td>
+      <td>知识库</td>
+      <td class="ops-audit-content" title="发布知识库「集团制度知识库」V12">发布知识库「集团制度知识库」V12</td>
+      <td class="ops-audit-ip">10.18.31.17</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h45">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:28:51">2026-09-02 15:28:51</td>
+      <td title="lizhe">李哲</td>
+      <td><span class="ops-audit-tag alert">告警处理</span></td>
+      <td>安全告警</td>
+      <td class="ops-audit-content" title="关闭告警「模型接口异常调用」并填写处理说明">关闭告警「模型接口异常调用」并填写处理说明</td>
+      <td class="ops-audit-ip">10.18.24.91</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h46">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:21:36">2026-09-02 15:21:36</td>
+      <td title="wangning">王宁</td>
+      <td><span class="ops-audit-tag chat">对话发起</span></td>
+      <td>智能体</td>
+      <td class="ops-audit-content" title="发起与智能体「企业制度助手」的对话">发起与智能体「企业制度助手」的对话</td>
+      <td class="ops-audit-ip">10.18.45.30</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h47">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:13:22">2026-09-02 15:13:22</td>
+      <td title="zhaomin">赵敏</td>
+      <td><span class="ops-audit-tag account">账号与席位管理</span></td>
+      <td>用户账号</td>
+      <td class="ops-audit-content" title="为用户 zhangwei 分配专业版席位">为用户 zhangwei 分配专业版席位</td>
+      <td class="ops-audit-ip">10.18.30.12</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h48">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:08:10">2026-09-02 15:08:10</td>
+      <td title="admin">admin</td>
+      <td><span class="ops-audit-tag login">登录登出</span></td>
+      <td>管理后台</td>
+      <td class="ops-audit-content" title="账号登录失败：密码校验未通过">账号登录失败：密码校验未通过</td>
+      <td class="ops-audit-ip">172.16.4.82</td>
+      <td><span class="ops-audit-status fail">失败</span></td>
+      <td><button class="ops-link" data-handler="h49">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 14:56:47">2026-09-02 14:56:47</td>
+      <td title="zhouxiao">周晓</td>
+      <td><span class="ops-audit-tag resource">资源变更</span></td>
+      <td>智能体</td>
+      <td class="ops-audit-content" title="修改智能体「采购风险助手」系统提示词">修改智能体「采购风险助手」系统提示词</td>
+      <td class="ops-audit-ip">10.18.41.76</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h50">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 14:48:03">2026-09-02 14:48:03</td>
+      <td title="auditor">审计管理员</td>
+      <td><span class="ops-audit-tag export">审计导出</span></td>
+      <td>审计日志</td>
+      <td class="ops-audit-content" title="导出近 7 天全部操作日志，共 8,521 条">导出近 7 天全部操作日志，共 8,521 条</td>
+      <td class="ops-audit-ip">10.18.20.8</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h51">详情</button></td>
+    </tr>
+  </tbody>
+        </table>
+      </div>
+      <div class="ops-audit-pagination"><span>共 8 条</span><button disabled="">‹</button><button class="active">1</button><button>2</button><button>3</button><button>…</button><button>161</button><button>›</button></div>
     </section>
   
-      
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">各模型费用消耗<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">六个模型按各自单价核算的费用消耗对比</span></span></div>
-        
-      </div>
-      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="ops-model-cost" style="height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788427738604"><div style="position: relative; width: 601px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="1202" height="600" style="position: absolute; left: 0px; top: 0px; width: 601px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div></div>
-    </section>
-  
+      <div class="ops-audit-toast" role="status"><iconpark-icon name="yes" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span></span></div>
     </div>
-    
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">用户列表<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全集团用户 Token 与费用消耗明细</span></span></div>
-        <button class="btn ops-export-btn" data-handler="h60"><svg class="wj-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 11 5 5 5-5"></path><path d="M5 21h14"></path></svg><span>导出</span></button>
-      </div>
-      <div class="ops-panel-body">
-    
-    <div class="ops-table-wrap">
-      <table class="ops-table">
-        <thead><tr><th>排名</th><th>用户</th><th>所属部门</th><th>Token 消耗</th><th>费用消耗</th><th>操作</th></tr></thead>
-        <tbody><tr><td>1</td><td>王一雄</td><td>数字智能部</td><td>18.4 亿</td><td>156,023 元</td><td><button class="ops-link" data-handler="h46">安全分析</button></td></tr><tr><td>2</td><td>刘颖</td><td>数字智能部</td><td>15.1 亿</td><td>128,041 元</td><td><button class="ops-link" data-handler="h47">安全分析</button></td></tr><tr><td>3</td><td>陈思远</td><td>生产运营部</td><td>13.2 亿</td><td>111,930 元</td><td><button class="ops-link" data-handler="h48">安全分析</button></td></tr><tr><td>4</td><td>刁乃儒</td><td>科技创新部</td><td>11.7 亿</td><td>99,211 元</td><td><button class="ops-link" data-handler="h49">安全分析</button></td></tr><tr><td>5</td><td>林晓彤</td><td>生产运营部</td><td>10.6 亿</td><td>89,883 元</td><td><button class="ops-link" data-handler="h50">安全分析</button></td></tr><tr><td>6</td><td>孙嘉琦</td><td>科技创新部</td><td>9.8 亿</td><td>83,099 元</td><td><button class="ops-link" data-handler="h51">安全分析</button></td></tr><tr><td>7</td><td>赵明轩</td><td>综合监督部</td><td>8.9 亿</td><td>75,468 元</td><td><button class="ops-link" data-handler="h52">安全分析</button></td></tr><tr><td>8</td><td>周雨彤</td><td>集团领导</td><td>7.4 亿</td><td>62,749 元</td><td><button class="ops-link" data-handler="h53">安全分析</button></td></tr><tr><td>9</td><td>郑可欣</td><td>科技创新部</td><td>6.8 亿</td><td>57,661 元</td><td><button class="ops-link" data-handler="h54">安全分析</button></td></tr><tr><td>10</td><td>吴皓宇</td><td>数字智能部</td><td>5.2 亿</td><td>44,094 元</td><td><button class="ops-link" data-handler="h55">安全分析</button></td></tr></tbody>
-      </table>
-    </div>
-  
-    <div class="ops-user-pagination">
-      <span>共 20 条</span>
-      <button data-handler="h58" disabled="">‹</button>
-      <button class="active" data-handler="h56">1</button><button class="" data-handler="h57">2</button>
-      <button data-handler="h59">›</button>
-    </div>
-  </div>
-    </section>
-  
   
     </div>
   </main>
     </div>
   </div>
-    <div id="portal"></div>
+    <div id="portal">
+      <div class="modal-mask" data-handler="h55"></div>
+      <section class="modal ops-audit-modal ops-audit-range-modal">
+        <div class="modal-head"><span>审计期限配置</span><button class="icon-btn" data-handler="h56"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></button></div>
+        <div class="modal-body">
+          <div class="ops-audit-modal-notice" style="position: relative;"><iconpark-icon name="history" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>配置导出与查询默认作用的审计时间范围。选择预设可快速切换；自定义模式下请填写开始与结束日期。</span></div>
+          <div class="ops-audit-range-presets" role="radiogroup" aria-label="审计期限预设">
+            
+              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="today" data-audit-range-preset="today"><span>今天</span></label>
+            
+              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="7d" checked="" data-audit-range-preset="7d"><span>近 7 天</span></label>
+            
+              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="30d" data-audit-range-preset="30d"><span>近 30 天</span></label>
+            
+              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="90d" data-audit-range-preset="90d"><span>近 90 天</span></label>
+            
+              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="180d" data-audit-range-preset="180d"><span>近 180 天</span></label>
+            
+              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="custom" data-audit-range-preset="custom"><span>自定义时间</span></label>
+            
+          </div>
+          <div class="ops-audit-range-custom ">
+            <label class="ops-audit-range-field">
+              <span>开始日期</span>
+              <input type="date" class="ops-audit-range-date" data-audit-range="start" value="">
+            </label>
+            <span class="ops-audit-range-sep">至</span>
+            <label class="ops-audit-range-field">
+              <span>结束日期</span>
+              <input type="date" class="ops-audit-range-date" data-audit-range="end" value="">
+            </label>
+          </div>
+          <label class="ops-audit-range-toggle">
+            <input type="checkbox" data-audit-range="applyToExport" checked="">
+            <span><strong>导出时自动应用此期限</strong><em>未开启时，导出仍以列表筛选条件为准；开启后将强制以本配置覆盖时间范围</em></span>
+          </label>
+          <p class="ops-audit-form-hint">期限修改后将用于后续的审计查询与导出，合规审计场景下建议保留不低于 90 天。</p>
+        </div>
+        <div class="modal-foot">
+          <button class="btn" data-handler="h57">取 消</button>
+          <button class="btn primary" data-handler="h58">保存配置</button>
+        </div>
+      </section>
+    </div>
     <script src="./reference/iconpark-41579.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <script>
       document.write(
         '<script src="./app.js?v=' + window.__wanjuanAssetVersion + '"><\/script>',
       );
-    </script><script src="./app.js?v=1788427737893"></script><script src="./app.js?v=1788420268951"></script><script src="./app.js?v=1788418351080"></script><script src="./app.js?v=1788417811357"></script>
+    </script><script src="./app.js?v=1788429629614"></script><script src="./app.js?v=1788429283192"></script><script src="./app.js?v=1788427737893"></script><script src="./app.js?v=1788420268951"></script><script src="./app.js?v=1788418351080"></script><script src="./app.js?v=1788417811357"></script>
   
 
 
@@ -384,6 +454,8 @@
 
 
 <iframe class="html2canvas-container" width="1556" height="767" scrolling="no" data-html2canvas-ignore="true" style="visibility: hidden; position: fixed; left: -10000px; top: 0px; border: 0px;"></iframe>
+
+
 
 
 
