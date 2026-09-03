@@ -10,7 +10,7 @@
           window.__wanjuanAssetVersion +
           '" />',
       );
-    </script><link rel="stylesheet" href="./styles.css?v=1788429629614"><link rel="stylesheet" href="./styles.css?v=1788429283192"><link rel="stylesheet" href="./styles.css?v=1788427737893"><link rel="stylesheet" href="./styles.css?v=1788420268951"><link rel="stylesheet" href="./styles.css?v=1788418351080"><link rel="stylesheet" href="./styles.css?v=1788417811357"><link rel="stylesheet" href="./styles.css?v=1788415024617">
+    </script><link rel="stylesheet" href="./styles.css?v=1788430086035"><link rel="stylesheet" href="./styles.css?v=1788429629614"><link rel="stylesheet" href="./styles.css?v=1788429283192"><link rel="stylesheet" href="./styles.css?v=1788427737893"><link rel="stylesheet" href="./styles.css?v=1788420268951"><link rel="stylesheet" href="./styles.css?v=1788418351080"><link rel="stylesheet" href="./styles.css?v=1788417811357"><link rel="stylesheet" href="./styles.css?v=1788415024617">
   </head>
   <body>
     <div id="app">
@@ -398,33 +398,11 @@
       <section class="modal ops-audit-modal ops-audit-range-modal">
         <div class="modal-head"><span>审计期限配置</span><button class="icon-btn" data-handler="h56"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></button></div>
         <div class="modal-body">
-          <div class="ops-audit-modal-notice" style="position: relative;"><iconpark-icon name="history" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>配置导出与查询默认作用的审计时间范围。选择预设可快速切换；自定义模式下请填写开始与结束日期。</span></div>
-          <div class="ops-audit-range-presets" role="radiogroup" aria-label="审计期限预设">
-            
-              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="today" data-audit-range-preset="today"><span>今天</span></label>
-            
-              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="7d" checked="" data-audit-range-preset="7d"><span>近 7 天</span></label>
-            
-              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="30d" data-audit-range-preset="30d"><span>近 30 天</span></label>
-            
-              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="90d" data-audit-range-preset="90d"><span>近 90 天</span></label>
-            
-              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="180d" data-audit-range-preset="180d"><span>近 180 天</span></label>
-            
-              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="custom" data-audit-range-preset="custom"><span>自定义时间</span></label>
-            
-          </div>
-          <div class="ops-audit-range-custom ">
-            <label class="ops-audit-range-field">
-              <span>开始日期</span>
-              <input type="date" class="ops-audit-range-date" data-audit-range="start" value="">
-            </label>
-            <span class="ops-audit-range-sep">至</span>
-            <label class="ops-audit-range-field">
-              <span>结束日期</span>
-              <input type="date" class="ops-audit-range-date" data-audit-range="end" value="">
-            </label>
-          </div>
+          <label class="ops-audit-days">
+            <span>审计查询与导出的默认时间范围为最近</span>
+            <input type="number" min="1" max="3650" value="7" data-audit-range="days" style="position: relative;">
+            <span>天</span>
+          </label>
           <label class="ops-audit-range-toggle">
             <input type="checkbox" data-audit-range="applyToExport" checked="">
             <span><strong>导出时自动应用此期限</strong><em>未开启时，导出仍以列表筛选条件为准；开启后将强制以本配置覆盖时间范围</em></span>
@@ -443,7 +421,7 @@
       document.write(
         '<script src="./app.js?v=' + window.__wanjuanAssetVersion + '"><\/script>',
       );
-    </script><script src="./app.js?v=1788429629614"></script><script src="./app.js?v=1788429283192"></script><script src="./app.js?v=1788427737893"></script><script src="./app.js?v=1788420268951"></script><script src="./app.js?v=1788418351080"></script><script src="./app.js?v=1788417811357"></script>
+    </script><script src="./app.js?v=1788430086035"></script><script src="./app.js?v=1788429629614"></script><script src="./app.js?v=1788429283192"></script><script src="./app.js?v=1788427737893"></script><script src="./app.js?v=1788420268951"></script><script src="./app.js?v=1788418351080"></script><script src="./app.js?v=1788417811357"></script>
   
 
 
@@ -454,6 +432,7 @@
 
 
 <iframe class="html2canvas-container" width="1556" height="767" scrolling="no" data-html2canvas-ignore="true" style="visibility: hidden; position: fixed; left: -10000px; top: 0px; border: 0px;"></iframe>
+
 
 
 

@@ -1629,7 +1629,7 @@ const opsState = {
   retentionDays: 365,
   _auditModal: "",
   _auditRange: {
-    days: 7,                 // 最近 N 天
+    days: 360,               // 最近 N 天
     applyToExport: true,
   },
 };
@@ -2228,7 +2228,7 @@ function renderOpsAuditModal() {
   }
   if (modal === "rangeAudit") {
     const r = opsState._auditRange;
-    const days = r.days || 7;
+    const days = r.days || 360;
     return `
       <div class="modal-mask" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}"></div>
       <section class="modal ops-audit-modal ops-audit-range-modal">
@@ -6304,7 +6304,7 @@ document.addEventListener("click", (event) => {
   }
   if (meta.type === "opsAuditSaveRange") {
     const r = opsState._auditRange;
-    const d = Number(r.days) || 7;
+    const d = Number(r.days) || 360;
     if (d < 1 || d > 3650) {
       opsAuditToast("请输入 1～3650 之间的天数");
       return;
