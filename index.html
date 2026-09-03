@@ -10,7 +10,7 @@
           window.__wanjuanAssetVersion +
           '" />',
       );
-    </script><link rel="stylesheet" href="./styles.css?v=1788403873143">
+    </script>
   </head>
   <body>
     <div id="app">
@@ -224,159 +224,168 @@
   
       <main class="main">
     <div class="ops-page">
-      <div class="subtabs ops-pills"><button class="subtab " data-handler="h39">资源总览</button><button class="subtab " data-handler="h40">用户消耗</button><button class="subtab active" data-handler="h41">应用运营总览</button><button class="subtab " data-handler="h42">操作审计</button></div>
-      <div class="ops-rangebar"><span class="ops-range-label">统计周期</span><div class="subtabs ops-pills"><button class="subtab active" data-handler="h43">今日</button><button class="subtab " data-handler="h44">近 7 天</button><button class="subtab " data-handler="h45">近 14 天</button><button class="subtab " data-handler="h46">近 30 天</button><button class="subtab " data-handler="h47">自定义</button></div></div>
-    <div class="ops-kpi-grid">
+      <div class="subtabs ops-pills"><button class="subtab " data-handler="h39">资源总览</button><button class="subtab " data-handler="h40">用户消耗</button><button class="subtab " data-handler="h41">应用运营总览</button><button class="subtab active" data-handler="h42">操作审计</button></div>
       
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">已上架专家总数<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">当前已上架并可供用户调用的专家总数（存量指标）</span></span></div>
-      <div class="ops-kpi-value">128<span class="ops-kpi-unit">个</span></div>
+    <div class="ops-audit-page">
+      
+    <div class="res-filters ops-audit-filters">
+      <label class="ops-audit-filter-field">
+        <span class="sr-only">操作时间</span>
+        <select class="ops-audit-control" data-ops-audit-filter="time" aria-label="操作时间">
+          <option value="7d" selected="">操作时间：近 7 天</option><option value="today">操作时间：今日</option><option value="30d">操作时间：近 30 天</option><option value="custom">操作时间：自定义时间</option>
+        </select>
+      </label>
+      <label class="ops-audit-filter-field operator">
+        <span class="sr-only">操作人</span>
+        <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="操作人：姓名 / 账号" value="">
+      </label>
+      <label class="ops-audit-filter-field type">
+        <span class="sr-only">操作类型</span>
+        <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
+          <option value="all" selected="">全部操作类型</option><option value="登录登出">登录登出</option><option value="账号与席位管理">账号与席位管理</option><option value="系统配置变更">系统配置变更</option><option value="资源变更">知识库/智能体资源变更</option><option value="对话发起">对话发起</option><option value="告警处理">告警处理</option><option value="审计导出">审计导出</option>
+        </select>
+      </label>
+      <label class="ops-audit-filter-field result">
+        <span class="sr-only">操作结果</span>
+        <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
+          <option value="all" selected="">全部操作结果</option><option value="成功">成功</option><option value="失败">失败</option>
+        </select>
+      </label>
+      <button class="btn res-reset ops-audit-reset" data-handler="h43">重 置</button>
+      <button class="btn primary ops-audit-query" data-handler="h44"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4"><path fill="currentColor" d="M21 38c9.389 0 17-7.611 17-17S30.389 4 21 4S4 11.611 4 21s7.611 17 17 17Z"></path><path fill="currentColor" stroke-linecap="round" d="M26.657 14.343A7.98 7.98 0 0 0 21 12a7.98 7.98 0 0 0-5.657 2.343m17.879 18.879l8.485 8.485"></path></g></svg><span>查 询</span></button>
     </div>
   
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">自动化执行任务量<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">统计周期内自动化任务（定时 / 事件触发）执行的总次数</span></span></div>
-      <div class="ops-kpi-value">1,035<span class="ops-kpi-unit">次</span></div>
-    </div>
-  
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">累计调用次数<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">统计周期内全部专家的调用总次数（含对话调用与自动化执行）</span></span></div>
-      <div class="ops-kpi-value">5,069<span class="ops-kpi-unit">次</span></div>
-    </div>
-  
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">任务完成率<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">统计周期内自动化任务执行成功的比例</span></span></div>
-      <div class="ops-kpi-value">96.8<span class="ops-kpi-unit">%</span></div>
-    </div>
-  
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">Token 消耗量<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全部专家在统计周期内消耗的 Token 总量（输入+输出）</span></span></div>
-      <div class="ops-kpi-value">229.3<span class="ops-kpi-unit">亿 tokens</span></div>
-    </div>
-  
-      
-    <div class="ops-kpi">
-      <div class="ops-kpi-label">费用消耗<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全部专家在统计周期内按各模型单价核算的费用总额</span></span></div>
-      <div class="ops-kpi-value">1,944,019<span class="ops-kpi-unit">元</span></div>
-    </div>
-  
-    </div>
-    <div class="ops-grid-2">
-      
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">专家 Token 消耗对比<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">按专家所属部门汇总的 Token 消耗对比；点击父部门扇区可在当前区块下钻查看其子部门细分</span></span></div>
+      <div class="ops-audit-summary-grid">
         
-      </div>
-      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="ops-dept-agent-token" style="height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788403873832"><div style="position: relative; width: 601px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="1202" height="600" style="position: absolute; left: 0px; top: 0px; width: 601px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div></div>
-    </section>
+    <div class="ops-audit-summary-card">
+      <div><span>今日日志量</span><strong>1,286<em>条</em></strong></div>
+      <span class="ops-audit-summary-icon primary"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="4"><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M10 38v6h28v-6m0-18v-6L30 4H10v16"></path><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M28 4v10h10"></path><path fill="currentColor" stroke-linecap="round" d="M16 12h4"></path><rect fill="currentColor" width="40" height="18" x="4" y="20" stroke-linejoin="round" rx="2"></rect><path fill="currentColor" stroke-linecap="round" d="M10 25v8"></path><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M10 25h2a4 4 0 0 1 4 4v0a4 4 0 0 1-4 4h-2"></path><ellipse fill="currentColor" cx="24" cy="29" stroke-linecap="round" stroke-linejoin="round" rx="3" ry="4"></ellipse><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M38 25h-2a4 4 0 0 0-4 4v0a4 4 0 0 0 4 4h2"></path></g></svg></span>
+    </div>
   
+        
+    <div class="ops-audit-summary-card">
+      <div><span>今日操作人数</span><strong>47<em>人</em></strong></div>
+      <span class="ops-audit-summary-icon primary"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><circle fill="currentColor" cx="24" cy="12" r="8"></circle><path fill="currentColor" d="M42 44c0-9.941-8.059-18-18-18S6 34.059 6 44"></path></g></svg></span>
+    </div>
+  
+        
+    <div class="ops-audit-summary-card">
+      <div><span>失败操作</span><strong>18<em>条</em></strong></div>
+      <span class="ops-audit-summary-icon danger"><iconpark-icon name="help" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+    </div>
+  
+      </div>
+      <div class="ops-audit-notice"><iconpark-icon name="yes" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span><strong>日志完整性保护已启用</strong>所有审计记录均为仅追加写入，管理员也无法编辑或删除；导出行为本身也会产生审计记录。</span></div>
       
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">调用量排行榜<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">按部门的专家调用量排行；点击父部门行可在当前区块下钻查看其子部门排行</span></span></div>
-        <span class="ops-rank-hint">点击父部门行可下钻</span>
+    <section class="ops-audit-table-card">
+      <div class="ops-audit-table-head">
+        <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 8 条</span></div>
+        <div class="ops-audit-table-tools">
+          <button class="btn" data-handler="h53"><iconpark-icon name="configuration" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>保留策略</span></button>
+          <button class="btn primary" data-handler="h54"><iconpark-icon name="down" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>导出日志</span></button>
+          <button class="icon-btn" data-handler="h55" aria-label="刷新"><iconpark-icon name="refresh" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></button>
+          <button class="icon-btn" data-handler="h56" aria-label="列设置"><iconpark-icon name="filter" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></button>
+        </div>
       </div>
-      <div class="ops-panel-body"><div class="ops-rank-list">
-    <div class="ops-rank-row clickable" data-handler="h50">
-      <span class="ops-rank-idx idx-1">1</span>
-      <div class="ops-rank-main">
-        <div class="ops-rank-label">数字智能部<em class="ops-rank-drill">点击下钻</em></div>
-        <div class="ops-rank-bar"><i style="width:100%;background:linear-gradient(90deg,#766BF273,#766BF2)"></i></div>
-      </div>
-      <div class="ops-rank-side">
-        <span class="ops-rank-val">1,368</span>
-        <span class="ops-rank-unit">次 · 占比 41%</span>
-      </div>
-    </div>
+      <div class="ops-audit-table-wrap">
+        <table class="ops-table ops-audit-table">
+          <thead><tr><th>操作时间</th><th>操作人</th><th>操作类型</th><th>操作对象</th><th>操作内容</th><th>来源 IP</th><th>结果</th><th>操作</th></tr></thead>
+          <tbody>
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:42:18">2026-09-02 15:42:18</td>
+      <td title="yangming">杨明</td>
+      <td><span class="ops-audit-tag config">系统配置变更</span></td>
+      <td>参数设置</td>
+      <td class="ops-audit-content" title="修改审计日志保留期限：365 天 → 730 天">修改审计日志保留期限：365 天 → 730 天</td>
+      <td class="ops-audit-ip">10.18.32.46</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h45">详情</button></td>
+    </tr>
   
-    <div class="ops-rank-row clickable" data-handler="h51">
-      <span class="ops-rank-idx idx-2">2</span>
-      <div class="ops-rank-main">
-        <div class="ops-rank-label">科技创新部<em class="ops-rank-drill">点击下钻</em></div>
-        <div class="ops-rank-bar"><i style="width:54%;background:linear-gradient(90deg,#23BF6B73,#23BF6B)"></i></div>
-      </div>
-      <div class="ops-rank-side">
-        <span class="ops-rank-val">739</span>
-        <span class="ops-rank-unit">次 · 占比 22%</span>
-      </div>
-    </div>
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:36:05">2026-09-02 15:36:05</td>
+      <td title="chenchen">陈晨</td>
+      <td><span class="ops-audit-tag resource">资源变更</span></td>
+      <td>知识库</td>
+      <td class="ops-audit-content" title="发布知识库「集团制度知识库」V12">发布知识库「集团制度知识库」V12</td>
+      <td class="ops-audit-ip">10.18.31.17</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h46">详情</button></td>
+    </tr>
   
-    <div class="ops-rank-row">
-      <span class="ops-rank-idx idx-3">3</span>
-      <div class="ops-rank-main">
-        <div class="ops-rank-label">生产运营部</div>
-        <div class="ops-rank-bar"><i style="width:50%;background:linear-gradient(90deg,#F1801973,#F18019)"></i></div>
-      </div>
-      <div class="ops-rank-side">
-        <span class="ops-rank-val">689</span>
-        <span class="ops-rank-unit">次 · 占比 21%</span>
-      </div>
-    </div>
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:28:51">2026-09-02 15:28:51</td>
+      <td title="lizhe">李哲</td>
+      <td><span class="ops-audit-tag alert">告警处理</span></td>
+      <td>安全告警</td>
+      <td class="ops-audit-content" title="关闭告警「模型接口异常调用」并填写处理说明">关闭告警「模型接口异常调用」并填写处理说明</td>
+      <td class="ops-audit-ip">10.18.24.91</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h47">详情</button></td>
+    </tr>
   
-    <div class="ops-rank-row">
-      <span class="ops-rank-idx idx-4">4</span>
-      <div class="ops-rank-main">
-        <div class="ops-rank-label">综合监督部</div>
-        <div class="ops-rank-bar"><i style="width:21%;background:linear-gradient(90deg,#EB445373,#EB4453)"></i></div>
-      </div>
-      <div class="ops-rank-side">
-        <span class="ops-rank-val">293</span>
-        <span class="ops-rank-unit">次 · 占比 9%</span>
-      </div>
-    </div>
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:21:36">2026-09-02 15:21:36</td>
+      <td title="wangning">王宁</td>
+      <td><span class="ops-audit-tag chat">对话发起</span></td>
+      <td>智能体</td>
+      <td class="ops-audit-content" title="发起与智能体「企业制度助手」的对话">发起与智能体「企业制度助手」的对话</td>
+      <td class="ops-audit-ip">10.18.45.30</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h48">详情</button></td>
+    </tr>
   
-    <div class="ops-rank-row">
-      <span class="ops-rank-idx idx-5">5</span>
-      <div class="ops-rank-main">
-        <div class="ops-rank-label">集团领导</div>
-        <div class="ops-rank-bar"><i style="width:16%;background:linear-gradient(90deg,#4941E673,#4941E6)"></i></div>
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:13:22">2026-09-02 15:13:22</td>
+      <td title="zhaomin">赵敏</td>
+      <td><span class="ops-audit-tag account">账号与席位管理</span></td>
+      <td>用户账号</td>
+      <td class="ops-audit-content" title="为用户 zhangwei 分配专业版席位">为用户 zhangwei 分配专业版席位</td>
+      <td class="ops-audit-ip">10.18.30.12</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h49">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 15:08:10">2026-09-02 15:08:10</td>
+      <td title="admin">admin</td>
+      <td><span class="ops-audit-tag login">登录登出</span></td>
+      <td>管理后台</td>
+      <td class="ops-audit-content" title="账号登录失败：密码校验未通过">账号登录失败：密码校验未通过</td>
+      <td class="ops-audit-ip">172.16.4.82</td>
+      <td><span class="ops-audit-status fail">失败</span></td>
+      <td><button class="ops-link" data-handler="h50">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 14:56:47">2026-09-02 14:56:47</td>
+      <td title="zhouxiao">周晓</td>
+      <td><span class="ops-audit-tag resource">资源变更</span></td>
+      <td>智能体</td>
+      <td class="ops-audit-content" title="修改智能体「采购风险助手」系统提示词">修改智能体「采购风险助手」系统提示词</td>
+      <td class="ops-audit-ip">10.18.41.76</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h51">详情</button></td>
+    </tr>
+  
+    <tr>
+      <td class="ops-audit-time" title="2026-09-02 14:48:03">2026-09-02 14:48:03</td>
+      <td title="auditor">审计管理员</td>
+      <td><span class="ops-audit-tag export">审计导出</span></td>
+      <td>审计日志</td>
+      <td class="ops-audit-content" title="导出近 7 天全部操作日志，共 8,521 条">导出近 7 天全部操作日志，共 8,521 条</td>
+      <td class="ops-audit-ip">10.18.20.8</td>
+      <td><span class="ops-audit-status ">成功</span></td>
+      <td><button class="ops-link" data-handler="h52">详情</button></td>
+    </tr>
+  </tbody>
+        </table>
       </div>
-      <div class="ops-rank-side">
-        <span class="ops-rank-val">223</span>
-        <span class="ops-rank-unit">次 · 占比 7%</span>
-      </div>
-    </div>
-  <div class="ops-rank-summary">共 5 个部门 · 合计 3,312 次</div></div></div>
+      <div class="ops-audit-pagination"><span>共 8 条</span><button disabled="">‹</button><button class="active">1</button><button>2</button><button>3</button><button>…</button><button>161</button><button>›</button></div>
     </section>
   
+      <div class="ops-audit-toast" role="status"><iconpark-icon name="yes" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span></span></div>
     </div>
-    
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">调用趋势<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全部专家的调用次数趋势；右上角可按部门或按专家类型两种维度切换，点击图例可筛选展示对象</span></span></div>
-        <div class="subtabs ops-pills"><button class="subtab active" data-handler="h48">按部门</button><button class="subtab " data-handler="h49">按专家类型</button></div>
-      </div>
-      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="ops-call-trend" style="height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788403873833"><div style="position: relative; width: 1251px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="2502" height="600" style="position: absolute; left: 0px; top: 0px; width: 1251px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div></div>
-    </section>
-  
-    
-    <section class="ops-panel">
-      <div class="ops-panel-head">
-        <div class="ops-panel-title">专家列表<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全部专家明细，支持按部门搜索和按列排序；点击「查看详情」可查看对话明细与自动化执行记录</span></span></div>
-        <div style="display:flex;align-items:center;gap:8px"><div class="ops-search"><span class="ops-search-icon"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4"><path fill="currentColor" d="M21 38c9.389 0 17-7.611 17-17S30.389 4 21 4S4 11.611 4 21s7.611 17 17 17Z"></path><path fill="currentColor" stroke-linecap="round" d="M26.657 14.343A7.98 7.98 0 0 0 21 12a7.98 7.98 0 0 0-5.657 2.343m17.879 18.879l8.485 8.485"></path></g></svg></span><input class="ops-search-input" type="text" placeholder="按所属部门搜索" data-ops-agent-search="" value=""></div><button class="btn ops-export-btn" data-handler="h69"><svg class="wj-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 11 5 5 5-5"></path><path d="M5 21h14"></path></svg><span>导出</span></button></div>
-      </div>
-      <div class="ops-panel-body"><div class="ops-table-wrap">
-    <table class="ops-table">
-      <thead><tr>
-        <th>专家名称</th>
-        <th>类型</th>
-        <th>所属部门</th>
-        <th><button class="ops-sort-th" data-handler="h66">调用量<span class="ops-sort-indicator">  —</span></button></th>
-        <th><button class="ops-sort-th" data-handler="h67">Token 消耗<span class="ops-sort-indicator active">  ▼</span></button></th>
-        <th><button class="ops-sort-th" data-handler="h68">费用消耗<span class="ops-sort-indicator">  —</span></button></th>
-        <th>成功率</th>
-        <th>平均耗时</th>
-        <th>操作</th>
-      </tr></thead>
-      <tbody><tr><td>通用专家</td><td><span class="ops-tag primary">通用专家</span></td><td>集团总公司</td><td>1,380 次</td><td>49.6 亿</td><td>420,653 元</td><td>98.6%</td><td>1.12 s</td><td><button class="ops-link" data-handler="h52">查看详情</button></td></tr><tr><td>通用知识问答</td><td><span class="ops-tag warning">RAG 专家</span></td><td>数字智能部</td><td>578 次</td><td>22.4 亿</td><td>189,670 元</td><td>98.7%</td><td>1.38 s</td><td><button class="ops-link" data-handler="h53">查看详情</button></td></tr><tr><td>合同信息抽取</td><td><span class="ops-tag success">数字员工专家</span></td><td>数字智能部</td><td>385 次</td><td>17.1 亿</td><td>145,204 元</td><td>99.2%</td><td>2.06 s</td><td><button class="ops-link" data-handler="h54">查看详情</button></td></tr><tr><td>代码评审助手</td><td><span class="ops-tag success">数字员工专家</span></td><td>数字智能部</td><td>155 次</td><td>16.2 亿</td><td>137,165 元</td><td>95.4%</td><td>3.12 s</td><td><button class="ops-link" data-handler="h55">查看详情</button></td></tr><tr><td>深度写作</td><td><span class="ops-tag info">定制专家</span></td><td>集团总公司</td><td>257 次</td><td>14.9 亿</td><td>126,379 元</td><td>97.4%</td><td>1.78 s</td><td><button class="ops-link" data-handler="h56">查看详情</button></td></tr><tr><td>财务报表分析</td><td><span class="ops-tag warning">RAG 专家</span></td><td>科技创新部</td><td>238 次</td><td>14.6 亿</td><td>123,632 元</td><td>96.8%</td><td>2.74 s</td><td><button class="ops-link" data-handler="h57">查看详情</button></td></tr><tr><td>市场营销协同</td><td><span class="ops-tag danger">专家团队</span></td><td>生产运营部</td><td>223 次</td><td>14.2 亿</td><td>120,274 元</td><td>96.6%</td><td>2.48 s</td><td><button class="ops-link" data-handler="h58">查看详情</button></td></tr><tr><td>数据分析专家</td><td><span class="ops-tag success">数字员工专家</span></td><td>数字智能部</td><td>250 次</td><td>13.2 亿</td><td>112,337 元</td><td>97.8%</td><td>1.96 s</td><td><button class="ops-link" data-handler="h59">查看详情</button></td></tr><tr><td>新能源行业问答</td><td><span class="ops-tag warning">RAG 专家</span></td><td>生产运营部</td><td>269 次</td><td>12.3 亿</td><td>104,400 元</td><td>97.2%</td><td>1.84 s</td><td><button class="ops-link" data-handler="h60">查看详情</button></td></tr><tr><td>翻译助手</td><td><span class="ops-tag info">自主规划专家</span></td><td>科技创新部</td><td>331 次</td><td>11.8 亿</td><td>100,025 元</td><td>97.5%</td><td>1.21 s</td><td><button class="ops-link" data-handler="h61">查看详情</button></td></tr><tr><td>PPT 创作</td><td><span class="ops-tag info">定制专家</span></td><td>集团总公司</td><td>194 次</td><td>11.6 亿</td><td>98,498 元</td><td>96.9%</td><td>2.24 s</td><td><button class="ops-link" data-handler="h62">查看详情</button></td></tr><tr><td>研发流程编排</td><td><span class="ops-tag danger">专家团队</span></td><td>科技创新部</td><td>170 次</td><td>11.6 亿</td><td>98,091 元</td><td>95.9%</td><td>2.92 s</td><td><button class="ops-link" data-handler="h63">查看详情</button></td></tr><tr><td>知识问答</td><td><span class="ops-tag info">定制专家</span></td><td>集团总公司</td><td>442 次</td><td>10.6 亿</td><td>90,154 元</td><td>98.1%</td><td>1.42 s</td><td><button class="ops-link" data-handler="h64">查看详情</button></td></tr><tr><td>邮件起草助手</td><td><span class="ops-tag info">自主规划专家</span></td><td>生产运营部</td><td>197 次</td><td>9.1 亿</td><td>77,537 元</td><td>98.1%</td><td>1.16 s</td><td><button class="ops-link" data-handler="h65">查看详情</button></td></tr></tbody>
-    </table>
-  </div></div>
-    </section>
-  
   
     </div>
   </main>
@@ -389,7 +398,8 @@
       document.write(
         '<script src="./app.js?v=' + window.__wanjuanAssetVersion + '"><\/script>',
       );
-    </script><script src="./app.js?v=1788403873143"></script>
+    </script>
   
+
 
 </body></html>
