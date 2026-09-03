@@ -1671,7 +1671,7 @@ function opsNum(base) {
 }
 function opsTimeAxis() {
   let labels;
-  if (opsState.rangeKey === "today") return { labels: OPS_HOURS, kind: "hour" };
+  if (opsState.rangeKey === "today") return { labels: OPS_HOURS, kind: "hour", interval: 1, labelKind: "hour" };
   const start = new Date(opsState.customStart);
   const end = new Date(opsState.customEnd);
   if (isNaN(start.getTime()) || isNaN(end.getTime())) {
@@ -1680,7 +1680,7 @@ function opsTimeAxis() {
       const d = new Date(2026, 6, 14 - i);
       labels.push(`${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
     }
-    return { labels, kind: "day" };
+    return { labels, kind: "day", interval: 0, labelKind: "day" };
   }
   labels = [];
   const diff = Math.round((end - start) / 86400000) + 1;
@@ -1689,7 +1689,15 @@ function opsTimeAxis() {
     d.setDate(d.getDate() + i);
     labels.push(`${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
   }
-  return { labels, kind: "day" };
+  return { labels, kind: "day", interval: opsLabelInterval(labels.length), labelKind: "day" };
+}
+// 根据数据点数量计算横轴标签间隔，避免密集重叠
+function opsLabelInterval(n) {
+  if (n <= 14) return 0;
+  if (n <= 20) return 1;
+  if (n <= 31) return 2;
+  if (n <= 60) return Math.ceil(n / 15) - 1;
+  return Math.ceil(n / 12) - 1;
 }
 function opsTrend(base, n, opts) {
   opts = opts || {};
@@ -2722,7 +2730,7 @@ function opsChartOption(key) {
       color: ["#766BF2"],
       tooltip: { trigger: "axis" },
       grid: baseGrid,
-      xAxis: { type: "category", boundaryGap: false, data: axis.labels, axisLabel: opsAxisLabel(), axisLine: opsAxisLine(), axisTick: { show: false } },
+      xAxis: { type: "category", boundaryGap: false, data: axis.labels, axisLabel: Object.assign({}, opsAxisLabel(), { interval: axis.interval }), axisLine: opsAxisLine(), axisTick: { show: false } },
       yAxis: { type: "value", name: "亿 Token", nameTextStyle: { color: "#9295A4", fontSize: 12 }, axisLabel: opsAxisLabel(), splitLine: opsSplitLine() },
       series: [{
         name: "Token 消耗", type: "line", smooth: true, symbol: "circle", symbolSize: 6,
@@ -2738,7 +2746,7 @@ function opsChartOption(key) {
       color: ["#F18019"],
       tooltip: { trigger: "axis", formatter: (p) => `${p[0].name}<br/>费用消耗 ${p[0].value.toLocaleString()} 元` },
       grid: baseGrid,
-      xAxis: { type: "category", boundaryGap: false, data: axis.labels, axisLabel: opsAxisLabel(), axisLine: opsAxisLine(), axisTick: { show: false } },
+      xAxis: { type: "category", boundaryGap: false, data: axis.labels, axisLabel: Object.assign({}, opsAxisLabel(), { interval: axis.interval }), axisLine: opsAxisLine(), axisTick: { show: false } },
       yAxis: { type: "value", name: "元", nameTextStyle: { color: "#9295A4", fontSize: 12 }, axisLabel: { color: "#6a6e80", fontSize: 12, formatter: opsCostAxis }, splitLine: opsSplitLine() },
       series: [{
         name: "费用消耗", type: "line", smooth: true, symbol: "circle", symbolSize: 6,
@@ -2858,7 +2866,7 @@ function opsChartOption(key) {
       tooltip: { trigger: "axis", valueFormatter: (v) => Number(v).toLocaleString() + " 次" },
       legend: { top: 0, type: "scroll", textStyle: { color: "#6a6e80", fontSize: 12 } },
       grid: { left: 64, right: 24, top: 44, bottom: 28 },
-      xAxis: { type: "category", boundaryGap: false, data: axis.labels, axisLabel: opsAxisLabel(), axisLine: opsAxisLine(), axisTick: { show: false } },
+      xAxis: { type: "category", boundaryGap: false, data: axis.labels, axisLabel: Object.assign({}, opsAxisLabel(), { interval: axis.interval }), axisLine: opsAxisLine(), axisTick: { show: false } },
       yAxis: { type: "value", name: "次", nameTextStyle: { color: "#9295A4", fontSize: 12 }, axisLabel: opsAxisLabel(), splitLine: opsSplitLine() },
       series: defs.map((d, i) => ({
         name: d, type: "line", smooth: true, symbol: "circle", symbolSize: 5,
