@@ -11369,6 +11369,8 @@ button.checkbox {
 }
 .ops-user-filters {
   min-height: 34px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 .ops-user-period {
   position: relative;
