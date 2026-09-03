@@ -1615,6 +1615,7 @@ const opsState = {
   _detailPageAuto: 1,
   agentQuery: "",
   _agentSort: { col: "tokens", dir: "desc" },
+  _agentPage: 1,
   _agentRoiSeed: 0,
   _agentRoiResults: {},        // name -> "78.3%" 手动计算过的 ROI
   _agentRoiModal: null,        // { name, manualTime, agentTime }
@@ -2490,15 +2491,20 @@ function opsAgentListTable() {
   if (!entries.length) {
     return `<div class="ops-empty">未找到所属部门匹配 "${escapeHtml(opsState.agentQuery)}" 的专家</div>`;
   }
+  const pageSize = 10;
+  const pageCount = Math.max(1, Math.ceil(entries.length / pageSize));
+  const page = Math.min(pageCount, Math.max(1, opsState._agentPage || 1));
+  const paged = entries.slice((page - 1) * pageSize, page * pageSize);
   // ROI：首行显示预置 ROI 率，其他行显示"计算"按钮；手动计算后可覆盖
   const roiSeed = opsState._agentRoiSeed || 0;
-  function roiOf(a, idx) {
-    return opsState._agentRoiResults[a.name] || (idx === 0 ? "93.8%" : "计算");
+  function roiOf(a) {
+    return opsState._agentRoiResults[a.name] || "计算";
   }
-  const rows = entries.map((a, idx) => {
-    const roiText = roiOf(a, idx);
-    const hasManual = !!opsState._agentRoiResults[a.name] || idx === 0;
-    const roiBtn = `<button class="ops-roi-btn ${hasManual ? "computed" : ""}" data-handler="${registerHandler({ type: "opsAgentRoiModal", name: a.name })}">${roiText}</button>`;
+  const rows = paged.map((a, idx) => {
+    const globalIdx = (page - 1) * pageSize + idx;
+    const roiText = roiOf(a);
+    const hasManual = !!opsState._agentRoiResults[a.name] || globalIdx === 0;
+    const roiBtn = `<button class="ops-roi-btn ${hasManual ? "computed" : ""}" data-handler="${registerHandler({ type: "opsAgentRoiModal", name: a.name })}">${globalIdx === 0 && !opsState._agentRoiResults[a.name] ? "93.8%" : roiText}</button>`;
     return [
       a.name,
       opsAgentTypeTag(a.type),
@@ -2512,6 +2518,9 @@ function opsAgentListTable() {
       opsLink("查看详情", { type: "opsAgentDetail", name: a.name }),
     ];
   });
+  const pageButtons = Array.from({ length: pageCount }, (_, i) => i + 1).map((n) =>
+    `<button class="${n === page ? "active" : ""}" data-handler="${registerHandler({ type: "opsAgentPage", page: n })}">${n}</button>`
+  ).join("");
   return `
     <div class="ops-table-wrap">
       <table class="ops-table">
@@ -2529,6 +2538,12 @@ function opsAgentListTable() {
         </tr></thead>
         <tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>
       </table>
+    </div>
+    <div class="ops-user-pagination">
+      <span>共 ${entries.length} 条</span>
+      <button data-handler="${registerHandler({ type: "opsAgentPage", page: page - 1 })}" ${page === 1 ? "disabled" : ""}>‹</button>
+      ${pageButtons}
+      <button data-handler="${registerHandler({ type: "opsAgentPage", page: page + 1 })}" ${page === pageCount ? "disabled" : ""}>›</button>
     </div>
   `;
 }
@@ -6178,6 +6193,7 @@ document.addEventListener("click", (event) => {
     } else {
       opsState._agentSort = { col: meta.col, dir: "desc" };
     }
+    opsState._agentPage = 1;
     render();
   }
   if (meta.type === "opsUserDrillUp") { opsState._userDrillDept = null; render(); }
@@ -6244,6 +6260,13 @@ document.addEventListener("click", (event) => {
   if (meta.type === "opsUserPage") {
     const pageCount = Math.max(1, Math.ceil(OPS_USER_LIST.length / 10));
     opsState.userPage = Math.min(pageCount, Math.max(1, meta.page));
+    render();
+  }
+  if (meta.type === "opsAgentPage") {
+    const q = (opsState.agentQuery || "").trim().toLowerCase();
+    const total = q ? OPS_AGENT_LIST.filter((a) => a.dept.toLowerCase().includes(q)).length : OPS_AGENT_LIST.length;
+    const pageCount = Math.max(1, Math.ceil(total / 10));
+    opsState._agentPage = Math.min(pageCount, Math.max(1, meta.page));
     render();
   }
   if (meta.type === "opsUserSecurity") {
@@ -6673,6 +6696,7 @@ document.addEventListener("input", (event) => {
   const opsAgentSearch = event.target.closest("[data-ops-agent-search]");
   if (opsAgentSearch) {
     opsState.agentQuery = opsAgentSearch.value;
+    opsState._agentPage = 1;
     render();
     requestAnimationFrame(() => {
       const nextInput = document.querySelector("[data-ops-agent-search]");
