@@ -1786,6 +1786,7 @@ function opsRangeBar() {
 }
 function opsUserFilterBar() {
   const options = OPS_RANGES.map((r) => `<option value="${r.key}" ${r.key === opsState.rangeKey ? "selected" : ""}>${r.label}</option>`).join("");
+  const f = opsState.auditFilter;
   return `
     <div class="res-filters ops-user-filters">
       <label class="res-select res-select-sm ops-user-period">
@@ -1798,7 +1799,19 @@ function opsUserFilterBar() {
         <input type="text" inputmode="numeric" aria-label="创建结束日期" placeholder="创建结束日期" value="${escapeHtml(opsState.userEnd)}" data-ops-user-date="end" />
         ${RES_ICONS.calendar}
       </div>
-      <button class="btn res-reset" data-handler="${registerHandler({ type: "opsUserResetRange" })}">重 置</button>
+      <label class="ops-audit-filter-field operator">
+        <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="关键词搜索" value="${escapeHtml(f.operator)}" />
+      </label>
+      <label class="ops-audit-filter-field type">
+        <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
+          ${opsAuditSelectOptions([["all", "操作类型"], ["登录登出", "登录登出"], ["账号与席位管理", "账号与席位管理"], ["系统配置变更", "系统配置变更"], ["资源变更", "知识库/智能体资源变更"], ["对话发起", "对话发起"], ["告警处理", "告警处理"], ["审计导出", "审计导出"]], f.type)}
+        </select>
+      </label>
+      <label class="ops-audit-filter-field result">
+        <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
+          ${opsAuditSelectOptions([["all", "操作结果"], ["成功", "成功"], ["失败", "失败"]], f.result)}
+        </select>
+      </label>
     </div>
   `;
 }
@@ -2064,13 +2077,10 @@ function opsAuditTable() {
       <div class="ops-audit-table-head ops-audit-table-head-row">
         <div class="ops-audit-table-left">
           <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 ${rows.length} 条</span></div>
-          ${opsAuditFilterBar()}
         </div>
         <div class="ops-audit-table-tools">
-          <button class="btn" data-handler="${registerHandler({ type: "opsAuditModal", modal: "retention" })}">${icon("batchConfig", "wj-icon")}<span>保留策略</span></button>
-          <button class="btn primary" data-handler="${registerHandler({ type: "opsAuditModal", modal: "export" })}">${icon("frontDownload", "wj-icon")}<span>导出日志</span></button>
+          <button class="btn primary" data-handler="${registerHandler({ type: "opsAuditModal", modal: "export" })}">${icon("frontDownload", "wj-icon")}<span>导出</span></button>
           <button class="icon-btn" data-handler="${registerHandler({ type: "opsAuditRefresh" })}" aria-label="刷新">${icon("frontActionRefresh", "wj-icon")}</button>
-          <button class="icon-btn" data-handler="${registerHandler({ type: "noop" })}" aria-label="列设置">${icon("filter", "wj-icon")}</button>
         </div>
       </div>
       <div class="ops-audit-table-wrap">
