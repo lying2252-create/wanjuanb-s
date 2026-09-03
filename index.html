@@ -213,48 +213,20 @@
               <span class="tab-close" data-handler="h35"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></span>
             </div>
           
-            <div class="tab ">
-              <button class="tab-title" data-handler="h36">用户管理</button>
+            <div class="tab active">
+              <button class="tab-title" data-handler="h36">数据监控</button>
               <span class="tab-close" data-handler="h37"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></span>
             </div>
           
-            <div class="tab active">
-              <button class="tab-title" data-handler="h38">数据监控</button>
-              <span class="tab-close" data-handler="h39"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></span>
-            </div>
-          
       </div>
-      <button class="icon-btn" data-handler="h40"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></button>
+      <button class="icon-btn" data-handler="h38"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></button>
     </div>
   
       <main class="main">
     <div class="ops-page">
-      <div class="subtabs ops-pills"><button class="subtab " data-handler="h41">资源总览</button><button class="subtab " data-handler="h42">用户消耗</button><button class="subtab " data-handler="h43">应用运营总览</button><button class="subtab active" data-handler="h44">操作审计</button></div>
+      <div class="subtabs ops-pills"><button class="subtab " data-handler="h39">资源总览</button><button class="subtab " data-handler="h40">用户消耗</button><button class="subtab " data-handler="h41">应用运营总览</button><button class="subtab active" data-handler="h42">操作审计</button></div>
       
     <div class="ops-audit-page">
-      
-    <div class="res-filters ops-audit-filters">
-      <label class="ops-audit-filter-field">
-        <select class="ops-audit-control" data-ops-audit-filter="time" aria-label="操作时间">
-          <option value="today">今日</option><option value="7d" selected="">近 7 天</option><option value="14d">近 14 天</option><option value="30d">近 30 天</option><option value="custom">自定义</option>
-        </select>
-      </label>
-      <label class="ops-audit-filter-field operator">
-        <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="关键词搜索" value="">
-      </label>
-      <label class="ops-audit-filter-field type">
-        <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
-          <option value="all" selected="">操作类型</option><option value="登录登出">登录登出</option><option value="账号与席位管理">账号与席位管理</option><option value="系统配置变更">系统配置变更</option><option value="资源变更">知识库/智能体资源变更</option><option value="对话发起">对话发起</option><option value="告警处理">告警处理</option><option value="审计导出">审计导出</option>
-        </select>
-      </label>
-      <label class="ops-audit-filter-field result">
-        <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
-          <option value="all" selected="">操作结果</option><option value="成功">成功</option><option value="失败">失败</option>
-        </select>
-      </label>
-      <button class="btn res-reset ops-audit-reset" data-handler="h45">重 置</button>
-    </div>
-  
       <div class="ops-audit-summary-grid">
         
     <div class="ops-audit-summary-card">
@@ -281,12 +253,35 @@
       <div class="ops-audit-table-head">
         <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 8 条</span></div>
         <div class="ops-audit-table-tools">
-          <button class="btn" data-handler="h54"><iconpark-icon name="configuration" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>保留策略</span></button>
-          <button class="btn primary" data-handler="h55"><iconpark-icon name="down" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>导出日志</span></button>
-          <button class="icon-btn" data-handler="h56" aria-label="刷新"><iconpark-icon name="refresh" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></button>
-          <button class="icon-btn" data-handler="h57" aria-label="列设置"><iconpark-icon name="filter" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></button>
+          <button class="btn" data-handler="h51"><iconpark-icon name="configuration" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>保留策略</span></button>
+          <button class="btn primary" data-handler="h52"><iconpark-icon name="down" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>导出日志</span></button>
+          <button class="icon-btn" data-handler="h53" aria-label="刷新"><iconpark-icon name="refresh" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></button>
+          <button class="icon-btn" data-handler="h54" aria-label="列设置"><iconpark-icon name="filter" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></button>
         </div>
       </div>
+      
+    <div class="res-filters ops-audit-filters">
+      <label class="ops-audit-filter-field">
+        <select class="ops-audit-control" data-ops-audit-filter="time" aria-label="操作时间" style="position: relative;">
+          <option value="today">今日</option><option value="7d" selected="">近 7 天</option><option value="14d">近 14 天</option><option value="30d">近 30 天</option><option value="custom">自定义</option>
+        </select>
+      </label>
+      <label class="ops-audit-filter-field operator">
+        <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="关键词搜索" value="" style="position: relative;">
+      </label>
+      <label class="ops-audit-filter-field type">
+        <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
+          <option value="all" selected="">操作类型</option><option value="登录登出">登录登出</option><option value="账号与席位管理">账号与席位管理</option><option value="系统配置变更">系统配置变更</option><option value="资源变更">知识库/智能体资源变更</option><option value="对话发起">对话发起</option><option value="告警处理">告警处理</option><option value="审计导出">审计导出</option>
+        </select>
+      </label>
+      <label class="ops-audit-filter-field result">
+        <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
+          <option value="all" selected="">操作结果</option><option value="成功">成功</option><option value="失败">失败</option>
+        </select>
+      </label>
+      <button class="btn res-reset ops-audit-reset" data-handler="h55">重 置</button>
+    </div>
+  
       <div class="ops-audit-table-wrap">
         <table class="ops-table ops-audit-table">
           <thead><tr><th>操作时间</th><th>操作人</th><th>操作类型</th><th>操作对象</th><th>操作内容</th><th>来源 IP</th><th>结果</th><th>操作</th></tr></thead>
@@ -299,7 +294,7 @@
       <td class="ops-audit-content" title="修改审计日志保留期限：365 天 → 730 天">修改审计日志保留期限：365 天 → 730 天</td>
       <td class="ops-audit-ip">10.18.32.46</td>
       <td><span class="ops-audit-status ">成功</span></td>
-      <td><button class="ops-link" data-handler="h46">详情</button></td>
+      <td><button class="ops-link" data-handler="h43">详情</button></td>
     </tr>
   
     <tr>
@@ -310,7 +305,7 @@
       <td class="ops-audit-content" title="发布知识库「集团制度知识库」V12">发布知识库「集团制度知识库」V12</td>
       <td class="ops-audit-ip">10.18.31.17</td>
       <td><span class="ops-audit-status ">成功</span></td>
-      <td><button class="ops-link" data-handler="h47">详情</button></td>
+      <td><button class="ops-link" data-handler="h44">详情</button></td>
     </tr>
   
     <tr>
@@ -321,7 +316,7 @@
       <td class="ops-audit-content" title="关闭告警「模型接口异常调用」并填写处理说明">关闭告警「模型接口异常调用」并填写处理说明</td>
       <td class="ops-audit-ip">10.18.24.91</td>
       <td><span class="ops-audit-status ">成功</span></td>
-      <td><button class="ops-link" data-handler="h48">详情</button></td>
+      <td><button class="ops-link" data-handler="h45">详情</button></td>
     </tr>
   
     <tr>
@@ -332,7 +327,7 @@
       <td class="ops-audit-content" title="发起与智能体「企业制度助手」的对话">发起与智能体「企业制度助手」的对话</td>
       <td class="ops-audit-ip">10.18.45.30</td>
       <td><span class="ops-audit-status ">成功</span></td>
-      <td><button class="ops-link" data-handler="h49">详情</button></td>
+      <td><button class="ops-link" data-handler="h46">详情</button></td>
     </tr>
   
     <tr>
@@ -343,7 +338,7 @@
       <td class="ops-audit-content" title="为用户 zhangwei 分配专业版席位">为用户 zhangwei 分配专业版席位</td>
       <td class="ops-audit-ip">10.18.30.12</td>
       <td><span class="ops-audit-status ">成功</span></td>
-      <td><button class="ops-link" data-handler="h50">详情</button></td>
+      <td><button class="ops-link" data-handler="h47">详情</button></td>
     </tr>
   
     <tr>
@@ -354,7 +349,7 @@
       <td class="ops-audit-content" title="账号登录失败：密码校验未通过">账号登录失败：密码校验未通过</td>
       <td class="ops-audit-ip">172.16.4.82</td>
       <td><span class="ops-audit-status fail">失败</span></td>
-      <td><button class="ops-link" data-handler="h51">详情</button></td>
+      <td><button class="ops-link" data-handler="h48">详情</button></td>
     </tr>
   
     <tr>
@@ -365,7 +360,7 @@
       <td class="ops-audit-content" title="修改智能体「采购风险助手」系统提示词">修改智能体「采购风险助手」系统提示词</td>
       <td class="ops-audit-ip">10.18.41.76</td>
       <td><span class="ops-audit-status ">成功</span></td>
-      <td><button class="ops-link" data-handler="h52">详情</button></td>
+      <td><button class="ops-link" data-handler="h49">详情</button></td>
     </tr>
   
     <tr>
@@ -376,7 +371,7 @@
       <td class="ops-audit-content" title="导出近 7 天全部操作日志，共 8,521 条">导出近 7 天全部操作日志，共 8,521 条</td>
       <td class="ops-audit-ip">10.18.20.8</td>
       <td><span class="ops-audit-status ">成功</span></td>
-      <td><button class="ops-link" data-handler="h53">详情</button></td>
+      <td><button class="ops-link" data-handler="h50">详情</button></td>
     </tr>
   </tbody>
         </table>
@@ -384,7 +379,7 @@
       <div class="ops-audit-pagination"><span>共 8 条</span><button disabled="">‹</button><button class="active">1</button><button>2</button><button>3</button><button>…</button><button>161</button><button>›</button></div>
     </section>
   
-      <div class="ops-audit-toast" role="status"><iconpark-icon name="yes" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>筛选条件已重置</span></div>
+      <div class="ops-audit-toast" role="status"><iconpark-icon name="yes" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span></span></div>
     </div>
   
     </div>
@@ -408,4 +403,5 @@
 
 
 
-<iframe class="html2canvas-container" width="1556" height="767" scrolling="no" data-html2canvas-ignore="true" style="visibility: hidden; position: fixed; left: -10000px; top: 0px; border: 0px;"></iframe></body></html>
+<iframe class="html2canvas-container" width="1556" height="767" scrolling="no" data-html2canvas-ignore="true" style="visibility: hidden; position: fixed; left: -10000px; top: 0px; border: 0px;"></iframe>
+</body></html>

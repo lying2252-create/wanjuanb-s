@@ -2018,12 +2018,7 @@ function opsAuditSelectOptions(items, current) {
 function opsAuditFilterBar() {
   const f = opsState.auditFilter;
   return `
-    <div class="res-filters ops-audit-filters">
-      <label class="ops-audit-filter-field">
-        <select class="ops-audit-control" data-ops-audit-filter="time" aria-label="操作时间">
-          ${opsAuditSelectOptions([["today", "今日"], ["7d", "近 7 天"], ["14d", "近 14 天"], ["30d", "近 30 天"], ["custom", "自定义"]], f.time)}
-        </select>
-      </label>
+    <div class="res-filters ops-audit-filters ops-audit-filters-inline">
       <label class="ops-audit-filter-field operator">
         <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="关键词搜索" value="${escapeHtml(f.operator)}" />
       </label>
@@ -2063,10 +2058,14 @@ function opsAuditTable() {
       <td>${opsLink("详情", { type: "opsAuditDetail", id: row.id })}</td>
     </tr>
   `).join("") : `<tr><td colspan="8"><div class="ops-audit-empty">未查询到符合条件的审计日志</div></td></tr>`;
+  const f = opsState.auditFilter;
   return `
     <section class="ops-audit-table-card">
-      <div class="ops-audit-table-head">
-        <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 ${rows.length} 条</span></div>
+      <div class="ops-audit-table-head ops-audit-table-head-row">
+        <div class="ops-audit-table-left">
+          <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 ${rows.length} 条</span></div>
+          ${opsAuditFilterBar()}
+        </div>
         <div class="ops-audit-table-tools">
           <button class="btn" data-handler="${registerHandler({ type: "opsAuditModal", modal: "retention" })}">${icon("batchConfig", "wj-icon")}<span>保留策略</span></button>
           <button class="btn primary" data-handler="${registerHandler({ type: "opsAuditModal", modal: "export" })}">${icon("frontDownload", "wj-icon")}<span>导出日志</span></button>
@@ -2074,7 +2073,6 @@ function opsAuditTable() {
           <button class="icon-btn" data-handler="${registerHandler({ type: "noop" })}" aria-label="列设置">${icon("filter", "wj-icon")}</button>
         </div>
       </div>
-      ${opsAuditFilterBar()}
       <div class="ops-audit-table-wrap">
         <table class="ops-table ops-audit-table">
           <thead><tr><th>操作时间</th><th>操作人</th><th>操作类型</th><th>操作对象</th><th>操作内容</th><th>来源 IP</th><th>结果</th><th>操作</th></tr></thead>
@@ -2088,6 +2086,7 @@ function opsAuditTable() {
 function opsAuditOverview() {
   return `
     <div class="ops-audit-page">
+      ${opsUserFilterBar()}
       <div class="ops-audit-summary-grid">
         ${opsAuditSummaryCard("日质量", "1,286", "条", "file", "primary")}
         ${opsAuditSummaryCard("操作人数", "47", "人", "user", "primary")}

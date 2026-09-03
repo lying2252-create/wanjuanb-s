@@ -12059,3 +12059,57 @@ button.checkbox {
   color: #EB4453;
   margin-top: 4px;
 }
+
+/* 审计日志表格模块 — 标题 + 筛选 + 按钮一行 */
+.ops-audit-table-head.ops-audit-table-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+.ops-audit-table-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  flex: 1;
+}
+.ops-audit-table-left .ops-audit-table-title {
+  flex-shrink: 0;
+}
+.ops-audit-table-left .ops-audit-filters {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  min-width: 0;
+}
+.ops-audit-filters-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+.ops-audit-filters-inline .ops-audit-filter-field {
+  margin: 0;
+}
+.ops-audit-filters-inline .ops-audit-control {
+  padding: 4px 10px;
+  font-size: 12px;
+  height: 28px;
+  min-width: 140px;
+}
+.ops-audit-filters-inline .ops-audit-control[data-ops-audit-filter="operator"] {
+  min-width: 140px;
+}
+.ops-audit-filters-inline .res-reset {
+  height: 28px;
+  font-size: 12px;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+.ops-audit-table-tools {
+  flex-shrink: 0;
+}
