@@ -2074,6 +2074,7 @@ function opsAuditTable() {
           <button class="icon-btn" data-handler="${registerHandler({ type: "noop" })}" aria-label="列设置">${icon("filter", "wj-icon")}</button>
         </div>
       </div>
+      ${opsAuditFilterBar()}
       <div class="ops-audit-table-wrap">
         <table class="ops-table ops-audit-table">
           <thead><tr><th>操作时间</th><th>操作人</th><th>操作类型</th><th>操作对象</th><th>操作内容</th><th>来源 IP</th><th>结果</th><th>操作</th></tr></thead>
@@ -2087,7 +2088,6 @@ function opsAuditTable() {
 function opsAuditOverview() {
   return `
     <div class="ops-audit-page">
-      ${opsAuditFilterBar()}
       <div class="ops-audit-summary-grid">
         ${opsAuditSummaryCard("日质量", "1,286", "条", "file", "primary")}
         ${opsAuditSummaryCard("操作人数", "47", "人", "user", "primary")}
