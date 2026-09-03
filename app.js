@@ -1679,21 +1679,19 @@ function opsPresetDateRange() {
   return { start, end: OPS_TODAY, kind: "day" };
 }
 function opsTimeAxis() {
-  if (opsState.rangeKey === "today") return { labels: OPS_HOURS, kind: "hour", interval: 1, labelKind: "hour" };
   let start, end;
-  if (opsState.rangeKey === "custom") {
-    // 优先用当前页面对应的日期输入（用户消耗用 userStart/userEnd，审计用 customStart/customEnd）
-    const rawStart = opsState.userStart || opsState.customStart;
-    const rawEnd = opsState.userEnd || opsState.customEnd;
-    const s = new Date(rawStart);
-    const e = new Date(rawEnd);
-    if (isNaN(s.getTime()) || isNaN(e.getTime())) {
-      start = new Date(OPS_TODAY);
-      start.setDate(start.getDate() - 13);
-      end = new Date(OPS_TODAY);
-    } else {
+  // 优先使用用户手动设置的创建开始/结束日期
+  if (opsState.userStart && opsState.userEnd) {
+    const s = new Date(opsState.userStart);
+    const e = new Date(opsState.userEnd);
+    if (!isNaN(s.getTime()) && !isNaN(e.getTime())) {
       start = s; end = e;
+    } else {
+      const r = opsPresetDateRange();
+      start = r.start; end = r.end;
     }
+  } else if (opsState.rangeKey === "today") {
+    return { labels: OPS_HOURS, kind: "hour", interval: 1, labelKind: "hour" };
   } else {
     const r = opsPresetDateRange();
     start = r.start; end = r.end;
@@ -6691,7 +6689,6 @@ document.addEventListener("input", (event) => {
   if (opsUserDate) {
     if (opsUserDate.dataset.opsUserDate === "start") opsState.userStart = opsUserDate.value;
     if (opsUserDate.dataset.opsUserDate === "end") opsState.userEnd = opsUserDate.value;
-    if (opsState.userStart || opsState.userEnd) opsState.rangeKey = "custom";
     opsState.userPage = 1;
     return;
   }
@@ -6768,7 +6765,6 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("change", (event) => {
   const opsUserDate = event.target.closest("[data-ops-user-date]");
   if (opsUserDate) {
-    opsState.rangeKey = "custom";
     opsState.userPage = 1;
     renderOpsCharts();
     return;
