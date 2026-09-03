@@ -1800,7 +1800,8 @@ function opsUserFilterBar(withAuditFilters) {
         <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
           ${opsAuditSelectOptions([["all", "操作结果"], ["成功", "成功"], ["失败", "失败"]], f.result)}
         </select>
-      </label>` : `<button class="btn res-reset" data-handler="${registerHandler({ type: "opsUserResetRange" })}">重 置</button>`;
+      </label>
+      <button class="btn res-reset ops-audit-reset" data-handler="${registerHandler({ type: "opsAuditReset" })}">重 置</button>` : `<button class="btn res-reset" data-handler="${registerHandler({ type: "opsUserResetRange" })}">重 置</button>`;
   return `
     <div class="res-filters ops-user-filters">
       <label class="res-select res-select-sm ops-user-period">
