@@ -1629,6 +1629,12 @@ const opsState = {
   auditPage: 1,
   retentionDays: 365,
   _auditModal: "",
+  _auditRange: {
+    preset: "7d",             // today / 7d / 30d / 90d / 180d / custom
+    start: "",                // ISO YYYY-MM-DD
+    end: "",
+    applyToExport: true,
+  },
 };
 const opsCharts = new Map();
 
@@ -2082,6 +2088,7 @@ function opsAuditTable() {
           <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 ${rows.length} 条</span></div>
         </div>
         <div class="ops-audit-table-tools">
+          <button class="btn" data-handler="${registerHandler({ type: "opsAuditModal", modal: "rangeAudit" })}">${icon("filterCalendar", "wj-icon")}<span>审计期限配置</span></button>
           <button class="btn primary" data-handler="${registerHandler({ type: "opsAuditModal", modal: "export" })}">${icon("frontDownload", "wj-icon")}<span>导出</span></button>
           <button class="icon-btn" data-handler="${registerHandler({ type: "opsAuditRefresh" })}" aria-label="刷新">${icon("frontActionRefresh", "wj-icon")}</button>
         </div>
@@ -2188,6 +2195,51 @@ function renderOpsAuditModal() {
           <label class="ops-audit-retention"><span>保留期限</span><div><input type="number" min="30" max="3650" value="${opsState.retentionDays}" data-audit-retention /><em>天</em></div><small>可设置 30～3650 天。策略变更将记录到审计日志中。</small></label>
         </div>
         <div class="modal-foot"><button class="btn" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}">取 消</button><button class="btn primary" data-handler="${registerHandler({ type: "opsAuditSaveRetention" })}">保存配置</button></div>
+      </section>
+    `;
+  }
+  if (modal === "rangeAudit") {
+    const r = opsState._auditRange;
+    const presets = [
+      ["today", "今天"],
+      ["7d", "近 7 天"],
+      ["30d", "近 30 天"],
+      ["90d", "近 90 天"],
+      ["180d", "近 180 天"],
+      ["custom", "自定义时间"],
+    ];
+    return `
+      <div class="modal-mask" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}"></div>
+      <section class="modal ops-audit-modal ops-audit-range-modal">
+        <div class="modal-head"><span>审计期限配置</span><button class="icon-btn" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}">${icon("close")}</button></div>
+        <div class="modal-body">
+          <div class="ops-audit-modal-notice">${icon("filterCalendar", "wj-icon")}<span>配置导出与查询默认作用的审计时间范围。选择预设可快速切换；自定义模式下请填写开始与结束日期。</span></div>
+          <div class="ops-audit-range-presets" role="radiogroup" aria-label="审计期限预设">
+            ${presets.map(([k, label]) => `
+              <label class="ops-audit-range-preset"><input type="radio" name="audit-range-preset" value="${k}" ${r.preset === k ? "checked" : ""} data-audit-range-preset="${k}" /><span>${label}</span></label>
+            `).join("")}
+          </div>
+          <div class="ops-audit-range-custom ${r.preset === "custom" ? "show" : ""}">
+            <label class="ops-audit-range-field">
+              <span>开始日期</span>
+              <input type="date" class="ops-audit-range-date" data-audit-range="start" value="${r.start}" />
+            </label>
+            <span class="ops-audit-range-sep">至</span>
+            <label class="ops-audit-range-field">
+              <span>结束日期</span>
+              <input type="date" class="ops-audit-range-date" data-audit-range="end" value="${r.end}" />
+            </label>
+          </div>
+          <label class="ops-audit-range-toggle">
+            <input type="checkbox" data-audit-range="applyToExport" ${r.applyToExport ? "checked" : ""} />
+            <span><strong>导出时自动应用此期限</strong><em>未开启时，导出仍以列表筛选条件为准；开启后将强制以本配置覆盖时间范围</em></span>
+          </label>
+          <p class="ops-audit-form-hint">期限修改后将用于后续的审计查询与导出，合规审计场景下建议保留不低于 90 天。</p>
+        </div>
+        <div class="modal-foot">
+          <button class="btn" data-handler="${registerHandler({ type: "opsAuditCloseModal" })}">取 消</button>
+          <button class="btn primary" data-handler="${registerHandler({ type: "opsAuditSaveRange" })}">保存配置</button>
+        </div>
       </section>
     `;
   }
@@ -6241,6 +6293,34 @@ document.addEventListener("click", (event) => {
       opsAuditToast("保留策略已保存，并写入审计日志");
     }
   }
+  if (meta.type === "opsAuditSaveRange") {
+    const r = opsState._auditRange;
+    if (r.preset === "custom") {
+      if (!r.start || !r.end) {
+        opsAuditToast("请选择开始日期与结束日期");
+        return;
+      }
+      if (r.start > r.end) {
+        opsAuditToast("开始日期不能晚于结束日期");
+        return;
+      }
+    }
+    const presetLabel = ({ today: "今天", "7d": "近 7 天", "30d": "近 30 天", "90d": "近 90 天", "180d": "近 180 天", custom: `${r.start} 至 ${r.end}` })[r.preset] || r.preset;
+    OPS_AUDIT_LOGS.unshift({
+      time: "2026-09-03 15:10:22", user: "杨明", account: "yangming", type: "系统配置变更", object: "审计期限配置",
+      content: `修改审计期限配置：${presetLabel}（导出应用：${r.applyToExport ? "是" : "否"}）`, ip: "10.18.32.46", result: "成功",
+      id: `AUD-20260903-${String(OPS_AUDIT_LOGS.length + 1401).padStart(6, "0")}`, before: "—", after: presetLabel,
+    });
+    if (r.preset !== "custom") {
+      // 将期限预设同步到审计筛选的 time 维度，让列表立即体现
+      opsState.auditFilter = { ...opsState.auditFilter, time: r.preset };
+      opsState.auditApplied = { ...opsState.auditFilter };
+      opsState.auditPage = 1;
+    }
+    opsState._auditModal = "";
+    render();
+    opsAuditToast(`审计期限已更新为：${presetLabel}`);
+  }
   if (meta.type === "opsExport") {
     if (meta.which === "users") {
       const rows = OPS_USER_LIST.slice().sort((a, b) => b.tokens - a.tokens).map((u, i) => [
@@ -6588,6 +6668,14 @@ document.addEventListener("input", (event) => {
     opsState.auditFilter[auditInput.dataset.opsAuditFilter] = auditInput.value;
     return;
   }
+  const auditRangeDate = event.target.closest('input[type="date"][data-audit-range]');
+  if (auditRangeDate && opsState._auditModal === "rangeAudit") {
+    const field = auditRangeDate.dataset.auditRange;
+    if (field === "start" || field === "end") {
+      opsState._auditRange[field] = auditRangeDate.value;
+    }
+    return;
+  }
   const opsAgentSearch = event.target.closest("[data-ops-agent-search]");
   if (opsAgentSearch) {
     opsState.agentQuery = opsAgentSearch.value;
@@ -6667,6 +6755,17 @@ document.addEventListener("change", (event) => {
   const auditSelect = event.target.closest("[data-ops-audit-filter]");
   if (auditSelect) {
     opsState.auditFilter[auditSelect.dataset.opsAuditFilter] = auditSelect.value;
+    return;
+  }
+  const auditRangePreset = event.target.closest('input[type="radio"][data-audit-range-preset]');
+  if (auditRangePreset && opsState._auditModal === "rangeAudit") {
+    opsState._auditRange.preset = auditRangePreset.dataset.auditRangePreset || opsState._auditRange.preset;
+    render();
+    return;
+  }
+  const auditRangeToggle = event.target.closest('input[type="checkbox"][data-audit-range="applyToExport"]');
+  if (auditRangeToggle && opsState._auditModal === "rangeAudit") {
+    opsState._auditRange.applyToExport = !!auditRangeToggle.checked;
     return;
   }
   const fileInput = event.target.closest("#upload-file-input");
