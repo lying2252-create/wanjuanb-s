@@ -1996,20 +1996,20 @@ function opsAuditFilterBar() {
     <div class="res-filters ops-audit-filters">
       <label class="ops-audit-filter-field">
         <select class="ops-audit-control" data-ops-audit-filter="time" aria-label="操作时间">
-          ${opsAuditSelectOptions([["7d", "操作时间：近 7 天"], ["today", "操作时间：今日"], ["30d", "操作时间：近 30 天"], ["custom", "操作时间：自定义时间"]], f.time)}
+          ${opsAuditSelectOptions([["today", "今日"], ["7d", "近 7 天"], ["14d", "近 14 天"], ["30d", "近 30 天"], ["custom", "自定义"]], f.time)}
         </select>
       </label>
       <label class="ops-audit-filter-field operator">
-        <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="操作人：姓名 / 账号" value="${escapeHtml(f.operator)}" />
+        <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="关键词搜索" value="${escapeHtml(f.operator)}" />
       </label>
       <label class="ops-audit-filter-field type">
         <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
-          ${opsAuditSelectOptions([["all", "全部操作类型"], ["登录登出", "登录登出"], ["账号与席位管理", "账号与席位管理"], ["系统配置变更", "系统配置变更"], ["资源变更", "知识库/智能体资源变更"], ["对话发起", "对话发起"], ["告警处理", "告警处理"], ["审计导出", "审计导出"]], f.type)}
+          ${opsAuditSelectOptions([["all", "操作类型"], ["登录登出", "登录登出"], ["账号与席位管理", "账号与席位管理"], ["系统配置变更", "系统配置变更"], ["资源变更", "知识库/智能体资源变更"], ["对话发起", "对话发起"], ["告警处理", "告警处理"], ["审计导出", "审计导出"]], f.type)}
         </select>
       </label>
       <label class="ops-audit-filter-field result">
         <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
-          ${opsAuditSelectOptions([["all", "全部操作结果"], ["成功", "成功"], ["失败", "失败"]], f.result)}
+          ${opsAuditSelectOptions([["all", "操作结果"], ["成功", "成功"], ["失败", "失败"]], f.result)}
         </select>
       </label>
       <button class="btn res-reset ops-audit-reset" data-handler="${registerHandler({ type: "opsAuditReset" })}">重 置</button>
@@ -2064,8 +2064,8 @@ function opsAuditOverview() {
     <div class="ops-audit-page">
       ${opsAuditFilterBar()}
       <div class="ops-audit-summary-grid">
-        ${opsAuditSummaryCard("今日日志量", "1,286", "条", "file", "primary")}
-        ${opsAuditSummaryCard("今日操作人数", "47", "人", "user", "primary")}
+        ${opsAuditSummaryCard("日质量", "1,286", "条", "file", "primary")}
+        ${opsAuditSummaryCard("操作人数", "47", "人", "user", "primary")}
         ${opsAuditSummaryCard("失败操作", "18", "条", "info", "danger")}
       </div>
       <div class="ops-audit-notice">${icon("check", "wj-icon")}<span><strong>日志完整性保护已启用</strong>所有审计记录均为仅追加写入，管理员也无法编辑或删除；导出行为本身也会产生审计记录。</span></div>
