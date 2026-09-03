@@ -2141,7 +2141,7 @@ function renderOpsOverview() {
   ).join("");
   let body;
   if (opsState.tab === "用户消耗") body = opsUserFilterBar() + opsUserDataSection();
-  else if (opsState.tab === "应用运营总览") body = opsRangeBar() + opsAgentDataSection();
+  else if (opsState.tab === "应用运营总览") body = opsUserFilterBar() + opsAgentDataSection();
   else if (opsState.tab === "操作审计") body = opsAuditOverview();
   else body = opsResourceOverview();
   return `
