@@ -1328,7 +1328,7 @@ function render() {
   document.title = `${page.title} - 万卷`;
   if (page.kind === "frontChat") {
     app.innerHTML = renderFrontChatPage();
-    portal.innerHTML = (state.drawer ? renderDrawer() : "") + (opsState._auditModal ? renderOpsAuditModal() : "");
+    portal.innerHTML = (state.drawer ? renderDrawer() : "") + (opsState._auditModal ? renderOpsAuditModal() : "") + (opsState._agentRoiModal ? renderAgentRoiModal() : "");
     requestAnimationFrame(() => restoreScrollState(scrollState));
     return;
   }
@@ -1340,7 +1340,7 @@ function render() {
       <main class="main">${renderPage(page)}</main>
     </div>
   `;
-  portal.innerHTML = (state.drawer ? renderDrawer() : "") + (opsState._auditModal ? renderOpsAuditModal() : "");
+  portal.innerHTML = (state.drawer ? renderDrawer() : "") + (opsState._auditModal ? renderOpsAuditModal() : "") + (opsState._agentRoiModal ? renderAgentRoiModal() : "");
   if (page.kind && page.kind.indexOf("ops") === 0) {
     requestAnimationFrame(renderOpsCharts);
   }
@@ -1617,6 +1617,8 @@ const opsState = {
   agentQuery: "",
   _agentSort: { col: "tokens", dir: "desc" },
   _agentRoiSeed: 0,
+  _agentRoiResults: {},        // name -> "78.3%" 手动计算过的 ROI
+  _agentRoiModal: null,        // { name, manualTime, agentTime }
   _drillDept: null,
   _rankDept: null,
   _userDrillDept: null,
@@ -2121,6 +2123,46 @@ function opsAuditDetailHtml(id) {
     </div>
   `;
 }
+function renderAgentRoiModal() {
+  const m = opsState._agentRoiModal;
+  if (!m) return "";
+  const manual = Number(m.manualTime || 0);
+  const agent = Number(m.agentTime || 0);
+  const preview = (manual > 0 && agent > 0) ? ((manual - agent) / manual * 100).toFixed(1) + "%" : "—";
+  return `
+    <div class="modal-mask" data-handler="${registerHandler({ type: "opsAgentRoiClose" })}"></div>
+    <section class="modal ops-roi-modal">
+      <div class="modal-head">
+        <span>计算 ROI · ${escapeHtml(m.name)}</span>
+        <button class="icon-btn" data-handler="${registerHandler({ type: "opsAgentRoiClose" })}">${icon("close")}</button>
+      </div>
+      <div class="modal-body">
+        <div class="ops-roi-fields">
+          <label class="ops-roi-field">
+            <span>原始人工用时</span>
+            <input type="text" inputmode="decimal" class="ops-roi-input" data-ops-roi-input="manual" value="${m.manualTime || ""}" placeholder="例如：8 小时" />
+            <em>单位：小时 / 次（人工完成该任务平均花费的时间）</em>
+          </label>
+          <label class="ops-roi-field">
+            <span>专家用时</span>
+            <input type="text" inputmode="decimal" class="ops-roi-input" data-ops-roi-input="agent" value="${m.agentTime || ""}" placeholder="例如：0.5 小时" />
+            <em>单位：小时 / 次（使用专家后平均花费的时间）</em>
+          </label>
+        </div>
+        <div class="ops-roi-preview">
+          <span class="ops-roi-preview-label">ROI 预览（节省率）</span>
+          <strong class="ops-roi-preview-value ${preview !== "—" && parseFloat(preview) > 50 ? "good" : ""}">${preview}</strong>
+          <span class="ops-roi-preview-formula">公式：(人工用时 − 专家用时) ÷ 人工用时 × 100%</span>
+          ${m.error ? `<div class="ops-roi-error">${escapeHtml(m.error)}</div>` : ""}
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" data-handler="${registerHandler({ type: "opsAgentRoiClose" })}">取 消</button>
+        <button class="btn primary" data-handler="${registerHandler({ type: "opsAgentRoiConfirm" })}">确认计算</button>
+      </div>
+    </section>
+  `;
+}
 function renderOpsAuditModal() {
   const modal = opsState._auditModal;
   if (!modal) return "";
@@ -2375,24 +2417,30 @@ function opsAgentListTable() {
   if (!entries.length) {
     return `<div class="ops-empty">未找到所属部门匹配 "${escapeHtml(opsState.agentQuery)}" 的专家</div>`;
   }
-  // 根据 seed 为每行生成确定性 ROI（%），点击"计算 ROI"按钮时 seed+1 触发重算
+  // ROI：优先使用用户手动计算后的值，否则用确定性 seed 算一个默认值
   const roiSeed = opsState._agentRoiSeed || 0;
   function roiOf(a, idx) {
+    const manual = opsState._agentRoiResults[a.name];
+    if (manual) return manual;
     const r = ((idx * 37 + a.calls * 13 + roiSeed * 7 + a.tokens * 5) % 1000) / 1000;
     return (55 + r * 35).toFixed(1) + "%";
   }
-  const rows = entries.map((a, idx) => [
-    a.name,
-    opsAgentTypeTag(a.type),
-    a.dept,
-    Math.round(a.calls * opsRangeMult()).toLocaleString() + " 次",
-    (a.tokens * opsRangeMult()).toFixed(1) + " 亿",
-    opsCost(a.tokens * opsRangeMult()).toLocaleString() + " 元",
-    a.success.toFixed(1) + "%",
-    a.latency.toFixed(2) + " s",
-    roiOf(a, idx),
-    opsLink("查看详情", { type: "opsAgentDetail", name: a.name }),
-  ]);
+  const rows = entries.map((a, idx) => {
+    const roiText = roiOf(a, idx);
+    const roiBtn = `<button class="ops-roi-btn ${opsState._agentRoiResults[a.name] ? "computed" : ""}" data-handler="${registerHandler({ type: "opsAgentRoiModal", name: a.name })}">${roiText}</button>`;
+    return [
+      a.name,
+      opsAgentTypeTag(a.type),
+      a.dept,
+      Math.round(a.calls * opsRangeMult()).toLocaleString() + " 次",
+      (a.tokens * opsRangeMult()).toFixed(1) + " 亿",
+      opsCost(a.tokens * opsRangeMult()).toLocaleString() + " 元",
+      a.success.toFixed(1) + "%",
+      a.latency.toFixed(2) + " s",
+      roiBtn,
+      opsLink("查看详情", { type: "opsAgentDetail", name: a.name }),
+    ];
+  });
   return `
     <div class="ops-table-wrap">
       <table class="ops-table">
@@ -2410,10 +2458,6 @@ function opsAgentListTable() {
         </tr></thead>
         <tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>
       </table>
-    </div>
-    <div class="ops-agent-list-footer">
-      <span class="ops-agent-list-footer-tip">ROI 基于平均成功率、Token 消耗与业务价值折算模型自动估算</span>
-      <button class="btn primary ops-drawer-calc-roi" data-handler="${registerHandler({ type: "opsAgentCalcRoi" })}">${icon("chart", "wj-icon")}<span>计算 ROI</span></button>
     </div>
   `;
 }
@@ -6093,6 +6137,30 @@ document.addEventListener("click", (event) => {
     opsState._agentRoiSeed = (opsState._agentRoiSeed || 0) + 1;
     render();
   }
+  if (meta.type === "opsAgentRoiModal") {
+    opsState._agentRoiModal = { name: meta.name, manualTime: "", agentTime: "" };
+    render();
+  }
+  if (meta.type === "opsAgentRoiClose") {
+    opsState._agentRoiModal = null;
+    render();
+  }
+  if (meta.type === "opsAgentRoiConfirm") {
+    const m = opsState._agentRoiModal;
+    if (!m) return;
+    const manual = Number(m.manualTime);
+    const agent = Number(m.agentTime);
+    if (!manual || manual <= 0 || !agent || agent <= 0) {
+      // 输入校验，给一个轻量提示（可以用 toast）
+      opsState._agentRoiModal = { ...m, error: "请输入有效的人工用时与专家用时（均需大于 0）" };
+      render();
+      return;
+    }
+    const roi = ((manual - agent) / manual * 100).toFixed(1) + "%";
+    opsState._agentRoiResults[m.name] = roi;
+    opsState._agentRoiModal = null;
+    render();
+  }
   if (meta.type === "opsSetTab") { opsState.tab = meta.tab; render(); }
   if (meta.type === "opsSetRange") { opsState.rangeKey = meta.range; render(); }
   if (meta.type === "opsUserResetRange") {
@@ -6481,6 +6549,22 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("input", (event) => {
+  const roiInput = event.target.closest("[data-ops-roi-input]");
+  if (roiInput && opsState._agentRoiModal) {
+    const key = roiInput.dataset.opsRoiInput === "agent" ? "agentTime" : "manualTime";
+    opsState._agentRoiModal = { ...opsState._agentRoiModal, [key]: roiInput.value };
+    opsState._agentRoiModal.error = "";
+    // 只更新 preview 文本，不重绘整个 modal（避免光标/焦点丢失）
+    const manual = Number(opsState._agentRoiModal.manualTime || 0);
+    const agent = Number(opsState._agentRoiModal.agentTime || 0);
+    const preview = (manual > 0 && agent > 0) ? ((manual - agent) / manual * 100).toFixed(1) + "%" : "—";
+    const previewEl = document.querySelector(".ops-roi-preview-value");
+    if (previewEl) {
+      previewEl.textContent = preview;
+      previewEl.classList.toggle("good", preview !== "—" && parseFloat(preview) > 50);
+    }
+    return;
+  }
   const opsUserDate = event.target.closest("[data-ops-user-date]");
   if (opsUserDate) {
     if (opsUserDate.dataset.opsUserDate === "start") opsState.userStart = opsUserDate.value;
