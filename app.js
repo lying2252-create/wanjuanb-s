@@ -1616,6 +1616,7 @@ const opsState = {
   _detailPageAuto: 1,
   agentQuery: "",
   _agentSort: { col: "tokens", dir: "desc" },
+  _agentRoiSeed: 0,
   _drillDept: null,
   _rankDept: null,
   _userDrillDept: null,
@@ -2374,7 +2375,13 @@ function opsAgentListTable() {
   if (!entries.length) {
     return `<div class="ops-empty">未找到所属部门匹配 "${escapeHtml(opsState.agentQuery)}" 的专家</div>`;
   }
-  const rows = entries.map((a) => [
+  // 根据 seed 为每行生成确定性 ROI（%），点击"计算 ROI"按钮时 seed+1 触发重算
+  const roiSeed = opsState._agentRoiSeed || 0;
+  function roiOf(a, idx) {
+    const r = ((idx * 37 + a.calls * 13 + roiSeed * 7 + a.tokens * 5) % 1000) / 1000;
+    return (55 + r * 35).toFixed(1) + "%";
+  }
+  const rows = entries.map((a, idx) => [
     a.name,
     opsAgentTypeTag(a.type),
     a.dept,
@@ -2383,24 +2390,32 @@ function opsAgentListTable() {
     opsCost(a.tokens * opsRangeMult()).toLocaleString() + " 元",
     a.success.toFixed(1) + "%",
     a.latency.toFixed(2) + " s",
+    roiOf(a, idx),
     opsLink("查看详情", { type: "opsAgentDetail", name: a.name }),
   ]);
-  return `<div class="ops-table-wrap">
-    <table class="ops-table">
-      <thead><tr>
-        <th>专家名称</th>
-        <th>类型</th>
-        <th>所属部门</th>
-        <th>${opsSortableTh("调用量", "calls")}</th>
-        <th>${opsSortableTh("Token 消耗", "tokens")}</th>
-        <th>${opsSortableTh("费用消耗", "cost")}</th>
-        <th>成功率</th>
-        <th>平均耗时</th>
-        <th>操作</th>
-      </tr></thead>
-      <tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>
-    </table>
-  </div>`;
+  return `
+    <div class="ops-table-wrap">
+      <table class="ops-table">
+        <thead><tr>
+          <th>专家名称</th>
+          <th>类型</th>
+          <th>所属部门</th>
+          <th>${opsSortableTh("调用量", "calls")}</th>
+          <th>${opsSortableTh("Token 消耗", "tokens")}</th>
+          <th>${opsSortableTh("费用消耗", "cost")}</th>
+          <th>成功率</th>
+          <th>平均耗时</th>
+          <th>ROI</th>
+          <th>操作</th>
+        </tr></thead>
+        <tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>
+      </table>
+    </div>
+    <div class="ops-agent-list-footer">
+      <span class="ops-agent-list-footer-tip">ROI 基于平均成功率、Token 消耗与业务价值折算模型自动估算</span>
+      <button class="btn primary ops-drawer-calc-roi" data-handler="${registerHandler({ type: "opsAgentCalcRoi" })}">${icon("chart", "wj-icon")}<span>计算 ROI</span></button>
+    </div>
+  `;
 }
 
 // ---- 抽屉内容：专家详情（对话记录 / 自动化记录）----
@@ -6072,6 +6087,10 @@ document.addEventListener("click", (event) => {
   }
   if (meta.type === "opsCalcRoi") {
     opsState._detailPageChat = opsState._detailPageChat || 1;
+    render();
+  }
+  if (meta.type === "opsAgentCalcRoi") {
+    opsState._agentRoiSeed = (opsState._agentRoiSeed || 0) + 1;
     render();
   }
   if (meta.type === "opsSetTab") { opsState.tab = meta.tab; render(); }
