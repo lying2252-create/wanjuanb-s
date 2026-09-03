@@ -1669,20 +1669,37 @@ function opsRangeMult() {
 function opsNum(base) {
   return Math.round(base * opsRangeMult());
 }
+// 模拟世界的"今天"（与 opsPresetDates 保持一致）
+const OPS_TODAY = new Date(2026, 6, 14);
+function opsPresetDateRange() {
+  const key = opsState.rangeKey;
+  if (key === "today") return { start: OPS_TODAY, end: OPS_TODAY, kind: "hour" };
+  const n = key === "7d" ? 7 : key === "30d" ? 30 : 14;
+  const start = new Date(OPS_TODAY);
+  start.setDate(start.getDate() - n + 1);
+  return { start, end: OPS_TODAY, kind: "day" };
+}
 function opsTimeAxis() {
-  let labels;
   if (opsState.rangeKey === "today") return { labels: OPS_HOURS, kind: "hour", interval: 1, labelKind: "hour" };
-  const start = new Date(opsState.customStart);
-  const end = new Date(opsState.customEnd);
-  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-    labels = [];
-    for (let i = 13; i >= 0; i--) {
-      const d = new Date(2026, 6, 14 - i);
-      labels.push(`${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
+  let start, end;
+  if (opsState.rangeKey === "custom") {
+    // 优先用当前页面对应的日期输入（用户消耗用 userStart/userEnd，审计用 customStart/customEnd）
+    const rawStart = opsState.userStart || opsState.customStart;
+    const rawEnd = opsState.userEnd || opsState.customEnd;
+    const s = new Date(rawStart);
+    const e = new Date(rawEnd);
+    if (isNaN(s.getTime()) || isNaN(e.getTime())) {
+      start = new Date(OPS_TODAY);
+      start.setDate(start.getDate() - 13);
+      end = new Date(OPS_TODAY);
+    } else {
+      start = s; end = e;
     }
-    return { labels, kind: "day", interval: 0, labelKind: "day" };
+  } else {
+    const r = opsPresetDateRange();
+    start = r.start; end = r.end;
   }
-  labels = [];
+  const labels = [];
   const diff = Math.round((end - start) / 86400000) + 1;
   for (let i = 0; i < diff; i++) {
     const d = new Date(start);
