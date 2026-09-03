@@ -1995,29 +1995,24 @@ function opsAuditFilterBar() {
   return `
     <div class="res-filters ops-audit-filters">
       <label class="ops-audit-filter-field">
-        <span class="sr-only">操作时间</span>
         <select class="ops-audit-control" data-ops-audit-filter="time" aria-label="操作时间">
           ${opsAuditSelectOptions([["7d", "操作时间：近 7 天"], ["today", "操作时间：今日"], ["30d", "操作时间：近 30 天"], ["custom", "操作时间：自定义时间"]], f.time)}
         </select>
       </label>
       <label class="ops-audit-filter-field operator">
-        <span class="sr-only">操作人</span>
         <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="操作人：姓名 / 账号" value="${escapeHtml(f.operator)}" />
       </label>
       <label class="ops-audit-filter-field type">
-        <span class="sr-only">操作类型</span>
         <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
           ${opsAuditSelectOptions([["all", "全部操作类型"], ["登录登出", "登录登出"], ["账号与席位管理", "账号与席位管理"], ["系统配置变更", "系统配置变更"], ["资源变更", "知识库/智能体资源变更"], ["对话发起", "对话发起"], ["告警处理", "告警处理"], ["审计导出", "审计导出"]], f.type)}
         </select>
       </label>
       <label class="ops-audit-filter-field result">
-        <span class="sr-only">操作结果</span>
         <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
           ${opsAuditSelectOptions([["all", "全部操作结果"], ["成功", "成功"], ["失败", "失败"]], f.result)}
         </select>
       </label>
       <button class="btn res-reset ops-audit-reset" data-handler="${registerHandler({ type: "opsAuditReset" })}">重 置</button>
-      <button class="btn primary ops-audit-query" data-handler="${registerHandler({ type: "opsAuditQuery" })}">${icon("search", "wj-icon")}<span>查 询</span></button>
     </div>
   `;
 }

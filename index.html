@@ -230,29 +230,29 @@
       
     <div class="res-filters ops-audit-filters">
       <label class="ops-audit-filter-field">
-        <span class="sr-only">操作时间</span>
+        
         <select class="ops-audit-control" data-ops-audit-filter="time" aria-label="操作时间">
           <option value="7d" selected="">操作时间：近 7 天</option><option value="today">操作时间：今日</option><option value="30d">操作时间：近 30 天</option><option value="custom">操作时间：自定义时间</option>
         </select>
       </label>
       <label class="ops-audit-filter-field operator">
-        <span class="sr-only">操作人</span>
+        
         <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="操作人：姓名 / 账号" value="">
       </label>
       <label class="ops-audit-filter-field type">
-        <span class="sr-only">操作类型</span>
+        
         <select class="ops-audit-control" data-ops-audit-filter="type" aria-label="操作类型">
           <option value="all" selected="">全部操作类型</option><option value="登录登出">登录登出</option><option value="账号与席位管理">账号与席位管理</option><option value="系统配置变更">系统配置变更</option><option value="资源变更">知识库/智能体资源变更</option><option value="对话发起">对话发起</option><option value="告警处理">告警处理</option><option value="审计导出">审计导出</option>
         </select>
       </label>
       <label class="ops-audit-filter-field result">
-        <span class="sr-only">操作结果</span>
+        
         <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
           <option value="all" selected="">全部操作结果</option><option value="成功">成功</option><option value="失败">失败</option>
         </select>
       </label>
       <button class="btn res-reset ops-audit-reset" data-handler="h43">重 置</button>
-      <button class="btn primary ops-audit-query" data-handler="h44"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4"><path fill="currentColor" d="M21 38c9.389 0 17-7.611 17-17S30.389 4 21 4S4 11.611 4 21s7.611 17 17 17Z"></path><path fill="currentColor" stroke-linecap="round" d="M26.657 14.343A7.98 7.98 0 0 0 21 12a7.98 7.98 0 0 0-5.657 2.343m17.879 18.879l8.485 8.485"></path></g></svg><span>查 询</span></button>
+      
     </div>
   
       <div class="ops-audit-summary-grid">
@@ -400,6 +400,7 @@
       );
     </script>
   
+
 
 
 </body></html>
