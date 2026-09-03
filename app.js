@@ -1500,7 +1500,6 @@ const OPS_RANGES = [
   { key: "7d", label: "近 7 天" },
   { key: "14d", label: "近 14 天" },
   { key: "30d", label: "近 30 天" },
-  { key: "custom", label: "自定义" },
 ];
 
 // 专家类型（列表 / 标签用）
@@ -1840,9 +1839,9 @@ function opsUserFilterBar(withAuditFilters) {
         ${RES_ICONS.chevron}
       </label>
       <div class="res-select res-daterange ops-user-daterange">
-        <input type="text" inputmode="numeric" aria-label="创建开始日期" placeholder="创建开始日期" value="${escapeHtml(opsState.userStart)}" data-ops-user-date="start" />
+        <input type="date" aria-label="创建开始日期" value="${escapeHtml(opsState.userStart)}" data-ops-user-date="start" />
         <span class="res-arrow">→</span>
-        <input type="text" inputmode="numeric" aria-label="创建结束日期" placeholder="创建结束日期" value="${escapeHtml(opsState.userEnd)}" data-ops-user-date="end" />
+        <input type="date" aria-label="创建结束日期" value="${escapeHtml(opsState.userEnd)}" data-ops-user-date="end" />
         ${RES_ICONS.calendar}
       </div>
       ${auditFields}
@@ -1941,12 +1940,20 @@ function resStatCard(label, value, iconKey, bg, color) {
   `;
 }
 function resFilterBar() {
+  const options = OPS_RANGES.map((r) => `<option value="${r.key}" ${r.key === opsState.rangeKey ? "selected" : ""}>${r.label}</option>`).join("");
   return `
-    <div class="res-filters">
-      <div class="res-select">请选择部门${RES_ICONS.chevron}</div>
-      <div class="res-select res-select-sm">至今${RES_ICONS.chevron}</div>
-      <div class="res-select res-daterange"><span>创建开始日期</span><span class="res-arrow">→</span><span>创建结束日期</span>${RES_ICONS.calendar}</div>
-      <button class="btn res-reset">重 置</button>
+    <div class="res-filters ops-user-filters">
+      <label class="res-select res-select-sm ops-user-period">
+        <select aria-label="统计周期" data-ops-user-range>${options}</select>
+        ${RES_ICONS.chevron}
+      </label>
+      <div class="res-select res-daterange ops-user-daterange">
+        <input type="date" aria-label="创建开始日期" value="${escapeHtml(opsState.userStart)}" data-ops-user-date="start" />
+        <span class="res-arrow">→</span>
+        <input type="date" aria-label="创建结束日期" value="${escapeHtml(opsState.userEnd)}" data-ops-user-date="end" />
+        ${RES_ICONS.calendar}
+      </div>
+      <button class="btn res-reset" data-handler="${registerHandler({ type: "opsUserResetRange" })}">重 置</button>
     </div>
   `;
 }
@@ -6763,17 +6770,15 @@ document.addEventListener("change", (event) => {
   if (opsUserDate) {
     opsState.rangeKey = "custom";
     opsState.userPage = 1;
-    render();
+    renderOpsCharts();
     return;
   }
   const opsUserRange = event.target.closest("[data-ops-user-range]");
   if (opsUserRange) {
     opsState.rangeKey = opsUserRange.value;
+    opsState.userStart = "";
+    opsState.userEnd = "";
     opsState.userPage = 1;
-    if (opsState.rangeKey !== "custom") {
-      opsState.userStart = "";
-      opsState.userEnd = "";
-    }
     render();
     return;
   }
