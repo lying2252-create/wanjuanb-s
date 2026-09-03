@@ -2417,17 +2417,15 @@ function opsAgentListTable() {
   if (!entries.length) {
     return `<div class="ops-empty">未找到所属部门匹配 "${escapeHtml(opsState.agentQuery)}" 的专家</div>`;
   }
-  // ROI：优先使用用户手动计算后的值，否则用确定性 seed 算一个默认值
+  // ROI：手动计算后显示百分比，默认显示"计算"按钮
   const roiSeed = opsState._agentRoiSeed || 0;
   function roiOf(a, idx) {
-    const manual = opsState._agentRoiResults[a.name];
-    if (manual) return manual;
-    const r = ((idx * 37 + a.calls * 13 + roiSeed * 7 + a.tokens * 5) % 1000) / 1000;
-    return (55 + r * 35).toFixed(1) + "%";
+    return opsState._agentRoiResults[a.name] || "计算";
   }
   const rows = entries.map((a, idx) => {
     const roiText = roiOf(a, idx);
-    const roiBtn = `<button class="ops-roi-btn ${opsState._agentRoiResults[a.name] ? "computed" : ""}" data-handler="${registerHandler({ type: "opsAgentRoiModal", name: a.name })}">${roiText}</button>`;
+    const hasManual = !!opsState._agentRoiResults[a.name];
+    const roiBtn = `<button class="ops-roi-btn ${hasManual ? "computed" : ""}" data-handler="${registerHandler({ type: "opsAgentRoiModal", name: a.name })}">${roiText}</button>`;
     return [
       a.name,
       opsAgentTypeTag(a.type),
