@@ -1784,21 +1784,10 @@ function opsRangeBar() {
   ` : "";
   return `<div class="ops-rangebar"><span class="ops-range-label">统计周期</span><div class="subtabs ops-pills">${pills}</div>${customInputs}</div>`;
 }
-function opsUserFilterBar() {
+function opsUserFilterBar(withAuditFilters) {
   const options = OPS_RANGES.map((r) => `<option value="${r.key}" ${r.key === opsState.rangeKey ? "selected" : ""}>${r.label}</option>`).join("");
   const f = opsState.auditFilter;
-  return `
-    <div class="res-filters ops-user-filters">
-      <label class="res-select res-select-sm ops-user-period">
-        <select aria-label="统计周期" data-ops-user-range>${options}</select>
-        ${RES_ICONS.chevron}
-      </label>
-      <div class="res-select res-daterange ops-user-daterange">
-        <input type="text" inputmode="numeric" aria-label="创建开始日期" placeholder="创建开始日期" value="${escapeHtml(opsState.userStart)}" data-ops-user-date="start" />
-        <span class="res-arrow">→</span>
-        <input type="text" inputmode="numeric" aria-label="创建结束日期" placeholder="创建结束日期" value="${escapeHtml(opsState.userEnd)}" data-ops-user-date="end" />
-        ${RES_ICONS.calendar}
-      </div>
+  const auditFields = withAuditFilters ? `
       <label class="ops-audit-filter-field operator">
         <input class="ops-audit-control" data-ops-audit-filter="operator" aria-label="操作人" placeholder="关键词搜索" value="${escapeHtml(f.operator)}" />
       </label>
@@ -1811,7 +1800,20 @@ function opsUserFilterBar() {
         <select class="ops-audit-control" data-ops-audit-filter="result" aria-label="操作结果">
           ${opsAuditSelectOptions([["all", "操作结果"], ["成功", "成功"], ["失败", "失败"]], f.result)}
         </select>
+      </label>` : `<button class="btn res-reset" data-handler="${registerHandler({ type: "opsUserResetRange" })}">重 置</button>`;
+  return `
+    <div class="res-filters ops-user-filters">
+      <label class="res-select res-select-sm ops-user-period">
+        <select aria-label="统计周期" data-ops-user-range>${options}</select>
+        ${RES_ICONS.chevron}
       </label>
+      <div class="res-select res-daterange ops-user-daterange">
+        <input type="text" inputmode="numeric" aria-label="创建开始日期" placeholder="创建开始日期" value="${escapeHtml(opsState.userStart)}" data-ops-user-date="start" />
+        <span class="res-arrow">→</span>
+        <input type="text" inputmode="numeric" aria-label="创建结束日期" placeholder="创建结束日期" value="${escapeHtml(opsState.userEnd)}" data-ops-user-date="end" />
+        ${RES_ICONS.calendar}
+      </div>
+      ${auditFields}
     </div>
   `;
 }
@@ -2096,7 +2098,7 @@ function opsAuditTable() {
 function opsAuditOverview() {
   return `
     <div class="ops-audit-page">
-      ${opsUserFilterBar()}
+      ${opsUserFilterBar(true)}
       <div class="ops-audit-summary-grid">
         ${opsAuditSummaryCard("日质量", "1,286", "条", "file", "primary")}
         ${opsAuditSummaryCard("操作人数", "47", "人", "user", "primary")}
