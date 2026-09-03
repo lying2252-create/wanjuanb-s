@@ -1612,6 +1612,8 @@ const opsState = {
   tab: "资源总览",
   _detailName: null,
   _detailTab: "chat",
+  _detailPageChat: 1,
+  _detailPageAuto: 1,
   agentQuery: "",
   _agentSort: { col: "tokens", dir: "desc" },
   _drillDept: null,
@@ -1729,6 +1731,26 @@ function opsChartEl(key, h) {
 }
 function opsTag(text, tone) {
   return `<span class="ops-tag ${tone || ""}">${text}</span>`;
+}
+function opsDetailPagination(pageKey, pageSize, rows) {
+  const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
+  const page = Math.min(pageCount, Math.max(1, pageKey));
+  const pageButtons = Array.from({ length: pageCount }, (_, i) => i + 1).map((n) =>
+    `<button class="${n === page ? "active" : ""}" data-handler="${registerHandler({ type: "opsDetailPage", tab: pageKey === "_detailPageChat" ? "chat" : "auto", page: n })}">${n}</button>`
+  ).join("");
+  return {
+    html: `
+      <div class="ops-user-pagination ops-detail-pagination">
+        <span>共 ${rows.length} 条</span>
+        <button data-handler="${registerHandler({ type: "opsDetailPage", tab: pageKey === "_detailPageChat" ? "chat" : "auto", page: page - 1 })}" ${page === 1 ? "disabled" : ""}>‹</button>
+        ${pageButtons}
+        <button data-handler="${registerHandler({ type: "opsDetailPage", tab: pageKey === "_detailPageChat" ? "chat" : "auto", page: page + 1 })}" ${page === pageCount ? "disabled" : ""}>›</button>
+      </div>
+    `,
+    page,
+    pageCount,
+    rows: rows.slice((page - 1) * pageSize, page * pageSize),
+  };
 }
 function opsLink(text, meta) {
   return `<button class="ops-link" data-handler="${registerHandler(meta)}">${text}</button>`;
@@ -2387,12 +2409,111 @@ function opsAgentDetailHtml(name) {
   opsState._detailName = a.name;
   const tab = opsState._detailTab === "auto" ? "auto" : "chat";
   const mult = opsRangeMult();
+  const PAGE_SIZE = 10;
   const tabs = [
     { k: "chat", label: "对话记录" },
     { k: "auto", label: "自动化记录" },
   ].map((t) =>
     `<button class="subtab ${t.k === tab ? "active" : ""}" data-handler="${registerHandler({ type: "opsSetAgentDetailTab", tab: t.k })}">${t.label}</button>`
   ).join("");
+
+  // ======== 对话明细 mock（25 条，含 ROI 计算） ========
+  const CHAT_QUESTIONS = [
+    "季度营收同比增长情况", "提取合同乙方关键条款", "用户反馈分类汇总", "翻译这段产品说明",
+    "新员工入职培训要点", "客户投诉处理流程", "2026 Q4 预算分配建议", "竞品动态周报",
+    "生成月度总结大纲", "产品需求文档初稿", "供应商风险等级评估", "舆情负面信息应对方案",
+    "会议纪要快速整理", "研发项目排期建议", "合规自查报告模板", "内部知识库问答汇总",
+    "行业白皮书摘要", "安全巡检清单生成", "跨部门沟通方案", "绩效考核指标建议",
+    "客户续约话术整理", "新产品市场定位", "运维告警根因分析", "财务月末结账 Checklist",
+    "集团年会活动策划",
+  ];
+  const CHAT_ANSWERS = [
+    "本季度营收同比增长 12.4%，主要驱动为新业务线放量与客户留存提升。",
+    "乙方：某某科技有限公司；关键条款：付款周期 30 天、违约金 5%、知识产权归甲方。",
+    "共 3 类：功能 52%、性能 31%、体验 17%，建议优先处理性能类工单。",
+    "已翻译为英文，术语与品牌名保持一致，共 3 段。",
+    "涵盖公司文化、制度流程、岗位技能三大模块，建议 3 天集训 + 2 周在岗带教。",
+    "遵循 5 步法：倾听 → 共情 → 复盘 → 方案 → 跟进，SLA 响应 30 分钟。",
+    "营收 40% / 研发 25% / 市场 15% / 运营 12% / 储备 8%。",
+    "本周 3 个竞品发布新版本，均聚焦 AI 原生，建议跟进定价体系。",
+    "按 KPI 完成情况、关键项目进展、问题与下阶段计划三大板块展开。",
+    "含背景、目标、用户故事、功能列表、验收标准、迭代计划、风险 7 大章节。",
+    "高风险供应商 2 家，建议启动备选资源；中风险 5 家保持观察。",
+    "按黄金 4 步法：快速回应 → 核实情况 → 给出方案 → 持续跟进。",
+    "整理要点、生成待办清单、标记责任人、输出纪要。",
+    "关键路径压缩 3 天，通过并行测试 + 自动化回归实现。",
+    "覆盖 7 大合规领域 23 个检查点，季度滚动更新。",
+    "知识库问答集中在产品功能、计费政策、API 使用三大类。",
+    "摘要 1500 字，覆盖行业规模、关键玩家、技术趋势与政策环境。",
+    "按告警级别、资产维度、巡检频率三维度设计。",
+    "建立例会 + 同步文档 + 决策评审三层机制。",
+    "采用 OKR + KPI 混合，业务与能力指标各占 50%。",
+    "标准化开场 → 价值回顾 → 异议处理 → 续约方案四步法。",
+    "定位为高性价比、强 AI 原生、面向中大型客户的解决方案。",
+    "根因为 DB 连接池耗尽，已扩容至 200 并加熔断。",
+    "含资产盘点、应收应付核对、损益结转、科目检查 4 大步骤。",
+    "含主题、流程、场地、预算、推广、安全、后续跟进 7 大模块。",
+  ];
+  function chatRow(i) {
+    const total = 500 + ((i * 73) % 4000);
+    const ret = Math.round(total * (0.55 + ((i * 17) % 30) / 100));
+    const req = total - ret;
+    const roi = ((ret / total) * 100).toFixed(1);
+    const d = new Date(2026, 6, 14 - (i % 21), 18 - (i % 12), (i * 37) % 60);
+    const pad = (n) => String(n).padStart(2, "0");
+    return [
+      CHAT_QUESTIONS[i],
+      CHAT_ANSWERS[i],
+      `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`,
+      req.toLocaleString(),
+      ret.toLocaleString(),
+      total.toLocaleString(),
+      `${roi}%`,
+    ];
+  }
+  const CHAT_ROWS = Array.from({ length: 25 }, (_, i) => chatRow(i));
+
+  // ======== 自动化执行 mock（25 条） ========
+  const AUTO_TASKS = [
+    ["每日晨报生成", "定时触发 · 每日 08:00", { key: "success", label: "成功" }, "2 分 41 秒", "12,460"],
+    ["合同到期提醒", "事件触发 · 新合同入库", { key: "success", label: "成功" }, "46 秒", "3,180"],
+    ["周度数据汇总", "定时触发 · 每周一 09:00", { key: "success", label: "成功" }, "5 分 08 秒", "21,740"],
+    ["舆情摘要推送", "手动触发", { key: "running", label: "运行中" }, "—", "—"],
+    ["供应商风险扫描", "定时触发 · 每日 22:00", { key: "danger", label: "失败" }, "1 分 12 秒", "8,930"],
+    ["新员工入职引导", "事件触发 · HR OA 同步", { key: "success", label: "成功" }, "38 秒", "2,600"],
+    ["周报自动归档", "定时触发 · 每周五 18:00", { key: "success", label: "成功" }, "1 分 56 秒", "6,410"],
+    ["客户续约提醒", "定时触发 · 合同到期前 30 天", { key: "success", label: "成功" }, "52 秒", "3,020"],
+    ["会议纪要提取", "手动触发 · 上传会议录音", { key: "info", label: "排队中" }, "—", "—"],
+    ["知识库增量同步", "定时触发 · 每 30 分钟", { key: "success", label: "成功" }, "18 秒", "940"],
+    ["日报邮件汇总", "定时触发 · 每日 17:30", { key: "success", label: "成功" }, "22 秒", "1,100"],
+    ["安全合规巡检", "定时触发 · 每周三 02:00", { key: "danger", label: "失败" }, "—", "—"],
+    ["财务报表生成", "定时触发 · 每月 1 号 06:00", { key: "success", label: "成功" }, "6 分 21 秒", "24,120"],
+    ["工单自动分类", "事件触发 · 新工单入库", { key: "success", label: "成功" }, "12 秒", "580"],
+    ["竞品动态抓取", "定时触发 · 每 4 小时", { key: "success", label: "成功" }, "41 秒", "2,200"],
+    ["AI 客服训练数据回流", "手动触发", { key: "running", label: "运行中" }, "—", "—"],
+    ["月度预算超支预警", "定时触发 · 每月 25 号 09:00", { key: "success", label: "成功" }, "34 秒", "1,750"],
+    ["测试环境数据清理", "定时触发 · 每日 03:00", { key: "success", label: "成功" }, "1 分 08 秒", "4,320"],
+    ["用户行为分析报告", "定时触发 · 每周二 10:00", { key: "success", label: "成功" }, "3 分 55 秒", "15,680"],
+    ["工单 SLA 超时提醒", "事件触发 · 工单状态变更", { key: "success", label: "成功" }, "9 秒", "460"],
+    ["文档自动摘要", "手动触发 · 选择文档", { key: "info", label: "排队中" }, "—", "—"],
+    ["审计日志归档", "定时触发 · 每日 01:00", { key: "success", label: "成功" }, "2 分 12 秒", "9,820"],
+    ["客户回访话术生成", "事件触发 · 通话结束", { key: "success", label: "成功" }, "28 秒", "1,480"],
+    ["API 密钥到期预警", "定时触发 · 每周一 07:00", { key: "success", label: "成功" }, "11 秒", "520"],
+    ["应急响应预案演练", "手动触发", { key: "info", label: "排队中" }, "—", "—"],
+  ];
+  function autoRow(item, i) {
+    const d = new Date(2026, 6, 14 - (i % 28), 8 + (i % 10), (i * 13) % 60);
+    const pad = (n) => String(n).padStart(2, "0");
+    return [item[0], item[1], opsTag(item[2].label, item[2].key === "running" ? "info" : item[2].key), `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`, item[3], item[4]];
+  }
+  const AUTO_ROWS = AUTO_TASKS.map(autoRow);
+
+  // 计算 ROI（给对话明细每行随机重算一次，模拟"计算 ROI"按钮的效果）
+  const chatRowsWithROI = CHAT_ROWS.map((r) => [...r.slice(0, -1), `${(parseFloat(r[6]) + (Math.random() * 4 - 2)).toFixed(1)}%`]);
+
+  const chatPaged = opsDetailPagination(opsState._detailPageChat, PAGE_SIZE, chatRowsWithROI);
+  const autoPaged = opsDetailPagination(opsState._detailPageAuto, PAGE_SIZE, AUTO_ROWS);
+
   return `
     <div class="ops-drawer-section">
       <div class="ops-drawer-base">
@@ -2407,27 +2528,22 @@ function opsAgentDetailHtml(name) {
           <div class="ops-drawer-sub">自动化执行记录</div>
           ${opsTable(
             ["任务名称", "触发方式", "执行状态", "开始时间", "耗时", "消耗 Token"],
-            [
-              ["每日晨报生成", "定时触发 · 每日 08:00", opsTag("成功", "success"), "2026-07-14 08:00", "2 分 41 秒", "12,460"],
-              ["合同到期提醒", "事件触发 · 新合同入库", opsTag("成功", "success"), "2026-07-13 16:22", "46 秒", "3,180"],
-              ["周度数据汇总", "定时触发 · 每周一 09:00", opsTag("成功", "success"), "2026-07-13 09:00", "5 分 08 秒", "21,740"],
-              ["舆情摘要推送", "手动触发", opsTag("运行中", "info"), "2026-07-14 17:40", "—", "—"],
-              ["供应商风险扫描", "定时触发 · 每日 22:00", opsTag("失败", "danger"), "2026-07-12 22:00", "1 分 12 秒", "8,930"],
-            ]
+            autoPaged.rows
           )}
+          ${autoPaged.html}
         </div>
       ` : `
         <div class="ops-drawer-section">
           <div class="ops-drawer-sub">对话明细记录</div>
+          <div class="ops-drawer-toolbar">
+            <span class="ops-drawer-toolbar-label">共 ${chatRowsWithROI.length} 条 · 每页 ${PAGE_SIZE} 条</span>
+            <button class="btn primary ops-drawer-calc-roi" data-handler="${registerHandler({ type: "opsCalcRoi" })}">${icon("chart", "wj-icon")}<span>计算 ROI</span></button>
+          </div>
           ${opsTable(
-            ["问题", "答案", "创建时间", "请求 Token", "返回 Token", "总计 Token"],
-            [
-              ["季度营收同比增长情况", "本季度营收同比增长 12.4%，主要驱动为新业务线放量与客户留存提升。", "2026-07-14 18:22", "320", "1,540", "1,860"],
-              ["提取合同乙方关键条款", "乙方：某某科技有限公司；关键条款：付款周期 30 天、违约金 5%、知识产权归甲方。", "2026-07-14 16:48", "410", "830", "1,240"],
-              ["用户反馈分类汇总", "共 3 类：功能 52%、性能 31%、体验 17%，建议优先处理性能类工单。", "2026-07-14 14:05", "256", "730", "986"],
-              ["翻译这段产品说明", "已翻译为英文，术语与品牌名保持一致，共 3 段。", "2026-07-13 19:31", "180", "620", "800"],
-            ]
+            ["问题", "答案", "创建时间", "请求 Token", "返回 Token", "总计 Token", "ROI"],
+            chatPaged.rows
           )}
+          ${chatPaged.html}
         </div>
       `}
     </div>
@@ -5944,7 +6060,20 @@ document.addEventListener("click", (event) => {
     render();
   }
   if (meta.type === "opsSetTrendDim") { opsState._trendDim = meta.dim === "type" ? "type" : "dept"; render(); }
-  if (meta.type === "opsSetAgentDetailTab") { opsState._detailTab = meta.tab === "auto" ? "auto" : "chat"; render(); }
+  if (meta.type === "opsSetAgentDetailTab") {
+    opsState._detailTab = meta.tab === "auto" ? "auto" : "chat";
+    if (meta.tab === "auto") opsState._detailPageAuto = 1; else opsState._detailPageChat = 1;
+    render();
+  }
+  if (meta.type === "opsDetailPage") {
+    const key = meta.tab === "auto" ? "_detailPageAuto" : "_detailPageChat";
+    opsState[key] = Math.max(1, meta.page || 1);
+    render();
+  }
+  if (meta.type === "opsCalcRoi") {
+    opsState._detailPageChat = opsState._detailPageChat || 1;
+    render();
+  }
   if (meta.type === "opsSetTab") { opsState.tab = meta.tab; render(); }
   if (meta.type === "opsSetRange") { opsState.rangeKey = meta.range; render(); }
   if (meta.type === "opsUserResetRange") {
@@ -5963,7 +6092,12 @@ document.addEventListener("click", (event) => {
     state.drawer = { title: `${meta.user} · 安全分析`, opsKind: "userSecurity", name: meta.user };
     render();
   }
-  if (meta.type === "opsAgentDetail") { state.drawer = { title: meta.name + " · 专家详情", opsKind: "agentDetail", name: meta.name }; render(); }
+  if (meta.type === "opsAgentDetail") {
+    opsState._detailPageChat = 1;
+    opsState._detailPageAuto = 1;
+    state.drawer = { title: meta.name + " · 专家详情", opsKind: "agentDetail", name: meta.name };
+    render();
+  }
   if (meta.type === "opsAuditDetail") { state.drawer = { title: "审计日志详情", opsKind: "auditDetail", id: meta.id }; render(); }
   if (meta.type === "opsAuditModal") { opsState._auditModal = meta.modal; render(); }
   if (meta.type === "opsAuditCloseModal") { opsState._auditModal = ""; render(); }
