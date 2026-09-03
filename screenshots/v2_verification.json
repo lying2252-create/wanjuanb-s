@@ -1,0 +1,42 @@
+{
+  "verification": {
+    "expertListFound": false,
+    "firstRowRoi": null,
+    "firstRowIsPercentage": false,
+    "otherRowsAllButton": true,
+    "otherRowsCount": 0,
+    "rows": [],
+    "tablesCount": 0,
+    "totalRows": 0,
+    "error": "No target table found"
+  },
+  "consoleErrors": [
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "type": "console",
+      "text": "Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    }
+  ],
+  "checks": {
+    "check1": false,
+    "check2": false,
+    "check3": false,
+    "firstRowHas938": null,
+    "allPassed": false
+  }
+}

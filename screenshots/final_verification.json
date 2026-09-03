@@ -1,0 +1,169 @@
+{
+  "verification": {
+    "roiButtonsTotal": 14,
+    "percentageCells": 0,
+    "firstRowRoiText": "93.8%",
+    "firstRowIsPct": false,
+    "otherRowsAllComputeBtn": true,
+    "otherRowsBtnCount": 13,
+    "expertTableRows": 14,
+    "headerTexts": [
+      "专家名称",
+      "类型",
+      "所属部门",
+      "调用量  —",
+      "Token 消耗  ▼",
+      "费用消耗  —",
+      "成功率",
+      "平均耗时",
+      "ROI",
+      "操作"
+    ],
+    "roiColIdx": 8,
+    "rowDetails": [
+      {
+        "idx": 0,
+        "roiText": "93.8%",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "93.8%",
+        "isComputeBtn": false
+      },
+      {
+        "idx": 1,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 2,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 3,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 4,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 5,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 6,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 7,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 8,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 9,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 10,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 11,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 12,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      },
+      {
+        "idx": 13,
+        "roiText": "计算",
+        "isPct": false,
+        "hasBtn": true,
+        "btnText": "计算",
+        "isComputeBtn": true
+      }
+    ],
+    "containerHasExpertList": true,
+    "firstRowHas938": true
+  },
+  "consoleErrors": [
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "type": "console",
+      "text": "Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    }
+  ],
+  "checks": {
+    "check1": false,
+    "check2": true,
+    "check3": false,
+    "firstRowHas938": true,
+    "allPassed": false
+  }
+}

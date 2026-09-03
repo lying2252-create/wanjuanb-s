@@ -1,0 +1,519 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据监控 - 万卷</title>
+    <script>
+      window.__wanjuanAssetVersion = Date.now();
+      document.write(
+        '<link rel="stylesheet" href="./styles.css?v=' +
+          window.__wanjuanAssetVersion +
+          '" />',
+      );
+    </script><link rel="stylesheet" href="./styles.css?v=1788419449697"><link rel="stylesheet" href="./styles.css?v=1788418351080"><link rel="stylesheet" href="./styles.css?v=1788417811357"><link rel="stylesheet" href="./styles.css?v=1788415024617">
+  </head>
+  <body>
+    <div id="app">
+    <div class="app-shell">
+      
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <iconpark-icon name="logonewtext" class="brand-logo-full-icon" color="currentColor" width="86px" height="34px" icon-id="" size="1em"></iconpark-icon>
+        </div>
+      </div>
+      <div class="menu">
+        
+      <button class="menu-item " data-handler="h1">
+        <span class="menu-icon"><iconpark-icon name="shouye" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+        <span class="menu-label">首页</span>
+      </button>
+    
+    <div class="menu-group ">
+      <button class="menu-group-head" data-handler="h2">
+        <span class="menu-icon"><iconpark-icon name="zhinengti" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+        <span class="menu-label">智能体</span>
+        <span class="menu-chevron"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></span>
+      </button>
+      <div class="submenu">
+        
+          <button class="submenu-item " data-handler="h3">
+            <span class="menu-label">智能体管理</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h4">
+            <span class="menu-label">数据中心</span>
+          </button>
+        
+      </div>
+    </div>
+  
+    <div class="menu-group ">
+      <button class="menu-group-head" data-handler="h5">
+        <span class="menu-icon"><iconpark-icon name="zhishiku" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+        <span class="menu-label">知识库</span>
+        <span class="menu-chevron"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></span>
+      </button>
+      <div class="submenu">
+        
+          <button class="submenu-item " data-handler="h6">
+            <span class="menu-label">文档管理</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h7">
+            <span class="menu-label">FAQ管理</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h8">
+            <span class="menu-label">图谱管理</span>
+          </button>
+        
+      </div>
+    </div>
+  
+    <div class="menu-group ">
+      <button class="menu-group-head" data-handler="h9">
+        <span class="menu-icon"><iconpark-icon name="gongju" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+        <span class="menu-label">工具</span>
+        <span class="menu-chevron"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></span>
+      </button>
+      <div class="submenu">
+        
+          <button class="submenu-item " data-handler="h10">
+            <span class="menu-label">工作流</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h11">
+            <span class="menu-label">技能</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h12">
+            <span class="menu-label">MCP</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h13">
+            <span class="menu-label">API</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h14">
+            <span class="menu-label">处理组件</span>
+          </button>
+        
+      </div>
+    </div>
+  
+    <div class="menu-group ">
+      <button class="menu-group-head" data-handler="h15">
+        <span class="menu-icon"><iconpark-icon name="moxing" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+        <span class="menu-label">模型</span>
+        <span class="menu-chevron"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></span>
+      </button>
+      <div class="submenu">
+        
+          <button class="submenu-item " data-handler="h16">
+            <span class="menu-label">模型管理</span>
+          </button>
+        
+      </div>
+    </div>
+  
+    <div class="menu-group ">
+      <button class="menu-group-head" data-handler="h17">
+        <span class="menu-icon"><iconpark-icon name="pingce" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+        <span class="menu-label">评测</span>
+        <span class="menu-chevron"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></span>
+      </button>
+      <div class="submenu">
+        
+          <button class="submenu-item " data-handler="h18">
+            <span class="menu-label">评测任务</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h19">
+            <span class="menu-label">评测集</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h20">
+            <span class="menu-label">评估器</span>
+          </button>
+        
+      </div>
+    </div>
+  
+    <div class="menu-group open">
+      <button class="menu-group-head" data-handler="h21">
+        <span class="menu-icon"><iconpark-icon name="xitong" class="wj-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon></span>
+        <span class="menu-label">系统管理</span>
+        <span class="menu-chevron"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></span>
+      </button>
+      <div class="submenu">
+        
+          <button class="submenu-item " data-handler="h22">
+            <span class="menu-label">用户管理</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h23">
+            <span class="menu-label">角色管理</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h24">
+            <span class="menu-label">菜单管理</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h25">
+            <span class="menu-label">部门管理</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h26">
+            <span class="menu-label">字典管理</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h27">
+            <span class="menu-label">系统模型配置</span>
+          </button>
+        
+          <button class="submenu-item " data-handler="h28">
+            <span class="menu-label">参数设置</span>
+          </button>
+        
+          <button class="submenu-item active" data-handler="h29">
+            <span class="menu-label">数据监控</span>
+          </button>
+        
+      </div>
+    </div>
+  
+      </div>
+    </aside>
+  
+      
+    <header class="topbar">
+      <button class="collapse-btn" data-handler="h30"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M8 11h32M8 24h32M8 37h32m-26.343-7.343L8 24l5.657-5.657"></path></svg></button>
+      <div class="breadcrumb"><span class="breadcrumb-link"><iconpark-icon name="shouye" class="wj-icon tiny-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon><span>系统管理</span></span><span class="breadcrumb-separator">/</span><span class="breadcrumb-current"><span>数据监控</span></span></div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="front-btn" data-handler="h31">
+          <iconpark-icon name="zhinengti2" class="front-btn-icon" color="currentColor" size="1em" icon-id=""></iconpark-icon>
+          <span>前台应用</span>
+        </button>
+        <button class="icon-btn fullscreen-btn" data-handler="h32"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M33 6h9v9m0 18v9h-9m-18 0H6v-9m0-18V6h9"></path></svg></button>
+        <span class="topbar-divider" aria-hidden="true"></span>
+        <button class="user-pill" data-handler="h33" aria-label="账号信息">
+          <span class="avatar">杨</span>
+        </button>
+      </div>
+    </header>
+  
+      
+    <div class="tabbar">
+      <div class="tab-scroll">
+        
+            <div class="tab ">
+              <button class="tab-title" data-handler="h34">首页</button>
+              <span class="tab-close" data-handler="h35"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></span>
+            </div>
+          
+            <div class="tab active">
+              <button class="tab-title" data-handler="h36">数据监控</button>
+              <span class="tab-close" data-handler="h37"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m14 14l20 20m0-20L14 34"></path></svg></span>
+            </div>
+          
+      </div>
+      <button class="icon-btn" data-handler="h38"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M36 18L24 30L12 18"></path></svg></button>
+    </div>
+  
+      <main class="main">
+    <div class="ops-page">
+      <div class="subtabs ops-pills"><button class="subtab active" data-handler="h39">资源总览</button><button class="subtab " data-handler="h40">用户消耗</button><button class="subtab " data-handler="h41">应用运营总览</button><button class="subtab " data-handler="h42">操作审计</button></div>
+      
+    
+    <div class="res-filters">
+      <div class="res-select">请选择部门<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></div>
+      <div class="res-select res-select-sm">至今<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></div>
+      <div class="res-select res-daterange"><span>创建开始日期</span><span class="res-arrow">→</span><span>创建结束日期</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M8 3v4M16 3v4M3 10h18"></path></svg></div>
+      <button class="btn res-reset">重 置</button>
+    </div>
+  
+    <div class="res-section-title">资产总数统计</div>
+    <div class="res-stat-grid">
+      
+    <div class="res-stat-card">
+      <div class="res-stat-top">
+        <span class="res-stat-label">智能体数</span>
+        <span class="res-stat-icon" style="background:#EEEDFC;color:#766BF2"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"></rect><rect x="13" y="3" width="8" height="8" rx="2"></rect><rect x="3" y="13" width="8" height="8" rx="2"></rect><rect x="13" y="13" width="8" height="8" rx="2"></rect></svg></span>
+      </div>
+      <div class="res-stat-value">84</div>
+    </div>
+  
+      
+    <div class="res-stat-card">
+      <div class="res-stat-top">
+        <span class="res-stat-label">工作流总数</span>
+        <span class="res-stat-icon" style="background:#E8F0FE;color:#3B82F6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="5.5" r="2.5"></circle><circle cx="18.5" cy="5.5" r="2.5"></circle><circle cx="12" cy="18.5" r="2.5"></circle><path d="M6.5 7.5 10.8 16.6M17.5 7.5 13.2 16.6M8 5.5h8"></path></svg></span>
+      </div>
+      <div class="res-stat-value">12</div>
+    </div>
+  
+      
+    <div class="res-stat-card">
+      <div class="res-stat-top">
+        <span class="res-stat-label">知识库总数</span>
+        <span class="res-stat-icon" style="background:#E7F8EF;color:#23BF6B"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h14"></path></svg></span>
+      </div>
+      <div class="res-stat-value">114</div>
+    </div>
+  
+      
+    <div class="res-stat-card">
+      <div class="res-stat-top">
+        <span class="res-stat-label">自定义工具总数</span>
+        <span class="res-stat-icon" style="background:#FEF3E6;color:#F59A23"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg></span>
+      </div>
+      <div class="res-stat-value">43</div>
+    </div>
+  
+      
+    <div class="res-stat-card">
+      <div class="res-stat-top">
+        <span class="res-stat-label">部门总数</span>
+        <span class="res-stat-icon" style="background:#F1EBFE;color:#8B5CF6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1"></rect><rect x="2" y="16" width="6" height="5" rx="1"></rect><rect x="16" y="16" width="6" height="5" rx="1"></rect><path d="M12 8v3M5 16v-2h14v2M12 11v3"></path></svg></span>
+      </div>
+      <div class="res-stat-value">9</div>
+    </div>
+  
+      
+    <div class="res-stat-card">
+      <div class="res-stat-top">
+        <span class="res-stat-label">已注册用户量</span>
+        <span class="res-stat-icon" style="background:#F0F1F5;color:#64748B"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path></svg></span>
+      </div>
+      <div class="res-stat-value">152</div>
+    </div>
+  
+    </div>
+    <div class="ops-grid-2">
+      
+    <section class="ops-panel">
+      <div class="ops-panel-head">
+        <div class="ops-panel-title">自定义工具占比</div>
+        
+      </div>
+      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="res-tool-pie" style="height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788419449872"><div style="position: relative; width: 550px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="550" height="300" style="position: absolute; left: 0px; top: 0px; width: 550px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+    <div class="res-legend">
+      <div class="res-legend-items"><span class="res-legend-item"><i style="background:#5B5FEF"></i>API</span><span class="res-legend-item"><i style="background:#2FBF71"></i>MCP</span><span class="res-legend-item"><i style="background:#F59A23"></i>处理组件</span></div>
+      
+    </div>
+  </div>
+    </section>
+  
+      
+    <section class="ops-panel">
+      <div class="ops-panel-head">
+        <div class="ops-panel-title">部门分布</div>
+        
+      </div>
+      <div class="ops-panel-body"><div class="ops-chart" data-ops-chart="res-dept-pie" style="height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1788419449873"><div style="position: relative; width: 550px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="550" height="300" style="position: absolute; left: 0px; top: 0px; width: 550px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+    <div class="res-legend">
+      <div class="res-legend-items"><span class="res-legend-item"><i style="background:#8B5CF6"></i>基础设施部</span><span class="res-legend-item"><i style="background:#EC4899"></i>集团领导</span><span class="res-legend-item"><i style="background:#06B6D4"></i>试用部门</span><span class="res-legend-item"><i style="background:#23BF6B"></i>研发部门</span><span class="res-legend-item"><i style="background:#F7C948"></i>售前/销售部门</span><span class="res-legend-item"><i style="background:#F59A23"></i>研发管理部</span><span class="res-legend-item"><i style="background:#F0532D"></i>客户服务部</span></div>
+      
+        <div class="res-legend-pager">
+          <button class="res-legend-btn" data-handler="h43" disabled="">◀</button>
+          <span>1/2</span>
+          <button class="res-legend-btn" data-handler="h44">▶</button>
+        </div>
+      
+    </div>
+  </div>
+    </section>
+  
+    </div>
+    <div class="res-section-title">使用量统计</div>
+    <section class="ops-panel"><div class="ops-panel-body">
+    <div class="res-usage">
+      
+        <div class="res-usage-item">
+          <div class="res-usage-label"><span class="res-usage-ico" style="background:#F0F1F5;color:#64748B"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path></svg></span>活跃用户数</div>
+          <div class="res-usage-value">0 <span>个</span></div>
+        </div>
+      
+        <div class="res-usage-item">
+          <div class="res-usage-label"><span class="res-usage-ico" style="background:#E8F0FE;color:#3B82F6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="5.5" r="2.5"></circle><circle cx="18.5" cy="5.5" r="2.5"></circle><circle cx="12" cy="18.5" r="2.5"></circle><path d="M6.5 7.5 10.8 16.6M17.5 7.5 13.2 16.6M8 5.5h8"></path></svg></span>工作流调用量</div>
+          <div class="res-usage-value">0 <span>个</span></div>
+        </div>
+      
+        <div class="res-usage-item">
+          <div class="res-usage-label"><span class="res-usage-ico" style="background:#EEEDFC;color:#766BF2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 14a4.5 4.5 0 0 0 7 0"></path><circle cx="9" cy="10" r="0.6"></circle><circle cx="15" cy="10" r="0.6"></circle></svg></span>智能体交互量</div>
+          <div class="res-usage-value">0 <span>次</span></div>
+        </div>
+      
+    </div>
+  </div></section>
+    <div class="res-section-title">使用次数top10</div>
+    <div class="ops-grid-2">
+      
+    <section class="ops-panel">
+      <div class="ops-panel-head">
+        <div class="ops-panel-title">智能体</div>
+        
+      </div>
+      <div class="ops-panel-body"><div class="res-top-list">
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#F59A23">TOP1</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#4E8AF4">TOP2</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#4E8AF4">TOP3</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP4</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP5</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP6</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP7</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP8</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP9</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP10</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    </div></div>
+    </section>
+  
+      
+    <section class="ops-panel">
+      <div class="ops-panel-head">
+        <div class="ops-panel-title">工作流</div>
+        
+      </div>
+      <div class="ops-panel-body"><div class="res-top-list">
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#F59A23">TOP1</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#4E8AF4">TOP2</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#4E8AF4">TOP3</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP4</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP5</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP6</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP7</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP8</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP9</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    
+      <div class="res-top-row">
+        <span class="res-top-idx" style="color:#9AA0B0">TOP10</span>
+        <span class="res-top-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6"></path></svg></span>
+        <span class="res-top-name">暂无</span>
+      </div>
+    </div></div>
+    </section>
+  
+    </div>
+  
+    </div>
+  </main>
+    </div>
+  </div>
+    <div id="portal"></div>
+    <script src="./reference/iconpark-41579.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script>
+      document.write(
+        '<script src="./app.js?v=' + window.__wanjuanAssetVersion + '"><\/script>',
+      );
+    </script><script src="./app.js?v=1788419449697"></script><script src="./app.js?v=1788418351080"></script><script src="./app.js?v=1788417811357"></script>
+  
+
+
+
+
+
+
+
+
+<iframe class="html2canvas-container" width="1556" height="767" scrolling="no" data-html2canvas-ignore="true" style="visibility: hidden; position: fixed; left: -10000px; top: 0px; border: 0px;"></iframe>
+
+
+
+
+
+</body></html>

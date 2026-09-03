@@ -1,0 +1,43 @@
+{
+  "verification": {
+    "firstRowRoi": null,
+    "otherRows": [],
+    "totalRows": 0,
+    "firstRowHasPercentage": false,
+    "otherRowsAllHaveButton": true,
+    "roiColumnIndex": -1,
+    "details": [
+      "ERROR: Could not find expert list table with ROI buttons"
+    ]
+  },
+  "consoleErrors": [
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (File not found)",
+      "location": {
+        "url": "http://localhost:8080/favicon.ico"
+      }
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    },
+    {
+      "type": "pageerror",
+      "message": "Identifier 'app' has already been declared"
+    }
+  ],
+  "checks": {
+    "check1Pass": false,
+    "check2Pass": false,
+    "check3Pass": false,
+    "allPass": false
+  }
+}

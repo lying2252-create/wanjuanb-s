@@ -2429,14 +2429,14 @@ function opsAgentListTable() {
   if (!entries.length) {
     return `<div class="ops-empty">未找到所属部门匹配 "${escapeHtml(opsState.agentQuery)}" 的专家</div>`;
   }
-  // ROI：手动计算后显示百分比，默认显示"计算"按钮
+  // ROI：首行显示预置 ROI 率，其他行显示"计算"按钮；手动计算后可覆盖
   const roiSeed = opsState._agentRoiSeed || 0;
   function roiOf(a, idx) {
-    return opsState._agentRoiResults[a.name] || "计算";
+    return opsState._agentRoiResults[a.name] || (idx === 0 ? "93.8%" : "计算");
   }
   const rows = entries.map((a, idx) => {
     const roiText = roiOf(a, idx);
-    const hasManual = !!opsState._agentRoiResults[a.name];
+    const hasManual = !!opsState._agentRoiResults[a.name] || idx === 0;
     const roiBtn = `<button class="ops-roi-btn ${hasManual ? "computed" : ""}" data-handler="${registerHandler({ type: "opsAgentRoiModal", name: a.name })}">${roiText}</button>`;
     return [
       a.name,
