@@ -1496,7 +1496,7 @@ function renderTabbar() {
 const OPS_HOURS = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, "0")}时`);
 const OPS_PALETTE = ["#4941E6", "#766BF2", "#23BF6B", "#F18019", "#EB4453", "#06B6D4"];
 const OPS_RANGES = [
-  { key: "today", label: "今日" },
+  { key: "today", label: "至今" },
   { key: "7d", label: "近 7 天" },
   { key: "14d", label: "近 14 天" },
   { key: "30d", label: "近 30 天" },
@@ -1897,7 +1897,7 @@ function resFilterBar() {
   return `
     <div class="res-filters">
       <div class="res-select">请选择部门${RES_ICONS.chevron}</div>
-      <div class="res-select res-select-sm">今日${RES_ICONS.chevron}</div>
+      <div class="res-select res-select-sm">至今${RES_ICONS.chevron}</div>
       <div class="res-select res-daterange"><span>创建开始日期</span><span class="res-arrow">→</span><span>创建结束日期</span>${RES_ICONS.calendar}</div>
       <button class="btn res-reset">重 置</button>
     </div>
