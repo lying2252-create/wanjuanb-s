@@ -2302,28 +2302,16 @@ function opsUserDataSection() {
       ${opsKpi("新增用户数", nu.toLocaleString(), "人", "全集团在统计周期内新增的账号数")}
       ${opsKpi("累计用户数", cu, "人", "全集团累计注册 / 开通的账号总数")}
     </div>
-    <div class="ops-grid-2">
-      ${opsPanel("Token 消耗趋势", opsChartEl("ops-token", 280), "", "全集团在统计周期内每日 Token 消耗趋势")}
-      ${opsPanel("费用消耗趋势", opsChartEl("ops-cost-trend", 280), "", "全集团在统计周期内每日费用消耗趋势（按各模型单价核算）")}
-    </div>
+    ${opsPanel("Token 消耗趋势", opsChartEl("ops-token", 280), "", "全集团在统计周期内每日 Token 消耗趋势")}
     ${(() => {
       const d = opsState._userDrillDept;
       const children = d ? opsDeptChildren(d) : [];
       if (!d || !children.length) {
-        return `<div class="ops-grid-2">
-          ${opsPanel("部门 Token 占比", opsChartEl("ops-dept-pie", 280), "", "各一级部门 Token 消耗占全集团总量的比例；点击父部门扇区可查看其子部门细分")}
-          ${opsPanel("部门花费占比", opsChartEl("ops-dept-cost-pie", 280), "", "各一级部门费用消耗占全集团总量的比例；点击父部门扇区可查看其子部门细分")}
-        </div>`;
+        return opsPanel("部门 Token 占比", opsChartEl("ops-dept-pie", 280), "", "各一级部门 Token 消耗占全集团总量的比例；点击父部门扇区可查看其子部门细分");
       }
-      return `<div class="ops-grid-2">
-        ${opsPanel(d + " 子部门 Token 占比", opsChartEl("ops-dept-token-drill", 280), '<button class="btn ops-drill-back" data-handler="' + registerHandler({ type: "opsUserDrillUp" }) + '">← 返回全部</button>', d + "各子部门的 Token 消耗占比")}
-        ${opsPanel(d + " 子部门花费占比", opsChartEl("ops-dept-cost-drill", 280), "", d + "各子部门的费用消耗占比")}
-      </div>`;
+      return opsPanel(d + " 子部门 Token 占比", opsChartEl("ops-dept-token-drill", 280), '<button class="btn ops-drill-back" data-handler="' + registerHandler({ type: "opsUserDrillUp" }) + '">← 返回全部</button>', d + "各子部门的 Token 消耗占比");
     })()}
-    <div class="ops-grid-2">
-      ${opsPanel("各模型 Token 消耗", opsChartEl("ops-model-token", 300), "", "GLM / deepseek / doubao 六个模型的 Token 消耗对比")}
-      ${opsPanel("各模型费用消耗", opsChartEl("ops-model-cost", 300), "", "六个模型按各自单价核算的费用消耗对比")}
-    </div>
+    ${opsPanel("各模型 Token 消耗", opsChartEl("ops-model-token", 300), "", "GLM / deepseek / doubao 六个模型的 Token 消耗对比")}
     ${opsPanel("用户列表", opsUserTable(), opsExportBtn("users"), "全集团用户 Token 与费用消耗明细")}
   `;
 }
