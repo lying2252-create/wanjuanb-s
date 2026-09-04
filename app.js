@@ -2093,11 +2093,11 @@ function opsAuditFilterBar() {
     </div>
   `;
 }
-function opsAuditSummaryCard(label, value, unit, iconKey, tone) {
+function opsAuditSummaryCard(label, value, unit, iconSvg, iconBg, iconColor) {
   return `
     <div class="ops-audit-summary-card">
       <div><span>${label}</span><strong>${value}<em>${unit}</em></strong></div>
-      <span class="ops-audit-summary-icon ${tone || ""}">${icon(iconKey, "wj-icon")}</span>
+      <span class="ops-audit-summary-icon" style="background:${iconBg};color:${iconColor}">${iconSvg}</span>
     </div>
   `;
 }
@@ -2142,9 +2142,9 @@ function opsAuditOverview() {
     <div class="ops-audit-page">
       ${opsUserFilterBar(true)}
       <div class="ops-audit-summary-grid">
-        ${opsAuditSummaryCard("日质量", "1,286", "条", "file", "primary")}
-        ${opsAuditSummaryCard("操作人数", "47", "人", "user", "primary")}
-        ${opsAuditSummaryCard("失败操作", "18", "条", "info", "danger")}
+        ${opsAuditSummaryCard("日质量", "1,286", "条", RES_ICONS.file, "#EEEDFC", "#766BF2")}
+        ${opsAuditSummaryCard("操作人数", "47", "人", RES_ICONS.user, "#E8F0FE", "#3B82F6")}
+        ${opsAuditSummaryCard("失败操作", "18", "条", RES_ICONS.tool, "#FEF3E6", "#F59A23")}
       </div>
       <div class="ops-audit-notice">${icon("check", "wj-icon")}<span><strong>日志完整性保护已启用</strong>所有审计记录均为仅追加写入，管理员也无法编辑或删除；导出行为本身也会产生审计记录。</span></div>
       ${opsAuditTable()}

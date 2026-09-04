@@ -11831,11 +11831,10 @@ button.checkbox {
 .ops-audit-summary-card em { margin-left: 4px; color: var(--muted); font-size: 12px; font-style: normal; font-weight: 400; }
 .ops-audit-summary-icon {
   display: flex; align-items: center; justify-content: center;
-  width: 30px; height: 30px; border-radius: 8px;
-  color: var(--primary); background: #eeedfc;
+  width: 32px; height: 32px; border-radius: 8px;
+  flex: 0 0 auto;
 }
-.ops-audit-summary-icon.danger { color: var(--danger); background: #fff0ef; }
-.ops-audit-summary-icon .wj-icon { width: 16px; height: 16px; }
+.ops-audit-summary-icon svg { width: 16px; height: 16px; }
 .ops-audit-notice {
   display: flex;
   align-items: center;
