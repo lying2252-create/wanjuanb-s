@@ -2116,7 +2116,6 @@ function opsAuditTable() {
           <div class="ops-audit-table-title"><strong>审计日志</strong><span>当前显示 ${rows.length} 条</span></div>
         </div>
         <div class="ops-audit-table-tools">
-          <button class="btn" data-handler="${registerHandler({ type: "opsAuditModal", modal: "rangeAudit" })}">${icon("filterCalendar", "wj-icon")}<span>审计期限配置</span></button>
           <button class="btn primary" data-handler="${registerHandler({ type: "opsAuditModal", modal: "export" })}">${icon("frontDownload", "wj-icon")}<span>导出</span></button>
           <button class="icon-btn" data-handler="${registerHandler({ type: "opsAuditRefresh" })}" aria-label="刷新">${icon("frontActionRefresh", "wj-icon")}</button>
         </div>
