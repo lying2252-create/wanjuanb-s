@@ -2447,17 +2447,9 @@ function opsAgentDataSection() {
   return `
     <div class="ops-kpi-grid">
       ${opsKpiCard("已上架专家总数", OPS_APP_STAT.publishedExperts.toLocaleString(), "个", "当前已上架并可供用户调用的专家总数（存量指标）", d.experts)}
-      ${opsKpiCard("自动化执行任务量", Math.round(OPS_APP_STAT.autoTasks * mult).toLocaleString(), "次", "统计周期内自动化任务（定时 / 事件触发）执行的总次数", d.autoTasks)}
       ${opsKpiCard("累计调用次数", Math.round(totalCalls).toLocaleString(), "次", "统计周期内全部专家的调用总次数（含对话调用与自动化执行）", d.calls)}
-      ${opsKpiCard("任务完成率", OPS_APP_STAT.taskDoneRate.toFixed(1), "%", "统计周期内自动化任务执行成功的比例", d.doneRate)}
       ${opsKpiCard("Token 消耗量", totalTokens.toFixed(1), "亿 tokens", "全部专家在统计周期内消耗的 Token 总量（输入+输出）", d.tokens)}
-      ${opsKpiCard("费用消耗", totalCost.toLocaleString(), "元", "全部专家在统计周期内按各模型单价核算的费用总额", d.cost)}
     </div>
-    <div class="ops-grid-2">
-      ${opsPanel(donutDrilled ? drilled + " 子部门 Token 消耗" : "专家 Token 消耗对比", opsChartEl(donutDrilled ? "ops-dept-agent-drill" : "ops-dept-agent-token", 300), donutExtra, donutDrilled ? drilled + "各子部门的 Token 消耗细分；点击「返回全部」回到一级部门对比" : "按专家所属部门汇总的 Token 消耗对比；点击父部门扇区可在当前区块下钻查看其子部门细分")}
-      ${opsPanel(rankDrilled ? rankDrilledDept + " · 子部门调用量排行" : "调用量排行榜", opsCallRankRows(), rankExtra, rankDrilled ? rankDrilledDept + "各子部门的专家调用量排行；点击「返回全部」回到一级部门排行" : "按部门的专家调用量排行；点击父部门行可在当前区块下钻查看其子部门排行")}
-    </div>
-    ${opsPanel("调用趋势", opsChartEl("ops-call-trend", 300), `<div class="subtabs ops-pills">${trendPills}</div>`, "全部专家的调用次数趋势；右上角可按部门或按专家类型两种维度切换，点击图例可筛选展示对象")}
     ${opsPanel("专家列表", opsAgentListTable(), '<div style="display:flex;align-items:center;gap:8px">' + opsAgentSearchBox() + opsExportBtn("agents") + '</div>', "全部专家明细，支持按部门搜索和按列排序；点击「查看详情」可查看对话明细与自动化执行记录")}
   `;
 }
