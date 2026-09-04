@@ -2440,7 +2440,7 @@ function opsAgentDataSection() {
     `<button class="subtab ${(opsState._trendDim || "dept") === o.k ? "active" : ""}" data-handler="${registerHandler({ type: "opsSetTrendDim", dim: o.k })}">${o.label}</button>`
   ).join("");
   return `
-    <div class="ops-kpi-grid">
+    <div class="ops-kpi-grid cols-3">
       ${opsKpiCard("已上架专家总数", OPS_APP_STAT.publishedExperts.toLocaleString(), "个", "当前已上架并可供用户调用的专家总数（存量指标）", d.experts)}
       ${opsKpiCard("累计调用次数", Math.round(totalCalls).toLocaleString(), "次", "统计周期内全部专家的调用总次数（含对话调用与自动化执行）", d.calls)}
       ${opsKpiCard("Token 消耗量", totalTokens.toFixed(1), "亿 tokens", "全部专家在统计周期内消耗的 Token 总量（输入+输出）", d.tokens)}

@@ -10701,6 +10701,9 @@ button.checkbox {
 .ops-kpi-grid.cols-5 {
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
+.ops-kpi-grid.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 .ops-export-btn {
   gap: 4px;
   height: 28px;
