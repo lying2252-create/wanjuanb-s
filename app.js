@@ -1728,10 +1728,13 @@ function opsHelp(text) {
   const q = '<svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="17.1" r="0.95" fill="currentColor"/></svg>';
   return `<span class="ops-help">${q}<span class="ops-tip">${text}</span></span>`;
 }
-function opsKpi(label, value, unit, tip) {
+function opsKpi(label, value, unit, tip, iconSvg, iconBg, iconColor) {
   return `
     <div class="ops-kpi">
-      <div class="ops-kpi-label">${label}${opsHelp(tip)}</div>
+      <div class="ops-kpi-top">
+        <div class="ops-kpi-label">${label}${opsHelp(tip)}</div>
+        ${iconSvg ? `<span class="ops-kpi-icon" style="background:${iconBg};color:${iconColor}">${iconSvg}</span>` : ""}
+      </div>
       <div class="ops-kpi-value">${value}<span class="ops-kpi-unit">${unit}</span></div>
     </div>
   `;
@@ -2299,11 +2302,11 @@ function opsUserDataSection() {
   const cu = Math.round(dm.users * 17.5).toLocaleString();
   return `
     <div class="ops-kpi-grid cols-5">
-      ${opsKpi("Token 消耗", tk, "亿", "全集团在统计周期内消耗的 Token 总量（输入+输出）")}
-      ${opsKpi("费用消耗", cost.toLocaleString(), "元", "全集团在统计周期内按各模型单价核算的费用总额")}
-      ${opsKpi("活跃用户数", users.toLocaleString(), "人", "全集团在统计周期内去重的活跃用户数")}
-      ${opsKpi("新增用户数", nu.toLocaleString(), "人", "全集团在统计周期内新增的账号数")}
-      ${opsKpi("累计用户数", cu, "人", "全集团累计注册 / 开通的账号总数")}
+      ${opsKpi("Token 消耗", tk, "亿", "全集团在统计周期内消耗的 Token 总量（输入+输出）", RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
+      ${opsKpi("费用消耗", cost.toLocaleString(), "元", "全集团在统计周期内按各模型单价核算的费用总额", RES_ICONS.tool, "#FEF3E6", "#F59A23")}
+      ${opsKpi("活跃用户数", users.toLocaleString(), "人", "全集团在统计周期内去重的活跃用户数", RES_ICONS.user, "#F0F1F5", "#64748B")}
+      ${opsKpi("新增用户数", nu.toLocaleString(), "人", "全集团在统计周期内新增的账号数", RES_ICONS.chat, "#E8F0FE", "#3B82F6")}
+      ${opsKpi("累计用户数", cu, "人", "全集团累计注册 / 开通的账号总数", RES_ICONS.dept, "#EEEDFC", "#766BF2")}
     </div>
     ${opsPanel("Token 消耗趋势", opsChartEl("ops-token", 280), "", "全集团在统计周期内每日 Token 消耗趋势")}
     ${(() => {
