@@ -2019,12 +2019,8 @@ function opsResourceOverview() {
       ${opsPanel("自定义工具占比", opsChartEl("res-tool-pie", 300) + resLegendHtml(RES_TOOL_TYPES, false), "")}
       ${opsPanel("部门分布", opsChartEl("res-dept-pie", 300) + resLegendHtml(RES_DEPTS, true), "")}
     </div>
-    <div class="res-section-title">使用量统计</div>
-    <section class="ops-panel"><div class="ops-panel-body">${resUsageMetrics()}</div></section>
     <div class="res-section-title">使用次数top10</div>
-    <div class="ops-grid-2">
-      ${opsPanel("智能体", resTopRows(), "")}
-    </div>
+    ${opsPanel("智能体", resTopRows(), "")}
   `;
 }
 
