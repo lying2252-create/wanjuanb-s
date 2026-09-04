@@ -10817,6 +10817,13 @@ button.checkbox {
   border-radius: var(--radius-panel);
   overflow: hidden;
 }
+.ops-panel.ops-panel-fullwidth {
+  margin-left: -16px;
+  margin-right: -16px;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
 .ops-panel-head {
   display: flex;
   align-items: center;

@@ -2020,7 +2020,12 @@ function opsResourceOverview() {
       ${opsPanel("部门分布", opsChartEl("res-dept-pie", 300) + resLegendHtml(RES_DEPTS, true), "")}
     </div>
     <div class="res-section-title">使用次数top10</div>
-    ${opsPanel("智能体", resTopRows(), "")}
+    <section class="ops-panel ops-panel-fullwidth">
+      <div class="ops-panel-head">
+        <div class="ops-panel-title">智能体</div>
+      </div>
+      <div class="ops-panel-body">${resTopRows()}</div>
+    </section>
   `;
 }
 
