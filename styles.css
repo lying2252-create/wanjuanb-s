@@ -10721,6 +10721,12 @@ button.checkbox {
   border-radius: 0;
   height: 100%;
   min-height: 120px;
+  padding: 20px 28px;
+  gap: 10px;
+}
+.ops-kpi-grid.ops-kpi-grid-fullwidth > .ops-kpi .ops-kpi-value {
+  font-size: 32px;
+  line-height: 38px;
 }
 .ops-export-btn {
   gap: 4px;
