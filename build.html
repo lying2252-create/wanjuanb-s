@@ -10696,6 +10696,7 @@ button.checkbox {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 12px;
+  align-items: stretch;
 }
 .ops-kpi-grid.cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -10705,6 +10706,30 @@ button.checkbox {
 }
 .ops-kpi-grid.cols-5 {
   grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.ops-kpi-grid.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.ops-kpi-grid.cols-3 > .ops-kpi {
+  height: 100%;
+  min-height: 120px;
+}
+.ops-kpi-grid.ops-kpi-grid-fullwidth {
+  gap: 16px;
+  background: transparent;
+}
+.ops-kpi-grid.ops-kpi-grid-fullwidth > .ops-kpi {
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  height: 100%;
+  min-height: 120px;
+  padding: 20px 28px;
+  gap: 10px;
+}
+.ops-kpi-grid.ops-kpi-grid-fullwidth > .ops-kpi .ops-kpi-value {
+  font-size: 32px;
+  line-height: 38px;
 }
 .ops-export-btn {
   gap: 4px;
@@ -10732,6 +10757,25 @@ button.checkbox {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+.ops-kpi-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ops-kpi-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.ops-kpi-icon svg {
+  width: 16px;
+  height: 16px;
 }
 .ops-kpi-action {
   align-items: center;
@@ -10818,6 +10862,13 @@ button.checkbox {
   border: 1px solid var(--line);
   border-radius: var(--radius-panel);
   overflow: hidden;
+}
+.ops-panel.ops-panel-fullwidth {
+  margin-left: -16px;
+  margin-right: -16px;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
 }
 .ops-panel-head {
   display: flex;
@@ -11785,11 +11836,10 @@ button.checkbox {
 .ops-audit-summary-card em { margin-left: 4px; color: var(--muted); font-size: 12px; font-style: normal; font-weight: 400; }
 .ops-audit-summary-icon {
   display: flex; align-items: center; justify-content: center;
-  width: 30px; height: 30px; border-radius: 8px;
-  color: var(--primary); background: #eeedfc;
+  width: 32px; height: 32px; border-radius: 8px;
+  flex: 0 0 auto;
 }
-.ops-audit-summary-icon.danger { color: var(--danger); background: #fff0ef; }
-.ops-audit-summary-icon .wj-icon { width: 16px; height: 16px; }
+.ops-audit-summary-icon svg { width: 16px; height: 16px; }
 .ops-audit-notice {
   display: flex;
   align-items: center;
@@ -12374,28 +12424,28 @@ button.checkbox {
       <button class="btn res-reset" data-handler="h43">重 置</button>
     </div>
   
-    <div class="ops-kpi-grid" style="">
+    <div class="ops-kpi-grid cols-3 ops-kpi-grid-fullwidth">
       
-    <div class="ops-kpi" style="width: 406.242px; height: 96.5px;">
+    <div class="ops-kpi" style="width: 392.617px; height: 120px; transform: matrix(1, 0, 0, 1, 16.0469, 0);">
       <div class="ops-kpi-label">已上架专家总数<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">当前已上架并可供用户调用的专家总数（存量指标）</span></span></div>
       <div class="ops-kpi-value">128<span class="ops-kpi-unit">个</span></div>
     </div>
   
       
-    <div class="ops-kpi" style="width: 331.969px; height: 96.5px; transform: matrix(1, 0, 0, 1, 218.633, 0);">
+    <div class="ops-kpi" style="width: 393.516px; height: 120px; transform: matrix(1, 0, 0, 1, 15.1484, 0);">
       <div class="ops-kpi-label">累计调用次数<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">统计周期内全部专家的调用总次数（含对话调用与自动化执行）</span></span></div>
       <div class="ops-kpi-value">5,069<span class="ops-kpi-unit">次</span></div>
     </div>
   
       
-    
+    <div class="ops-kpi" style="width: 377.703px; height: 120px; transform: matrix(1, 0, 0, 1, 12.6562, 0);">
+      <div class="ops-kpi-label">Token 消耗量<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全部专家在统计周期内消耗的 Token 总量（输入+输出）</span></span></div>
+      <div class="ops-kpi-value">229.3<span class="ops-kpi-unit">亿 tokens</span></div>
+    </div>
   
-    <div class="ops-kpi" style="width: 435.984px; height: 96.5px; transform: matrix(1, 0, 0, 1, 359.023, 0);">
-      <div class="ops-kpi-label" style="">Token 消耗量<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全部专家在统计周期内消耗的 Token 总量（输入+输出）</span></span></div>
-      <div class="ops-kpi-value" style="">229.3<span class="ops-kpi-unit">亿 tokens</span></div>
-    </div></div>
+    </div>
     
-    <section class="ops-panel" style="">
+    <section class="ops-panel">
       <div class="ops-panel-head">
         <div class="ops-panel-title">专家列表<span class="ops-help"><svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.1" r="0.95" fill="currentColor"></circle></svg><span class="ops-tip">全部专家明细，支持按部门搜索和按列排序；点击「查看详情」可查看对话明细与自动化执行记录</span></span></div>
         <div style="display:flex;align-items:center;gap:8px"><div class="ops-search"><span class="ops-search-icon"><svg class="wj-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4"><path fill="currentColor" d="M21 38c9.389 0 17-7.611 17-17S30.389 4 21 4S4 11.611 4 21s7.611 17 17 17Z"></path><path fill="currentColor" stroke-linecap="round" d="M26.657 14.343A7.98 7.98 0 0 0 21 12a7.98 7.98 0 0 0-5.657 2.343m17.879 18.879l8.485 8.485"></path></g></svg></span><input class="ops-search-input" type="text" placeholder="按所属部门搜索" data-ops-agent-search="" value=""></div><button class="btn ops-export-btn" data-handler="h73"><svg class="wj-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 11 5 5 5-5"></path><path d="M5 21h14"></path></svg><span>导出</span></button></div>
@@ -14165,19 +14215,25 @@ function opsHelp(text) {
   const q = '<svg class="wj-icon ops-help-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.1 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.7 2.3-2.7 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="17.1" r="0.95" fill="currentColor"/></svg>';
   return `<span class="ops-help">${q}<span class="ops-tip">${text}</span></span>`;
 }
-function opsKpi(label, value, unit, tip) {
+function opsKpi(label, value, unit, tip, iconSvg, iconBg, iconColor) {
   return `
     <div class="ops-kpi">
-      <div class="ops-kpi-label">${label}${opsHelp(tip)}</div>
+      <div class="ops-kpi-top">
+        <div class="ops-kpi-label">${label}${opsHelp(tip)}</div>
+        ${iconSvg ? `<span class="ops-kpi-icon" style="background:${iconBg};color:${iconColor}">${iconSvg}</span>` : ""}
+      </div>
       <div class="ops-kpi-value">${value}<span class="ops-kpi-unit">${unit}</span></div>
     </div>
   `;
 }
 // 带周同比的总览卡片（deltaPct 保留参数位；当前设计不在卡片内展示环比数字）
-function opsKpiCard(label, value, unit, tip, deltaPct) {
+function opsKpiCard(label, value, unit, tip, deltaPct, iconSvg, iconBg, iconColor) {
   return `
     <div class="ops-kpi">
-      <div class="ops-kpi-label">${label}${opsHelp(tip)}</div>
+      <div class="ops-kpi-top">
+        <div class="ops-kpi-label">${label}${opsHelp(tip)}</div>
+        ${iconSvg ? `<span class="ops-kpi-icon" style="background:${iconBg};color:${iconColor}">${iconSvg}</span>` : ""}
+      </div>
       <div class="ops-kpi-value">${value}<span class="ops-kpi-unit">${unit}</span></div>
     </div>
   `;
@@ -14456,12 +14512,13 @@ function opsResourceOverview() {
       ${opsPanel("自定义工具占比", opsChartEl("res-tool-pie", 300) + resLegendHtml(RES_TOOL_TYPES, false), "")}
       ${opsPanel("部门分布", opsChartEl("res-dept-pie", 300) + resLegendHtml(RES_DEPTS, true), "")}
     </div>
-    <div class="res-section-title">使用量统计</div>
-    <section class="ops-panel"><div class="ops-panel-body">${resUsageMetrics()}</div></section>
     <div class="res-section-title">使用次数top10</div>
-    <div class="ops-grid-2">
-      ${opsPanel("智能体", resTopRows(), "")}
-    </div>
+    <section class="ops-panel ops-panel-fullwidth">
+      <div class="ops-panel-head">
+        <div class="ops-panel-title">智能体</div>
+      </div>
+      <div class="ops-panel-body">${resTopRows()}</div>
+    </section>
   `;
 }
 
@@ -14523,11 +14580,11 @@ function opsAuditFilterBar() {
     </div>
   `;
 }
-function opsAuditSummaryCard(label, value, unit, iconKey, tone) {
+function opsAuditSummaryCard(label, value, unit, iconSvg, iconBg, iconColor) {
   return `
     <div class="ops-audit-summary-card">
       <div><span>${label}</span><strong>${value}<em>${unit}</em></strong></div>
-      <span class="ops-audit-summary-icon ${tone || ""}">${icon(iconKey, "wj-icon")}</span>
+      <span class="ops-audit-summary-icon" style="background:${iconBg};color:${iconColor}">${iconSvg}</span>
     </div>
   `;
 }
@@ -14572,9 +14629,9 @@ function opsAuditOverview() {
     <div class="ops-audit-page">
       ${opsUserFilterBar(true)}
       <div class="ops-audit-summary-grid">
-        ${opsAuditSummaryCard("日质量", "1,286", "条", "file", "primary")}
-        ${opsAuditSummaryCard("操作人数", "47", "人", "user", "primary")}
-        ${opsAuditSummaryCard("失败操作", "18", "条", "info", "danger")}
+        ${opsAuditSummaryCard("日质量", "1,286", "条", RES_ICONS.file, "#EEEDFC", "#766BF2")}
+        ${opsAuditSummaryCard("操作人数", "47", "人", RES_ICONS.user, "#E8F0FE", "#3B82F6")}
+        ${opsAuditSummaryCard("失败操作", "18", "条", RES_ICONS.tool, "#FEF3E6", "#F59A23")}
       </div>
       <div class="ops-audit-notice">${icon("check", "wj-icon")}<span><strong>日志完整性保护已启用</strong>所有审计记录均为仅追加写入，管理员也无法编辑或删除；导出行为本身也会产生审计记录。</span></div>
       ${opsAuditTable()}
@@ -14732,11 +14789,11 @@ function opsUserDataSection() {
   const cu = Math.round(dm.users * 17.5).toLocaleString();
   return `
     <div class="ops-kpi-grid cols-5">
-      ${opsKpi("Token 消耗", tk, "亿", "全集团在统计周期内消耗的 Token 总量（输入+输出）")}
-      ${opsKpi("费用消耗", cost.toLocaleString(), "元", "全集团在统计周期内按各模型单价核算的费用总额")}
-      ${opsKpi("活跃用户数", users.toLocaleString(), "人", "全集团在统计周期内去重的活跃用户数")}
-      ${opsKpi("新增用户数", nu.toLocaleString(), "人", "全集团在统计周期内新增的账号数")}
-      ${opsKpi("累计用户数", cu, "人", "全集团累计注册 / 开通的账号总数")}
+      ${opsKpi("Token 消耗", tk, "亿", "全集团在统计周期内消耗的 Token 总量（输入+输出）", RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
+      ${opsKpi("费用消耗", cost.toLocaleString(), "元", "全集团在统计周期内按各模型单价核算的费用总额", RES_ICONS.tool, "#FEF3E6", "#F59A23")}
+      ${opsKpi("活跃用户数", users.toLocaleString(), "人", "全集团在统计周期内去重的活跃用户数", RES_ICONS.user, "#F0F1F5", "#64748B")}
+      ${opsKpi("新增用户数", nu.toLocaleString(), "人", "全集团在统计周期内新增的账号数", RES_ICONS.chat, "#E8F0FE", "#3B82F6")}
+      ${opsKpi("累计用户数", cu, "人", "全集团累计注册 / 开通的账号总数", RES_ICONS.dept, "#EEEDFC", "#766BF2")}
     </div>
     ${opsPanel("Token 消耗趋势", opsChartEl("ops-token", 280), "", "全集团在统计周期内每日 Token 消耗趋势")}
     ${(() => {
@@ -14881,10 +14938,10 @@ function opsAgentDataSection() {
     `<button class="subtab ${(opsState._trendDim || "dept") === o.k ? "active" : ""}" data-handler="${registerHandler({ type: "opsSetTrendDim", dim: o.k })}">${o.label}</button>`
   ).join("");
   return `
-    <div class="ops-kpi-grid">
-      ${opsKpiCard("已上架专家总数", OPS_APP_STAT.publishedExperts.toLocaleString(), "个", "当前已上架并可供用户调用的专家总数（存量指标）", d.experts)}
-      ${opsKpiCard("累计调用次数", Math.round(totalCalls).toLocaleString(), "次", "统计周期内全部专家的调用总次数（含对话调用与自动化执行）", d.calls)}
-      ${opsKpiCard("Token 消耗量", totalTokens.toFixed(1), "亿 tokens", "全部专家在统计周期内消耗的 Token 总量（输入+输出）", d.tokens)}
+    <div class="ops-kpi-grid cols-3 ops-kpi-grid-fullwidth">
+      ${opsKpiCard("已上架专家总数", OPS_APP_STAT.publishedExperts.toLocaleString(), "个", "当前已上架并可供用户调用的专家总数（存量指标）", d.experts, RES_ICONS.agent, "#EEEDFC", "#766BF2")}
+      ${opsKpiCard("累计调用次数", Math.round(totalCalls).toLocaleString(), "次", "统计周期内全部专家的调用总次数（含对话调用与自动化执行）", d.calls, RES_ICONS.flow, "#E8F0FE", "#3B82F6")}
+      ${opsKpiCard("Token 消耗量", totalTokens.toFixed(1), "亿 tokens", "全部专家在统计周期内消耗的 Token 总量（输入+输出）", d.tokens, RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
     </div>
     ${opsPanel("专家列表", opsAgentListTable(), '<div style="display:flex;align-items:center;gap:8px">' + opsAgentSearchBox() + opsExportBtn("agents") + '</div>', "全部专家明细，支持按部门搜索和按列排序；点击「查看详情」可查看对话明细与自动化执行记录")}
   `;
