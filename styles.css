@@ -10755,6 +10755,25 @@ button.checkbox {
   flex-direction: column;
   gap: 8px;
 }
+.ops-kpi-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ops-kpi-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.ops-kpi-icon svg {
+  width: 16px;
+  height: 16px;
+}
 .ops-kpi-action {
   align-items: center;
   justify-content: center;

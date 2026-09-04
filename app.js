@@ -1737,10 +1737,13 @@ function opsKpi(label, value, unit, tip) {
   `;
 }
 // 带周同比的总览卡片（deltaPct 保留参数位；当前设计不在卡片内展示环比数字）
-function opsKpiCard(label, value, unit, tip, deltaPct) {
+function opsKpiCard(label, value, unit, tip, deltaPct, iconSvg, iconBg, iconColor) {
   return `
     <div class="ops-kpi">
-      <div class="ops-kpi-label">${label}${opsHelp(tip)}</div>
+      <div class="ops-kpi-top">
+        <div class="ops-kpi-label">${label}${opsHelp(tip)}</div>
+        ${iconSvg ? `<span class="ops-kpi-icon" style="background:${iconBg};color:${iconColor}">${iconSvg}</span>` : ""}
+      </div>
       <div class="ops-kpi-value">${value}<span class="ops-kpi-unit">${unit}</span></div>
     </div>
   `;
@@ -2446,9 +2449,9 @@ function opsAgentDataSection() {
   ).join("");
   return `
     <div class="ops-kpi-grid cols-3 ops-kpi-grid-fullwidth">
-      ${opsKpiCard("已上架专家总数", OPS_APP_STAT.publishedExperts.toLocaleString(), "个", "当前已上架并可供用户调用的专家总数（存量指标）", d.experts)}
-      ${opsKpiCard("累计调用次数", Math.round(totalCalls).toLocaleString(), "次", "统计周期内全部专家的调用总次数（含对话调用与自动化执行）", d.calls)}
-      ${opsKpiCard("Token 消耗量", totalTokens.toFixed(1), "亿 tokens", "全部专家在统计周期内消耗的 Token 总量（输入+输出）", d.tokens)}
+      ${opsKpiCard("已上架专家总数", OPS_APP_STAT.publishedExperts.toLocaleString(), "个", "当前已上架并可供用户调用的专家总数（存量指标）", d.experts, RES_ICONS.agent, "#EEEDFC", "#766BF2")}
+      ${opsKpiCard("累计调用次数", Math.round(totalCalls).toLocaleString(), "次", "统计周期内全部专家的调用总次数（含对话调用与自动化执行）", d.calls, RES_ICONS.flow, "#E8F0FE", "#3B82F6")}
+      ${opsKpiCard("Token 消耗量", totalTokens.toFixed(1), "亿 tokens", "全部专家在统计周期内消耗的 Token 总量（输入+输出）", d.tokens, RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
     </div>
     ${opsPanel("专家列表", opsAgentListTable(), '<div style="display:flex;align-items:center;gap:8px">' + opsAgentSearchBox() + opsExportBtn("agents") + '</div>', "全部专家明细，支持按部门搜索和按列排序；点击「查看详情」可查看对话明细与自动化执行记录")}
   `;
