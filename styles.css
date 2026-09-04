@@ -10710,8 +10710,6 @@ button.checkbox {
   min-height: 120px;
 }
 .ops-kpi-grid.ops-kpi-grid-fullwidth {
-  margin-left: -16px;
-  margin-right: -16px;
   gap: 16px;
   background: transparent;
 }
