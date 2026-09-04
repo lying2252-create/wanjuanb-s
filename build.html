@@ -14094,6 +14094,7 @@ const opsState = {
   customEnd: "2026-07-14",
   userStart: "",
   userEnd: "",
+  userPlatform: "all",
   userPage: 1,
   tab: "资源总览",
   _detailName: null,
@@ -14334,6 +14335,14 @@ function opsUserFilterBar(withAuditFilters) {
         <input type="date" aria-label="创建结束日期" value="${escapeHtml(opsState.userEnd)}" data-ops-user-date="end" />
         ${RES_ICONS.calendar}
       </div>
+      <label class="res-select res-select-sm ops-user-period">
+        <select aria-label="终端类型" data-ops-user-platform>
+          <option value="all" ${opsState.userPlatform === "all" ? "selected" : ""}>全部终端</option>
+          <option value="desktop" ${opsState.userPlatform === "desktop" ? "selected" : ""}>桌面端</option>
+          <option value="web" ${opsState.userPlatform === "web" ? "selected" : ""}>网页端</option>
+        </select>
+        ${RES_ICONS.chevron}
+      </label>
       ${auditFields}
     </div>
   `;
@@ -19237,6 +19246,13 @@ document.addEventListener("change", (event) => {
     opsState.userEnd = "";
     opsState.userPage = 1;
     render();
+    return;
+  }
+  const opsUserPlatform = event.target.closest("[data-ops-user-platform]");
+  if (opsUserPlatform) {
+    opsState.userPlatform = opsUserPlatform.value;
+    opsState.userPage = 1;
+    renderOpsCharts();
     return;
   }
   const auditSelect = event.target.closest("[data-ops-audit-filter]");
