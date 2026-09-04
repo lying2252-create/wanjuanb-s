@@ -2024,7 +2024,6 @@ function opsResourceOverview() {
     <div class="res-section-title">使用次数top10</div>
     <div class="ops-grid-2">
       ${opsPanel("智能体", resTopRows(), "")}
-      ${opsPanel("工作流", resTopRows(), "")}
     </div>
   `;
 }
