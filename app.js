@@ -2080,6 +2080,232 @@ function opsResourceOverview() {
   `;
 }
 
+// ==================== 效益统计 ====================
+// 状态标签：中文文案 + tone class
+function opsEffStatusLabel(status) {
+  const map = {
+    effective:      { text: "已生效",   tone: "success" },
+    pending_confirm:{ text: "待确认",   tone: "warning" },
+    pending_fill:   { text: "待填写",   tone: "default" },
+    pending_fix:    { text: "待修改",   tone: "danger" },
+    uneff:          { text: "未评估",   tone: "muted" },
+  };
+  const m = map[status] || { text: status, tone: "" };
+  return `<span class="ops-tag ${m.tone}">${m.text}</span>`;
+}
+function opsEfficiencySection() {
+  const s = OPS_EFF_STAT;
+  const asmt = s.assessment;
+  const covered = asmt.effective + asmt.pendingConfirm;
+  const coverage = Math.round((covered / s.onlineCount) * 100); // 50%
+  // 左侧效益趋势两个标签切换
+  const trendPills = ["hours", "tokens"].map((k) => {
+    const label = k === "hours" ? "节省工时" : "Token 消耗";
+    return `<button class="subtab ${opsState._effTrendDim === k ? "active" : ""}" data-handler="${registerHandler({ type: "opsEffTrendDim", dim: k })}">${label}</button>`;
+  }).join("");
+  // 右侧评估概览：两个主项 + 一个底部待办条
+  const asmtItems = [
+    { k: "effective",      text: "已有生效基准", value: asmt.effective,      dot: "#4941E6" },
+    { k: "pendingConfirm", text: "尚未生效",     value: asmt.pendingConfirm, dot: "#F59A23" },
+  ].map((it) => `<div class="ops-eff-assmt-item"><i style="background:${it.dot}"></i><span>${it.text}</span><strong>${it.value}</strong></div>`).join("");
+  const pendingConfirm = asmt.pendingConfirm;
+  const asmtBottom = `<div class="ops-eff-assmt-footer">
+    <span class="ops-eff-assmt-footer-ic">📋</span>
+    <span>${pendingConfirm} 项评估等待确认</span>
+    <button class="ops-eff-assmt-footer-link" data-handler="${registerHandler({ type: "noop" })}">去确认 →</button>
+  </div>`;
+
+  // 明细表 Tab（已上架员工 / 全部）
+  const tabPills = ["online", "all"].map((k) => {
+    const label = k === "online" ? `已上架员工 ${OPS_DIGITAL_EMPLOYEES.filter((e) => e.online).length}` : `全部（含下架）`;
+    return `<button class="subtab ops-eff-emp-tab ${opsState._effTab === k ? "active" : ""}" data-handler="${registerHandler({ type: "opsEffSetTab", tab: k })}">${label}</button>`;
+  }).join("");
+
+  // 状态下拉选项
+  const statusSelect = [
+    ["all", "全部评估状态"],
+    ["effective", "已生效"],
+    ["pending_confirm", "待确认"],
+    ["pending_fill", "待填写"],
+    ["pending_fix", "待修改"],
+    ["uneff", "未评估"],
+  ].map(([v, t]) => `<option value="${v}" ${opsState._effStatus === v ? "selected" : ""}>${t}</option>`).join("");
+
+  return `
+    <div class="ops-eff-header">
+      <div class="ops-eff-copy">
+        <div class="ops-eff-en">DIGITAL WORKFORCE ANALYTICS</div>
+        <h1 class="ops-eff-title">数字员工效益看板</h1>
+        <p class="ops-eff-sub">量化时间价值，让每一份投入清晰可见。</p>
+      </div>
+      <div class="ops-eff-actions">
+        <button class="btn ghost" data-handler="${registerHandler({ type: "noop" })}">ⓘ 统计口径</button>
+        <button class="btn primary" data-handler="${registerHandler({ type: "noop" })}">▶ 模拟任务</button>
+      </div>
+    </div>
+
+    <div class="ops-eff-filterbar">
+      <div class="ops-eff-period">
+        <button class="ops-eff-period-btn active" data-handler="${registerHandler({ type: "noop" })}">本月</button>
+        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">上月</button>
+        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">累计</button>
+        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">自定义</button>
+      </div>
+      <div class="ops-eff-daterange">2026.09.01 — 2026.09.11</div>
+      <div class="ops-eff-filterhint">按任务完成时间统计</div>
+    </div>
+
+    <div class="ops-kpi-grid cols-3">
+      <div class="ops-eff-kpi ops-eff-kpi-primary">
+        <div class="ops-kpi-top">
+          <div class="ops-kpi-label">预计节省工时${opsHelp("按岗位人工小时成本折算")}</div>
+          <span class="ops-kpi-icon" style="background:#EEEDFC;color:#766BF2">${RES_ICONS.chat}</span>
+        </div>
+        <div class="ops-kpi-value">${s.savedHours.toFixed(1)}<span class="ops-kpi-unit">小时</span></div>
+        <div class="ops-eff-kpi-foot">
+          <span class="ops-eff-kpi-foot-tag">效率收益</span>
+          <span class="ops-eff-kpi-foot-sub">${s.successTasks} 次成功任务已计收益</span>
+        </div>
+      </div>
+      ${opsKpiCard("预计节省人工成本", "¥" + s.savedCost.toLocaleString("zh-CN", { minimumFractionDigits: 2 }), "", "按岗位人工小时成本折算", undefined, RES_ICONS.tool, "#FEF3E6", "#F59A23")}
+      ${opsKpiCard("Token 消耗量", s.tokensTotal.toFixed(2), "M Tokens", "输入 + 输出合计", undefined, RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
+      <div class="ops-eff-kpi-footer ops-kpi-grid-3-last">
+        <div class="ops-eff-kpi-foot-meta">
+          <div>
+            <span>输入</span><strong>${s.tokensIn.toFixed(2)} M</strong>
+            <span>输出</span><strong>${s.tokensOut.toFixed(2)} M</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ops-eff-info">
+      <span class="ops-eff-info-ic">ⓘ</span>
+      <span>已上架 ${s.onlineCount} 位员工，${asmt.effective + asmt.pendingConfirm} 位已有评估基准 · 历史下架员工收益保留</span>
+      <button class="ops-eff-info-link" data-handler="${registerHandler({ type: "noop" })}">去完善评估 →</button>
+      <span class="ops-eff-info-right">节省收益为调研估算，非实际现金节省</span>
+    </div>
+
+    <div class="ops-grid-2">
+      ${opsPanel("效益趋势",
+        `<div class="subtabs ops-pills ops-eff-trend-pills">${trendPills}</div>` +
+        opsChartEl("ops-eff-trend", 280),
+        "",
+        "查看所选周期内的每日价值累积"
+      )}
+      ${opsPanel("评估概览",
+        `<div class="ops-eff-assmt-head"><div class="ops-eff-assmt-donut-wrap">` +
+        opsChartEl("ops-eff-assmt-donut", 180) +
+        `</div><div class="ops-eff-assmt-list">${asmtItems}</div></div>` +
+        asmtBottom,
+        '<span class="ops-eff-asmt-right">当前已上架</span>',
+        ""
+      )}
+    </div>
+
+    ${opsEffEmpTable()}
+  `;
+}
+function opsEffEmpTable() {
+  // 筛选
+  let list = OPS_DIGITAL_EMPLOYEES.slice();
+  if (opsState._effTab === "online") list = list.filter((e) => e.online);
+  const q = (opsState._effQuery || "").trim().toLowerCase();
+  if (q) list = list.filter((e) => (e.name + e.owner + e.dept).toLowerCase().includes(q));
+  if (opsState._effStatus !== "all") list = list.filter((e) => e.status === opsState._effStatus);
+  // 排序：已生效 在前，按节省工时降序
+  list.sort((a, b) => {
+    const rank = { effective: 0, pending_confirm: 1, pending_fill: 2, pending_fix: 3, uneff: 4 };
+    const ra = rank[a.status] ?? 5;
+    const rb = rank[b.status] ?? 5;
+    if (ra !== rb) return ra - rb;
+    const va = a.savedHours ?? -1;
+    const vb = b.savedHours ?? -1;
+    return vb - va;
+  });
+  const n = list.length;
+  // 状态下拉（已选中的 value）
+  const statusSelect = [
+    ["all", "全部评估状态"],
+    ["effective", "已生效"],
+    ["pending_confirm", "待确认"],
+    ["pending_fill", "待填写"],
+    ["pending_fix", "待修改"],
+    ["uneff", "未评估"],
+  ].map(([v, t]) => `<option value="${v}" ${opsState._effStatus === v ? "selected" : ""}>${t}</option>`).join("");
+
+  const rows = list.map((e) => {
+    const savedH = e.savedHours != null ? e.savedHours.toFixed(1) : "—";
+    const savedC = e.savedCost != null ? e.savedCost.toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—";
+    // 操作区按钮
+    let actions;
+    if (e.status === "effective") {
+      actions = `<button class="ops-link" data-handler="${registerHandler({ type: "noop" })}">修改评估</button>`;
+    } else if (e.status === "pending_confirm") {
+      actions = `<button class="ops-link primary" data-handler="${registerHandler({ type: "noop" })}">确认评估</button>`;
+    } else if (e.status === "pending_fill") {
+      actions = `<button class="ops-link primary" data-handler="${registerHandler({ type: "noop" })}">填写评估</button>
+        <button class="ops-link" data-handler="${registerHandler({ type: "noop" })}">再次邀请</button>`;
+    } else {
+      actions = `<button class="ops-link primary" data-handler="${registerHandler({ type: "noop" })}">填写评估</button>
+        <button class="ops-link" data-handler="${registerHandler({ type: "noop" })}">邀请填写</button>`;
+    }
+    return [
+      `<label class="ops-eff-emp-check"><input type="checkbox" /><span></span></label>`,
+      `<div class="ops-eff-emp-cell">
+        <span class="ops-eff-emp-ava">${e.name.slice(0, 1)}</span>
+        <div>
+          <div class="ops-eff-emp-name">${e.name}</div>
+          <div class="ops-eff-emp-sub">${e.owner} · ${e.dept}</div>
+        </div>
+      </div>`,
+      opsEffStatusLabel(e.status) + (e.statusNote ? `<div class="ops-eff-emp-status-sub">${e.statusNote}</div>` : ""),
+      e.successTasks,
+      savedH,
+      savedC,
+      e.tokens,
+      `<div class="ops-eff-emp-actions">${actions}<button class="ops-link" data-handler="${registerHandler({ type: "noop" })}">记录</button></div>`,
+    ];
+  });
+  const tabPills = ["online", "all"].map((k) => {
+    const label = k === "online" ? `已上架员工 ${OPS_DIGITAL_EMPLOYEES.filter((e) => e.online).length}` : `全部（含下架）`;
+    return `<button class="subtab ${opsState._effTab === k ? "active" : ""}" data-handler="${registerHandler({ type: "opsEffSetTab", tab: k })}">${label}</button>`;
+  }).join("");
+
+  const table = opsTable(
+    ["", "数字员工 / 创建人", "评估状态", "成功任务", "节省工时 · 小时", "人工成本 · 元", "Token 消耗", "操作"],
+    rows
+  );
+
+  return `
+    <section class="ops-panel ops-eff-emp-panel">
+      <div class="ops-panel-head">
+        <div class="ops-panel-title">数字员工效益明细 <span class="ops-eff-emp-count">${n}</span></div>
+        <div class="ops-eff-emp-head-right">
+          <div class="ops-eff-emp-head-hint">配置单次任务评估基准，持续追踪员工贡献</div>
+          <button class="btn primary ops-eff-invite">✈ 邀请填写</button>
+        </div>
+      </div>
+      <div class="ops-eff-emp-filterbar">
+        <div class="subtabs ops-pills">${tabPills}</div>
+        <div class="ops-eff-emp-search">
+          <span class="ops-search-icon">${icon("search")}</span>
+          <input placeholder="搜索数字员工或创建人" value="${escapeHtml(opsState._effQuery)}" data-ops-eff-query />
+        </div>
+        <label class="res-select res-select-sm">
+          <select aria-label="评估状态" data-ops-eff-status>${statusSelect}</select>
+          ${RES_ICONS.chevron}
+        </label>
+      </div>
+      <div class="ops-panel-body">${table}</div>
+      <div class="ops-eff-emp-footer">
+        <span>共 ${OPS_DIGITAL_EMPLOYEES.length} 位数字员工</span>
+        <span>收益仅计入评估生效后的成功任务；消耗包含失败任务</span>
+      </div>
+    </section>
+  `;
+}
+
 // ==================== 操作审计 ====================
 const OPS_AUDIT_LOGS = [
   { time: "2026-09-02 15:42:18", user: "杨明", account: "yangming", type: "系统配置变更", object: "参数设置", content: "修改审计日志保留期限：365 天 → 730 天", ip: "10.18.32.46", result: "成功", id: "AUD-20260902-001286", before: "365 天", after: "730 天" },
@@ -2971,6 +3197,54 @@ function opsChartOption(key) {
         itemStyle: { color: colors[i % colors.length] },
         data: OPS_TOP_DEPTS.map((d) => +(((OPS_DEPT_METRIC[d] || {}).tokens || 0) * (0.08 + 0.16 * ((i + 1) % 6)) * opsRangeMult()).toFixed(1)),
       })),
+    };
+  }
+  // 效益趋势折线图
+  if (key === "ops-eff-trend") {
+    const isHours = opsState._effTrendDim !== "tokens";
+    const unit = isHours ? "小时" : "M";
+    const color = isHours ? "#4941E6" : "#23BF6B";
+    const base = isHours ? 242.9 : 10.95; // 总计，用于拆到每日
+    const perDay = base / Math.max(1, n);
+    return {
+      color: [color],
+      tooltip: { trigger: "axis" },
+      grid: { left: 48, right: 24, top: 24, bottom: 36 },
+      xAxis: { type: "category", boundaryGap: false, data: axis.labels, axisLabel: Object.assign({}, opsAxisLabel(), { interval: axis.interval }), axisLine: opsAxisLine(), axisTick: { show: false } },
+      yAxis: { type: "value", name: unit, nameTextStyle: { color: "#9295A4", fontSize: 12 }, axisLabel: opsAxisLabel(), splitLine: opsSplitLine() },
+      series: [{
+        name: isHours ? "节省工时" : "Token 消耗", type: "line", smooth: true, symbol: "circle", symbolSize: 6,
+        lineStyle: { width: 2.2, color }, itemStyle: { color },
+        areaStyle: { color: { type: "linear", x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: color + "40" }, { offset: 1, color: color + "02" }] } },
+        data: opsTrend(+perDay.toFixed(2), n, { phase: isHours ? 1 : 2, scale: isHours ? 1.2 : 0.9 }),
+      }],
+    };
+  }
+  // 评估概览环形图
+  if (key === "ops-eff-assmt-donut") {
+    const s = OPS_EFF_STAT.assessment;
+    const covered = s.effective + s.pendingConfirm;
+    const total = OPS_EFF_STAT.onlineCount;
+    const coveredPct = total > 0 ? Math.round((covered / total) * 100) : 0;
+    // 分段：已生效 / 尚未生效 / 未覆盖
+    const segments = [
+      { value: s.effective,      name: "已有生效基准", color: "#4941E6" },
+      { value: s.pendingConfirm, name: "尚未生效",     color: "#F59A23" },
+    ];
+    const gapCount = Math.max(0, total - covered);
+    if (gapCount > 0) segments.push({ value: gapCount, name: "未覆盖", color: "#F0F1F6" });
+    return {
+      tooltip: { trigger: "item", formatter: (p) => `${p.name}: ${p.value} 个 (${p.percent}%)` },
+      series: [{
+        type: "pie", radius: ["62%", "78%"], center: ["50%", "50%"],
+        itemStyle: { borderColor: "#fff", borderWidth: 2 },
+        label: { show: false }, emphasis: { scale: false },
+        data: segments.map((d) => ({ value: d.value, name: d.name, itemStyle: { color: d.color } })),
+      }],
+      graphic: [
+        { type: "text", left: "center", top: "42%", style: { text: String(coveredPct) + "%", fill: "#32384C", fontSize: 28, fontWeight: 600, textAlign: "center" } },
+        { type: "text", left: "center", top: "58%", style: { text: "评估覆盖率", fill: "#9295A4", fontSize: 12, textAlign: "center" } },
+      ],
     };
   }
   return {};
@@ -6237,6 +6511,8 @@ document.addEventListener("click", (event) => {
     render();
   }
   if (meta.type === "opsSetTrendDim") { opsState._trendDim = meta.dim === "type" ? "type" : "dept"; render(); }
+  if (meta.type === "opsEffTrendDim") { opsState._effTrendDim = meta.dim === "tokens" ? "tokens" : "hours"; renderOpsCharts(); }
+  if (meta.type === "opsEffSetTab") { opsState._effTab = meta.tab === "all" ? "all" : "online"; render(); }
   if (meta.type === "opsSetAgentDetailTab") {
     opsState._detailTab = meta.tab === "auto" ? "auto" : "chat";
     if (meta.tab === "auto") opsState._detailPageAuto = 1; else opsState._detailPageChat = 1;
@@ -6735,6 +7011,16 @@ document.addEventListener("input", (event) => {
     });
     return;
   }
+  const opsEffQuery = event.target.closest("[data-ops-eff-query]");
+  if (opsEffQuery) {
+    opsState._effQuery = opsEffQuery.value;
+    render();
+    requestAnimationFrame(() => {
+      const nextInput = document.querySelector("[data-ops-eff-query]");
+      if (nextInput) { nextInput.focus(); nextInput.setSelectionRange(nextInput.value.length, nextInput.value.length); }
+    });
+    return;
+  }
   const docTreeSearch = event.target.closest("[data-doc-tree-search]");
   if (docTreeSearch) {
     state.docManagement.treeQuery = docTreeSearch.value;
@@ -6803,6 +7089,12 @@ document.addEventListener("change", (event) => {
     opsState.userPlatform = opsUserPlatform.value;
     opsState.userPage = 1;
     renderOpsCharts();
+    return;
+  }
+  const opsEffStatus = event.target.closest("[data-ops-eff-status]");
+  if (opsEffStatus) {
+    opsState._effStatus = opsEffStatus.value;
+    render();
     return;
   }
   const auditSelect = event.target.closest("[data-ops-audit-filter]");
