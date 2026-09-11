@@ -1601,6 +1601,37 @@ const OPS_APP_STAT = {
   deltas: { experts: 3.2, autoTasks: 18.6, calls: 12.4, doneRate: 0.6, tokens: 9.8, cost: 11.2 }, // 较上周对比（%）
 };
 
+// 效益统计：总览 KPI（基准值，不随统计周期缩放）
+const OPS_EFF_STAT = {
+  savedHours: 242.9,         // 预计节省工时（小时）
+  savedCost: 28959.17,       // 预计节省人工成本（元）
+  tokensTotal: 10.95,        // Token 消耗量（M tokens）
+  tokensIn: 9.01,            // 输入 Token（M）
+  tokensOut: 1.94,           // 输出 Token（M）
+  successTasks: 219,         // 成功任务数
+  deptPrice: 119.0,          // 按岗位人工小时成本折算基准（元/小时）
+  onlineCount: 8,            // 当前已上架数字员工数
+  // 评估概览
+  assessment: {
+    effective: 4,   // 已有生效基准
+    pendingConfirm: 4,   // 尚未生效（待确认）
+    pendingFill: 1,      // 待填写
+    uneff: 0,            // 未评估
+  },
+};
+
+// 效益统计：数字员工明细
+const OPS_DIGITAL_EMPLOYEES = [
+  { name: "经营分析专家",   owner: "张明",  dept: "经营管理部",  status: "effective",      online: true, successTasks: 48, savedHours: 72.0,  savedCost: 7200.00,  tokens: "733.6 K" },
+  { name: "合同审核助手",   owner: "李静",  dept: "法务合规部",  status: "effective",      online: true, successTasks: 50, savedHours: 56.4,  savedCost: 8462.50,  tokens: "956.0 K" },
+  { name: "招投标评审专家", owner: "王磊",  dept: "采购管理部",  status: "pending_confirm",online: true, successTasks: 52, savedHours: 104.0, savedCost: 12480.00, tokens: "1.20 M",   statusNote: "原标准仍生效" },
+  { name: "制度问答助手",   owner: "陈晨",  dept: "人力资源部",  status: "effective",      online: true, successTasks: 49, savedHours: 8.2,   savedCost: 653.33,   tokens: "1.28 M" },
+  { name: "销售周报助手",   owner: "刘洋",  dept: "销售管理部",  status: "pending_fill",   online: true, successTasks: 0,  savedHours: null,  savedCost: null,     tokens: "1.54 M" },
+  { name: "报销核验助手",   owner: "赵敏",  dept: "财务管理部",  status: "pending_confirm",online: true, successTasks: 0,  savedHours: null,  savedCost: null,     tokens: "1.81 M" },
+  { name: "会议纪要助手",   owner: "张明",  dept: "经营管理部",  status: "uneff",          online: true, successTasks: 0,  savedHours: null,  savedCost: null,     tokens: "705.1 K" },
+  { name: "采购需求分析员", owner: "王磊",  dept: "采购管理部",  status: "pending_fix",    online: true, successTasks: 0,  savedHours: null,  savedCost: null,     tokens: "1.90 M" },
+];
+
 const opsState = {
   rangeKey: "today",
   customStart: "2026-07-01",
@@ -1634,6 +1665,11 @@ const opsState = {
     days: 360,               // 最近 N 天
     applyToExport: true,
   },
+  // 效益统计模块状态
+  _effQuery: "",
+  _effStatus: "all",        // all / effective / pending_fill / pending_confirm / pending_fix / uneff
+  _effTrendDim: "hours",    // hours / tokens
+  _effTab: "online",        // online(已上架) / all(全部含下架)
 };
 const opsCharts = new Map();
 
@@ -2284,12 +2320,13 @@ function renderOpsAuditModal() {
 
 // ==================== 运营监控页 ====================
 function renderOpsOverview() {
-  const tabs = ["资源总览", "用户消耗", "应用运营总览", "操作审计"].map((t) =>
+  const tabs = ["资源总览", "用户消耗", "应用运营总览", "效益统计", "操作审计"].map((t) =>
     `<button class="subtab ${t === opsState.tab ? "active" : ""}" data-handler="${registerHandler({ type: "opsSetTab", tab: t })}">${t}</button>`
   ).join("");
   let body;
   if (opsState.tab === "用户消耗") body = opsUserFilterBar() + opsUserDataSection();
   else if (opsState.tab === "应用运营总览") body = opsUserFilterBar() + opsAgentDataSection();
+  else if (opsState.tab === "效益统计") body = opsUserFilterBar() + opsEfficiencySection();
   else if (opsState.tab === "操作审计") body = opsAuditOverview();
   else body = opsResourceOverview();
   return `
