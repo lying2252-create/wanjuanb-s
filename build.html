@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数据监控 - 万卷</title>
-    
+    <link rel="stylesheet" href="./styles.css?v=1788516880669"><link rel="stylesheet" href="./styles.css?v=1788430664527"><link rel="stylesheet" href="./styles.css?v=1788430086035"><link rel="stylesheet" href="./styles.css?v=1788429629614"><link rel="stylesheet" href="./styles.css?v=1788429283192"><link rel="stylesheet" href="./styles.css?v=1788427737893"><link rel="stylesheet" href="./styles.css?v=1788420268951"><link rel="stylesheet" href="./styles.css?v=1788418351080"><link rel="stylesheet" href="./styles.css?v=1788417811357"><link rel="stylesheet" href="./styles.css?v=1788415024617">
+  </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>数据监控 - 万卷</title>
 <style>:root {
@@ -12656,6 +12657,49 @@ button.checkbox {
   margin-top: 10px;
 }
 
+
+/* ===== 效益统计 — KPI 三等分铺满 ===== */
+.ops-kpi-grid.cols-3.ops-eff-kpi-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+}
+.ops-eff-kpi-grid > .ops-kpi,
+.ops-eff-kpi-grid > .ops-eff-kpi {
+  width: 100%;
+  min-height: 130px;
+  height: 100%;
+}
+
+/* ===== 效益统计 — 评估状态 select 去黑框 ===== */
+.ops-eff-emp-filterbar .res-select select,
+.res-select select {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #32384C;
+  font-size: 12px;
+  padding: 0;
+  min-width: 0;
+  width: 100%;
+  cursor: pointer;
+  color-scheme: light;  /* 让下拉选项保持浅色主题 */
+}
+.ops-eff-emp-filterbar .res-select select:focus,
+.res-select select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* ===== 清理已删除元素的残留样式，避免干扰 ===== */
+.ops-eff-header,
+.ops-eff-kpi-footer,
+.ops-eff-kpi-foot-meta {
+  /* deprecated — 已删除 */
+  display: none;
+}
 </style>
 </head>
 <body>
@@ -12946,23 +12990,11 @@ button.checkbox {
     </div>
   </div>
     <div id="portal"></div>
-    <script src="./reference/iconpark-41579.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <script>
       document.write(
         '<script src="./app.js?v=' + window.__wanjuanAssetVersion + '"><\/script>',
       );
-    </script><script src="./app.js?v=1788516880669"></script><script src="./app.js?v=1788430664527"></script><script src="./app.js?v=1788430086035"></script><script src="./app.js?v=1788429629614"></script><script src="./app.js?v=1788429283192"></script><script src="./app.js?v=1788427737893"></script><script src="./app.js?v=1788420268951"></script><script src="./app.js?v=1788418351080"></script><script src="./app.js?v=1788417811357"></script>
-  
-
-
-
-
-
-
-
-
-<iframe class="html2canvas-container" width="1556" height="767" scrolling="no" data-html2canvas-ignore="true" style="visibility: hidden; position: fixed; left: -10000px; top: 0px; border: 0px;"></iframe>
+    </script><iframe class="html2canvas-container" width="1556" height="767" scrolling="no" data-html2canvas-ignore="true" style="visibility: hidden; position: fixed; left: -10000px; top: 0px; border: 0px;"></iframe>
 
 
 
@@ -15110,30 +15142,9 @@ function opsEfficiencySection() {
   ].map(([v, t]) => `<option value="${v}" ${opsState._effStatus === v ? "selected" : ""}>${t}</option>`).join("");
 
   return `
-    <div class="ops-eff-header">
-      <div class="ops-eff-copy">
-        <div class="ops-eff-en">DIGITAL WORKFORCE ANALYTICS</div>
-        <h1 class="ops-eff-title">数字员工效益看板</h1>
-        <p class="ops-eff-sub">量化时间价值，让每一份投入清晰可见。</p>
-      </div>
-      <div class="ops-eff-actions">
-        <button class="btn ghost" data-handler="${registerHandler({ type: "noop" })}">ⓘ 统计口径</button>
-        <button class="btn primary" data-handler="${registerHandler({ type: "noop" })}">▶ 模拟任务</button>
-      </div>
-    </div>
+    ${opsUserFilterBar()}
 
-    <div class="ops-eff-filterbar">
-      <div class="ops-eff-period">
-        <button class="ops-eff-period-btn active" data-handler="${registerHandler({ type: "noop" })}">本月</button>
-        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">上月</button>
-        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">累计</button>
-        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">自定义</button>
-      </div>
-      <div class="ops-eff-daterange">2026.09.01 — 2026.09.11</div>
-      <div class="ops-eff-filterhint">按任务完成时间统计</div>
-    </div>
-
-    <div class="ops-kpi-grid cols-3">
+    <div class="ops-kpi-grid cols-3 ops-eff-kpi-grid">
       <div class="ops-eff-kpi ops-eff-kpi-primary">
         <div class="ops-kpi-top">
           <div class="ops-kpi-label">预计节省工时${opsHelp("按岗位人工小时成本折算")}</div>
@@ -15146,15 +15157,7 @@ function opsEfficiencySection() {
         </div>
       </div>
       ${opsKpiCard("预计节省人工成本", "¥" + s.savedCost.toLocaleString("zh-CN", { minimumFractionDigits: 2 }), "", "按岗位人工小时成本折算", undefined, RES_ICONS.tool, "#FEF3E6", "#F59A23")}
-      ${opsKpiCard("Token 消耗量", s.tokensTotal.toFixed(2), "M Tokens", "输入 + 输出合计", undefined, RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
-      <div class="ops-eff-kpi-footer ops-kpi-grid-3-last">
-        <div class="ops-eff-kpi-foot-meta">
-          <div>
-            <span>输入</span><strong>${s.tokensIn.toFixed(2)} M</strong>
-            <span>输出</span><strong>${s.tokensOut.toFixed(2)} M</strong>
-          </div>
-        </div>
-      </div>
+      ${opsKpiCard("Token 消耗量", s.tokensTotal.toFixed(2), "M Tokens", "输入 + 输出合计（输入 9.01M / 输出 1.94M）", undefined, RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
     </div>
 
     <div class="ops-eff-info">
@@ -15530,7 +15533,7 @@ function renderOpsOverview() {
   let body;
   if (opsState.tab === "用户消耗") body = opsUserFilterBar() + opsUserDataSection();
   else if (opsState.tab === "应用运营总览") body = opsUserFilterBar() + opsAgentDataSection();
-  else if (opsState.tab === "效益统计") body = opsUserFilterBar() + opsEfficiencySection();
+  else if (opsState.tab === "效益统计") body = opsEfficiencySection();
   else if (opsState.tab === "操作审计") body = opsAuditOverview();
   else body = opsResourceOverview();
   return `

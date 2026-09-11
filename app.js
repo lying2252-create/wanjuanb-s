@@ -2132,30 +2132,9 @@ function opsEfficiencySection() {
   ].map(([v, t]) => `<option value="${v}" ${opsState._effStatus === v ? "selected" : ""}>${t}</option>`).join("");
 
   return `
-    <div class="ops-eff-header">
-      <div class="ops-eff-copy">
-        <div class="ops-eff-en">DIGITAL WORKFORCE ANALYTICS</div>
-        <h1 class="ops-eff-title">数字员工效益看板</h1>
-        <p class="ops-eff-sub">量化时间价值，让每一份投入清晰可见。</p>
-      </div>
-      <div class="ops-eff-actions">
-        <button class="btn ghost" data-handler="${registerHandler({ type: "noop" })}">ⓘ 统计口径</button>
-        <button class="btn primary" data-handler="${registerHandler({ type: "noop" })}">▶ 模拟任务</button>
-      </div>
-    </div>
+    ${opsUserFilterBar()}
 
-    <div class="ops-eff-filterbar">
-      <div class="ops-eff-period">
-        <button class="ops-eff-period-btn active" data-handler="${registerHandler({ type: "noop" })}">本月</button>
-        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">上月</button>
-        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">累计</button>
-        <button class="ops-eff-period-btn" data-handler="${registerHandler({ type: "noop" })}">自定义</button>
-      </div>
-      <div class="ops-eff-daterange">2026.09.01 — 2026.09.11</div>
-      <div class="ops-eff-filterhint">按任务完成时间统计</div>
-    </div>
-
-    <div class="ops-kpi-grid cols-3">
+    <div class="ops-kpi-grid cols-3 ops-eff-kpi-grid">
       <div class="ops-eff-kpi ops-eff-kpi-primary">
         <div class="ops-kpi-top">
           <div class="ops-kpi-label">预计节省工时${opsHelp("按岗位人工小时成本折算")}</div>
@@ -2168,15 +2147,7 @@ function opsEfficiencySection() {
         </div>
       </div>
       ${opsKpiCard("预计节省人工成本", "¥" + s.savedCost.toLocaleString("zh-CN", { minimumFractionDigits: 2 }), "", "按岗位人工小时成本折算", undefined, RES_ICONS.tool, "#FEF3E6", "#F59A23")}
-      ${opsKpiCard("Token 消耗量", s.tokensTotal.toFixed(2), "M Tokens", "输入 + 输出合计", undefined, RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
-      <div class="ops-eff-kpi-footer ops-kpi-grid-3-last">
-        <div class="ops-eff-kpi-foot-meta">
-          <div>
-            <span>输入</span><strong>${s.tokensIn.toFixed(2)} M</strong>
-            <span>输出</span><strong>${s.tokensOut.toFixed(2)} M</strong>
-          </div>
-        </div>
-      </div>
+      ${opsKpiCard("Token 消耗量", s.tokensTotal.toFixed(2), "M Tokens", "输入 + 输出合计（输入 9.01M / 输出 1.94M）", undefined, RES_ICONS.kb, "#E7F8EF", "#23BF6B")}
     </div>
 
     <div class="ops-eff-info">
@@ -2552,7 +2523,7 @@ function renderOpsOverview() {
   let body;
   if (opsState.tab === "用户消耗") body = opsUserFilterBar() + opsUserDataSection();
   else if (opsState.tab === "应用运营总览") body = opsUserFilterBar() + opsAgentDataSection();
-  else if (opsState.tab === "效益统计") body = opsUserFilterBar() + opsEfficiencySection();
+  else if (opsState.tab === "效益统计") body = opsEfficiencySection();
   else if (opsState.tab === "操作审计") body = opsAuditOverview();
   else body = opsResourceOverview();
   return `

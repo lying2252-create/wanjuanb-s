@@ -12647,3 +12647,46 @@ button.checkbox {
   margin-top: 10px;
 }
 
+
+/* ===== 效益统计 — KPI 三等分铺满 ===== */
+.ops-kpi-grid.cols-3.ops-eff-kpi-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+}
+.ops-eff-kpi-grid > .ops-kpi,
+.ops-eff-kpi-grid > .ops-eff-kpi {
+  width: 100%;
+  min-height: 130px;
+  height: 100%;
+}
+
+/* ===== 效益统计 — 评估状态 select 去黑框 ===== */
+.ops-eff-emp-filterbar .res-select select,
+.res-select select {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #32384C;
+  font-size: 12px;
+  padding: 0;
+  min-width: 0;
+  width: 100%;
+  cursor: pointer;
+  color-scheme: light;  /* 让下拉选项保持浅色主题 */
+}
+.ops-eff-emp-filterbar .res-select select:focus,
+.res-select select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* ===== 清理已删除元素的残留样式，避免干扰 ===== */
+.ops-eff-header,
+.ops-eff-kpi-footer,
+.ops-eff-kpi-foot-meta {
+  /* deprecated — 已删除 */
+  display: none;
+}
